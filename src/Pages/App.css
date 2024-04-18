@@ -456,3 +456,57 @@ tr:hover {
 .scan-icon:hover + .scan-hover {
   display: block;
 }
+
+
+
+
+
+/* Status Indicator */
+.status-popup {
+  width: auto; 
+  max-width: 70%; 
+  margin: 20px auto; 
+  padding: 5px; 
+  box-shadow: 0 5px 15px rgba(0,0,0,0.2); 
+  display: flex; 
+  flex-direction: column; 
+  align-items: center; 
+  justify-content: center; 
+  background-color: #fff;
+  border-radius: 8px; 
+}
+
+.status-popup .content img {
+  max-width: 100%; 
+  max-height: 400px; 
+  height: auto; 
+  margin: auto; 
+  display: block; 
+}
+
+
+
+.status-popup .center-button {
+  margin-top: 20px; 
+}
+
+
+.status-popup img {
+  width: 100%; 
+  height: auto; 
+}
+
+
+.status-popup .center-button {
+  display: block; 
+  margin: 20px auto; 
+  padding: 10px 20px; 
+
+}
+
+.info-icon {
+  cursor: pointer;
+}
+
+
+
