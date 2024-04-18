@@ -6,7 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEdit, faTrashAlt, faCamera, faCheck, faTimes } from '@fortawesome/free-solid-svg-icons';
 import { faInfoCircle } from '@fortawesome/free-solid-svg-icons';
 
-import '../App.css'; // 路径根据实际项目结构调整
+import '../App.css'; 
 
 
 const InventoryList = ({ inventory, onEdit, onDelete, togglePopup }) => {
