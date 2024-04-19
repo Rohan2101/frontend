@@ -6,7 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEdit, faTrashAlt, faCamera, faCheck, faTimes } from '@fortawesome/free-solid-svg-icons';
 import { faInfoCircle } from '@fortawesome/free-solid-svg-icons';
 
-import '../App.css'; 
+import '../App.css';
 
 
 const InventoryList = ({ inventory, onEdit, onDelete, togglePopup }) => {
@@ -15,6 +15,11 @@ const InventoryList = ({ inventory, onEdit, onDelete, togglePopup }) => {
   const [originalValues, setOriginalValues] = useState({});
 
   const handleEdit = (id, item) => {
+    // Prevent editing if another item is currently being edited
+    if (editingItem !== null && editingItem !== id) return;
+
+
+
     const parts = item.expiryDate.split('/');
     const formattedExpiryDate = new Date(`${parts[2]}-${parts[1]}-${parts[0]}`);
     setOriginalValues(item);
@@ -81,6 +86,8 @@ const InventoryList = ({ inventory, onEdit, onDelete, togglePopup }) => {
   };
 
   const handlescanExpiry = () => {
+    // Prevent scanning if another item is currently being edited
+    if (editingItem !== null) return;
     togglePopup('package');
   };
 
@@ -157,28 +164,47 @@ const InventoryList = ({ inventory, onEdit, onDelete, togglePopup }) => {
                     <FontAwesomeIcon icon={faTimes} className="cancel-icon" onClick={handleCancel} />
                   </React.Fragment>
                 ) : (
-<React.Fragment>
-  <FontAwesomeIcon
-    icon={faEdit}
-    className="edit-icon action-icons"
-    onClick={() => handleEdit(item.id, item)}
-  />
-  <span className="hover-text edit-hover">Edit</span>
+                  <React.Fragment>
+                    <FontAwesomeIcon
+                      icon={faEdit}
+                      className="edit-icon action-icons"
+                      onClick={() => handleEdit(item.id, item)}
+                      style={{
+                        cursor: editingItem !== null && editingItem !== item.id ? 'not-allowed' : 'pointer',
+                        // color: editingItem !== null && editingItem !== item.id ? 'grey' : 'green'
+                      }}
+                      disabled={editingItem !== null && editingItem !== item.id}
+                    />
+                    <span className="hover-text edit-hover">Edit</span>
 
-  <FontAwesomeIcon
-    icon={faTrashAlt}
-    className="delete-icon action-icons"
-    onClick={() => onDelete(item.id)}
-  />
-  <span className="hover-text delete-hover">Delete</span>
+                    <FontAwesomeIcon
+                      icon={faTrashAlt}
+                      className="delete-icon action-icons"
+                      onClick={() => {
+                        if (editingItem === null || editingItem === item.id) {
+                          onDelete(item.id);
+                        }
+                      }}
+                      style={{
+                        cursor: editingItem !== null && editingItem !== item.id ? 'not-allowed' : 'pointer',
+                        // color: editingItem !== null && editingItem !== item.id ? 'grey' : 'red'
+                      }}
+                      disabled={editingItem !== null && editingItem !== item.id}
+                    />
+                    <span className="hover-text delete-hover">Delete</span>
 
-  <FontAwesomeIcon
-    icon={faCamera}
-    className="scan-icon action-icons"
-    onClick={handlescanExpiry}
-  />
-  <span className="hover-text scan-hover">Scan Expiry</span>
-</React.Fragment>
+                    <FontAwesomeIcon
+                      icon={faCamera}
+                      className="scan-icon action-icons"
+                      onClick={handlescanExpiry}
+                      style={{
+                        cursor: editingItem !== null && editingItem !== item.id ? 'not-allowed' : 'pointer',
+                        // color: editingItem !== null && editingItem !== item.id ? 'grey' : 'red'
+                      }}
+                      disabled={editingItem !== null && editingItem !== item.id}
+                    />
+                    <span className="hover-text scan-hover">Scan Expiry</span>
+                  </React.Fragment>
                 )}
               </div>
             </td>
