@@ -4,6 +4,10 @@ import 'react-datepicker/dist/react-datepicker.css';
 import { calculateStatus } from '../inventory';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEdit, faTrashAlt, faCamera, faCheck, faTimes } from '@fortawesome/free-solid-svg-icons';
+import { faInfoCircle } from '@fortawesome/free-solid-svg-icons';
+
+import '../App.css'; 
+
 
 const InventoryList = ({ inventory, onEdit, onDelete, togglePopup }) => {
   const [editingItem, setEditingItem] = useState(null);
@@ -96,7 +100,8 @@ const InventoryList = ({ inventory, onEdit, onDelete, togglePopup }) => {
           <th>Quantity</th>
           <th>Price</th>
           <th>Expiry Date</th>
-          <th>Status</th>
+          {/* <th>Status</th> */}
+          <th>Status <FontAwesomeIcon icon={faInfoCircle} className="info-icon" onClick={() => togglePopup('statusInfo')} /></th>
           <th>Actions</th>
         </tr>
       </thead>

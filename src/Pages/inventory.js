@@ -10,17 +10,21 @@ import statusYellow from './images/status-yellow.png';
 import statusRed from './images/status-red.png';
 
 
+import statusIndicator from './images/status-indicator.png';
+
+
+
 // Function to calculate the status based on the expiry date
 export const calculateStatus = (expiryDate) => {
   const parts = expiryDate.split('/');
   const formattedDate = `${parts[2]}-${parts[1]}-${parts[0]}`;
   const expiry = new Date(formattedDate);
   const currentDate = new Date();
-  
+
   // Set to start of the day for comparison
-  currentDate.setHours(0, 0, 0, 0); 
+  currentDate.setHours(0, 0, 0, 0);
   expiry.setHours(0, 0, 0, 0);
-  
+
   // Set the current datetime to the start of the day, ignoring hours, minutes and seconds currentDate.setHours(0, 0, 0, 0); 
   const diffDays = (expiry - currentDate) / (1000 * 60 * 60 * 24);
 
@@ -75,6 +79,12 @@ export function Maininventory() {
   const [file2, setFile2] = useState(null);
   const [imgSrc2, setImgSrc2] = useState('');
   const [extractedText2, setExtractedText2] = useState('');
+
+
+  // for status indicator popup 
+  const [showStatusModal, setShowStatusModal] = useState(false);
+
+
   // const webcamRef = useRef(null);
 
   // // Define handleEditItem function
@@ -112,7 +122,7 @@ export function Maininventory() {
     setInventory(updatedInventory);
   };
 
-  
+
 
 
   // Determine if any popup is active
@@ -167,47 +177,53 @@ export function Maininventory() {
 
   //change this to close all
   const togglePopup = (popupType) => {
+    setShowAddPopup(false);
+    setShowScanReceiptPopup(false);
+    setShowScanProducePopup(false);
+    setShowScanPackagePopup(false);
 
 
+    setShowStatusModal(false);
+
+    switch (popupType) {
+      case 'add':
+        if (!showAddPopup) {
+          // If the add popup is about to be opened, reset the expiry date as today
+          const today = new Date();
+          setExpiryPlaceholder(today);
+          setNewItem(prevItem => ({
+            ...prevItem,
+            name: '',
+            amount: '',
+            spent: '',
+            // Ensure the expiryDate is set to a formatted version of today's date
+            expiryDate: today.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' }),
+            status: ''
+          }));
+        }
+        setShowAddPopup(!showAddPopup);
+        break;
+      case 'receipt':
+        setShowScanReceiptPopup(!showScanReceiptPopup);
+        break;
+      case 'produce':
+        setShowScanProducePopup(!showScanProducePopup);
+        break;
+      case 'package':
+        setShowScanPackagePopup(!showScanPackagePopup);
+        break;
 
 
+      // Status Popup
+      case 'statusInfo':
+        setShowStatusModal(!showStatusModal);
+        break;
 
-      setShowAddPopup(false);
-      setShowScanReceiptPopup(false);
-      setShowScanProducePopup(false);
-      setShowScanPackagePopup(false);
 
-      switch (popupType) {
-        case 'add':
-          if (!showAddPopup) {
-            // If the add popup is about to be opened, reset the expiry date as today
-            const today = new Date();
-            setExpiryPlaceholder(today);
-            setNewItem(prevItem => ({
-              ...prevItem,
-              name: '',
-              amount: '',
-              spent: '',
-              // Ensure the expiryDate is set to a formatted version of today's date
-              expiryDate: today.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' }),
-              status: ''
-            }));
-          }
-          setShowAddPopup(!showAddPopup);
-          break;
-        case 'receipt':
-          setShowScanReceiptPopup(!showScanReceiptPopup);
-          break;
-        case 'produce':
-          setShowScanProducePopup(!showScanProducePopup);
-          break;
-        case 'package':
-          setShowScanPackagePopup(!showScanPackagePopup);
-          break;
-        default:
-          break;
-      }
-    };
+      default:
+        break;
+    }
+  };
 
 
 
@@ -272,7 +288,7 @@ export function Maininventory() {
     }
 
     // Format the spent amount with Australian dollar symbol
-const formattedSpent = `${parseFloat(newItem.spent).toFixed(2)}`;
+    const formattedSpent = `${parseFloat(newItem.spent).toFixed(2)}`;
 
 
 
@@ -597,7 +613,16 @@ const formattedSpent = `${parseFloat(newItem.spent).toFixed(2)}`;
               }}>Upload</button> */}
               <button onClick={() => togglePopup('produce')}>Cancel</button>
             </div>
+          )}
 
+          {/* Show Status Indicator Popup */}
+          {showStatusModal && (
+            <div className="popup status-popup">
+              <div className="content">
+                <img src={statusIndicator} alt="Status Indicator"  />
+              </div>
+              <button className="center-button" onClick={() => togglePopup('statusInfo')}>Close</button>
+            </div>
           )}
         </div>
       </div>
