@@ -16,7 +16,7 @@ body, html {
 
   margin-top: 40px;
   padding: 20px;
-  background-color: rgba(255, 255, 255, 0.9); /* Adjust alpha value to make it half transparent */
+  background-color: rgba(255, 255, 255, 0.1); /* Adjust alpha value to make it half transparent */
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
 }
 
@@ -108,6 +108,7 @@ table {
   border-collapse: collapse; /* Corrected spelling mistake */
   margin-top: -60px;
   margin-bottom: 40px;
+
 }
 
 th{
