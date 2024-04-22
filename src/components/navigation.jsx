@@ -42,25 +42,6 @@ export const Navigation = (props) => {
               Recipes
               </a>
             </li>
-            {/* Dropdown menu */}
-            <li className="dropdown">
-  <a href="#" className="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-    Meet Our Team <span className="caret"></span>
-  </a>
-  <ul className="dropdown-menu team-dropdown">
-    {/* Group picture */}
-    <li className="team-picture">
-      <img src="img/group.jpg" alt="Meet Our Team" />
-    </li>
-    {/* Team members */}
-    <li><a href="#">Anqi Chen - Master of Business Information Systems</a></li>
-    <li><a href="#">Namrata - Master of Cybersecurity</a></li>
-    <li><a href="#">Rohan Singh - Master of Data Science</a></li>
-    <li><a href="#">Eishi Sano - Master of Information Technology</a></li>
-    <li><a href="#">Zhuyun Chen - Master of Information Technology</a></li>
-    {/* Add more team members as needed */}
-  </ul>
-</li>
 
           </ul>
         </div>

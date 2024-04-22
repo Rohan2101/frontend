@@ -1,5 +1,17 @@
 /* App.css */
 
+body, html {
+  margin: 0;
+  padding: 0;
+  font-family: 'Arial', sans-serif;
+  background-color: #f4f4f4;
+    background-image: url('../public/recipebg.avif');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center 25%; /* Adjust background position to start from 1/4 of the page */
+}
+
+
 .App {
   text-align: center;
   font-family: 'Arial', sans-serif;
@@ -7,13 +19,158 @@
   background-color: #f7f7f7; /* Optional: Sets a background color for the app */
 }
 
+/* Styles for the inventory container */
+.inventory-container {
+  color: black; /* Set text color to black */
+  margin-top: 100px;
+  margin-left: 400px ;
+  margin-right: 400px ;
+
+  max-width: 800px;
+  background-color: #f9f9f9;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 30px;
+  padding: 20px; /* Add padding for better spacing */
+}
+
+/* Styles for the inventory table */
+.inventory-table {
+  margin-top: 10px; /* Reduce the margin-top for closer proximity to the heading */
+  width: 100%;
+  border-collapse: collapse;
+}
+
+/* Styles for table headers */
+.inventory-table th {
+  background-color: #f2f2f2;
+  padding: 6px; /* Reduce the padding */
+  text-align: center;
+  border-radius: 10px; /* Reduce the border-radius */
+  font-size: 12px; /* Reduce the font size */
+}
+
+/* Styles for table rows */
+.inventory-table tr {
+  height: 1px; /* Reset the height to auto */
+}
+
+/* Styles for table cells */
+.inventory-table td {
+  padding: 4px; /* Further reduce the padding for tighter spacing */
+  font-size: 11px; /* Further reduce the font size */
+  line-height: 0.1; /* Adjust line height to fit content closely */
+}
+
+
+
+
+.finalize-button {
+  padding: 0; /* Remove padding */
+  background-color: transparent; /* Transparent background */
+  color: #333; /* Set text color */
+  border: none;
+  border-radius: 0; /* No border radius */
+  cursor: pointer;
+  margin-left: 5px;
+  margin-right: 5px;
+  font-size: 1.4rem; /* Moderate font size */
+  font-weight: bold; /* Bold text for emphasis */
+  transition: color 0.3s ease; /* Smooth transition for hover effect */
+}
+
+.finalize-button:hover {
+  text-decoration: underline; /* Underline text */
+
+  color: #555; /* Darker text color on hover */
+}
+
+
+.top-buttons{
+  margin-left: 550px;
+display: flex;
+text-align: center; /* Align buttons to the center horizontally */
+  margin-top: 10px;
+}
+
+
+/* Styles for table cells */
+.inventory-table td {
+  padding: 5px;
+}
+
+/* Styles for status images */
+.status-image {
+  width: 55px;
+  height: auto;
+}
+
+/* Styles for action buttons */
+.action-button {
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+/* Hover effect for action buttons */
+.action-button:hover {
+  background-color: #45a049;
+}
+
 .search-container {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.selected-items-box {
+  display: flex;
+  flex-wrap: wrap;
+  border: 1px solid #ccc;
+  padding: 5px;
+  border-radius: 5px;
+  margin-bottom: 10px;
+}
+
+.selected-item {
+  display: flex;
+  align-items: center;
+  margin-right: 5px;
+  margin-bottom: 5px;
+  background-color: #f2f2f2;
+  padding: 3px 8px;
+  border-radius: 15px;
+}
+
+.selected-item span {
+  margin-right: 5px;
+}
+
+.selected-item button {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  color: #666;
+}
+
+
+.search-container {
+  flex-direction: column; /* Stack items vertically */
   margin-bottom: 2em;
   padding: 0 1em; /* Adds horizontal padding */
 }
 
 .search-input {
-  padding: 1em;
+  color: #333; /* Or any other color you prefer */
+  padding: 0.5em;
+  border: 1px solid #333; /* Add a solid border with color #333 */
   font-size: 2.0rem;
   border: none; /* Removes the border */
   border-radius: 25px; /* Rounds the corners of the search bar */
@@ -21,15 +178,45 @@
   margin-right: 1em; /* Space between the search input and button */
 }
 
-.search-button {
-  padding: 1em;
-  background-color: #ffc107;
-  color: #333;
-  border: none;
-  border-radius: 25px; /* Rounds the corners of the button */
+.add-to-search-button {
+  padding: 8px 16px; /* Slightly smaller padding */
+  background-color: #FFE082; /* Lighter gold color */
+  color: #666; /* Darker text for subtlety */
+  border: 1px solid #ccc; /* Add a light border for definition */
+  border-radius: 20px; /* Slightly smaller border radius */
   cursor: pointer;
-  font-size: 2.0rem;
+  font-size: 1.3rem; /* Smaller font size */
+  font-weight: normal; /* Normal font weight for lighter appearance */
+  text-transform: uppercase; /* Uppercase text for emphasis */
+  transition: background-color 0.3s ease, color 0.3s ease; /* Smooth transition for hover effect */
 }
+
+.add-to-search-button:hover {
+  background-color: #FFD54F; /* Darker shade of gold on hover */
+  color: #444; /* Darker text color on hover for contrast */
+}
+
+
+.search-button {
+  margin-left: 10px;
+  margin-top: 30px; /* Adjust as needed */
+  margin-bottom: -45px;
+  padding: 10px 20px; /* Increase padding for better visual appeal */
+  background-color: #FF4081; /* A prominent pink color */
+  color: #fff; /* White text for better contrast */
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+  font-size: 1.5rem; /* Adjust font size as needed */
+  font-weight: bold; /* Make the text bold */
+  text-transform: uppercase; /* Uppercase text for emphasis */
+  transition: background-color 0.3s ease; /* Smooth transition for hover effect */
+}
+
+.search-button:hover {
+  background-color: #E91E63; /* Darker shade of pink on hover */
+}
+
 
 .recipes-container {
   display: flex;
@@ -77,7 +264,7 @@ font-size: 2.0rem; /* Adjust the font size as needed */
 /* Responsive styles for desktops */
 @media (min-width: 769px) {
   .search-input {
-    width: 70%; /* Larger search input on desktop */
+    width: 80%; /* Larger search input on desktop */
   }
 
   .recipe-card {
