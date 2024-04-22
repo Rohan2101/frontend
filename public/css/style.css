@@ -174,28 +174,30 @@ hr {
 }
 .btn-custom {
   font-family: "Raleway", sans-serif;
-      text-transform: uppercase;
+  text-transform: uppercase;
   color: #fff;
-  background-color: #5ca9fb;
-  background-image: linear-gradient(to right, #5ca9fb 0%, #6372ff 100%);
+  background-color: #2e8b57; /* Bottle greenish color */
+  background-image: linear-gradient(to right, #2e8b57 0%, #3cb371 100%); /* Gradient from bottle green to a slightly lighter shade */
   padding: 14px 34px;
   letter-spacing: 1px;
   margin: 0;
+  margin-top:30px;
   font-size: 15px;
   font-weight: 500;
   border-radius: 25px;
   transition: all 0.5s linear;
   border: 0;
 }
+
 .btn-custom:hover,
 .btn-custom:focus,
 .btn-custom.focus,
 .btn-custom:active,
 .btn-custom.active {
   color: #fff;
-  background-image: none;
-  background-color: #6372ff;
+  background-image: linear-gradient(to right, #3cb371 0%, #2e8b57 100%); /* Reverse gradient on hover */
 }
+
 .btn:active,
 .btn.active {
   background-image: none;
@@ -203,6 +205,7 @@ hr {
   -webkit-box-shadow: none;
   box-shadow: none;
 }
+
 a:focus,
 .btn:focus,
 .btn:active:focus,
@@ -213,21 +216,8 @@ a:focus,
   outline: none;
   outline-offset: none;
 }
-.intro {
-  display: table;
-  width: 100%;
-  padding: 0;
-  background: url(../img/fridge.jpeg) center center no-repeat;
-  background-color: rgba(229, 229, 229, 0.2); /* Add a semicolon here */
-  -webkit-background-size: cover;
-  -moz-background-size: cover;
-  background-size: cover;
-  -o-background-size: cover;
-}
 
-.intro .overlay {
-  background: rgba(0, 0, 0, 0.2);
-}
+
 .intro h1 {
   font-family: "Raleway", sans-serif;
   color: #333;
@@ -238,45 +228,39 @@ a:focus,
   margin-top: -10px;
   margin-bottom: 10px;
 }
+
 .intro h1 span {
   font-weight: 800;
   color: #5ca9fb;
 }
+
 .intro p {
   color: #333;
   font-size: 22px;
   font-weight: 500;
   line-height: 30px;
   font-family: "Roboto", sans-serif;
-  margin: 0 auto;
+  text-align: left;
+  margin: 0;
   margin-bottom: 60px;
 }
 
 .intro {
   position: relative; /* Ensure positioning context for pseudo-element */
   z-index: 1; /* Ensure the text stays above the pseudo-element */
+  display: flex; /* Use flexbox layout */
+  justify-content: flex-start; /* Align items to the start (left) of the flex container */
 }
 
-.intro h1::before,
-.intro p::before {
-  content: ""; /* Create the pseudo-element */
-  position: absolute; /* Position it absolutely */
-  top: 300;
-  left: 0;
-  width: 100%;
-  height: 38%;
-  border-radius: 50px;
-  background-color: rgba(255, 255, 255, 0.5); /* Adjust the transparency as needed */
-  z-index: -1; /* Place it behind the text */
-}
-
-
-
-header .intro-text {
-  padding-top: 350px;
+.intro .intro-text {
+  flex: 1; /* Let the text fill available space */
+  padding-top: 200px;
   padding-bottom: 200px;
-  text-align: center;
+  padding-left: 0; /* Ensure there's no left padding */
+  margin: 80; /* Reset any default margins */
+  text-align: left;
 }
+
 /* Features Section */
 #features {
   background: #f6f6f6;
@@ -490,4 +474,20 @@ header .intro-text {
 #team .thumbnail .caption {
   padding: 10px 0 0;
   color: #888;
+}
+
+.intro-text p.bullets {
+  margin-bottom: 10px; /* Add some space between each bullet point */
+  font-size: 18px; /* Increase font size for more prominence */
+  line-height: 1.6; /* Adjust the line height */
+  color: #333; /* Adjust the text color */
+}
+
+.intro-text p.bullets::before {
+  content: "\2713"; /* Use a check mark (tick) symbol as the bullet */
+  display: inline-block; /* Ensure the bullet aligns properly */
+  width: 1em; /* Adjust the width of the bullet icon */
+  margin-right: 10px; /* Add space between the bullet and the text */
+  font-size: 1.2em; /* Adjust the size of the bullet icon */
+  color: #006633; /* Use bottle green color for the tick marks */
 }

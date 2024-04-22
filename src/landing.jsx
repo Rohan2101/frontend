@@ -21,8 +21,7 @@ export const Landing = () => {
   return (
     <div className="landing-page"> {/* Apply the landing-page class */}
       <Header data={landingPageData.Header} />
-      <Features data={landingPageData.Features} />
-      {/* Other components */}
+]     {/* Other components */}
     </div>
   );
 };

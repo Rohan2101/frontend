@@ -381,20 +381,6 @@ tr:hover {
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-/* Style for team picture */
-.team-dropdown .team-picture img {
-  width: 100%;
-  height: auto;
-  margin-bottom: 10px;
-}
-
-/* Style for team dropdown text */
-.team-dropdown li a {
-  text-align: center;
-  font-family: "Roboto", sans-serif; /* Change the font to your preferred one */
-  font-weight: 600;
-}
-
 .action-icons {
   position: relative;
 }

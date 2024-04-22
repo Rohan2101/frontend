@@ -5,7 +5,7 @@
   padding: 0;
   font-family: 'Arial', sans-serif;
   background-color: #f4f4f4;
-  background-image: url('Pages/images/fridge.jpg');
+  background-image: url('Pages/images/homep.jpg');
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center 25%; /* Adjust background position to start from 1/4 of the page */
@@ -20,3 +20,7 @@
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
+.bullets
+{
+color:green;
+}
