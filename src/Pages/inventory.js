@@ -434,7 +434,7 @@ export function Maininventory() {
     formData.append('file2', file2);
 
     try {
-      const response = await fetch('https://rohan2121.pythonanywhere.com/recpt', {
+      const response = await fetch('https://rohan22.pythonanywhere.com/recpt', {
         method: 'POST',
         body: formData
       });
