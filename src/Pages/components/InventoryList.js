@@ -2,9 +2,6 @@ import React, { useState } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { calculateStatus } from '../inventory';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEdit, faTrashAlt, faCamera, faCheck, faTimes } from '@fortawesome/free-solid-svg-icons';
-import { faInfoCircle } from '@fortawesome/free-solid-svg-icons';
 
 import '../App.css';
 
@@ -108,7 +105,7 @@ const InventoryList = ({ inventory, onEdit, onDelete, togglePopup }) => {
           <th>Price</th>
           <th>Expiry Date</th>
           {/* <th>Status</th> */}
-          <th>Status <FontAwesomeIcon icon={faInfoCircle} className="info-icon" onClick={() => togglePopup('statusInfo')} /></th>
+          <th>Status <button info className="info-icon" onClick={() => togglePopup('statusInfo')} /></th>
           <th>Actions</th>
         </tr>
       </thead>
@@ -157,56 +154,54 @@ const InventoryList = ({ inventory, onEdit, onDelete, togglePopup }) => {
               />
             </td>
             <td>
-              <div className="action-icons">
-                {editingItem === item.id ? (
-                  <React.Fragment>
-                    <FontAwesomeIcon icon={faCheck} className="save-icon" onClick={() => handleSave(item.id)} />
-                    <FontAwesomeIcon icon={faTimes} className="cancel-icon" onClick={handleCancel} />
-                  </React.Fragment>
-                ) : (
-                  <React.Fragment>
-                    <FontAwesomeIcon
-                      icon={faEdit}
-                      className="edit-icon action-icons"
-                      onClick={() => handleEdit(item.id, item)}
-                      style={{
-                        cursor: editingItem !== null && editingItem !== item.id ? 'not-allowed' : 'pointer',
-                        // color: editingItem !== null && editingItem !== item.id ? 'grey' : 'green'
-                      }}
-                      disabled={editingItem !== null && editingItem !== item.id}
-                    />
-                    <span className="hover-text edit-hover">Edit</span>
+<div className="action-icons">
+  {editingItem === item.id ? (
+    <React.Fragment>
+      <button className="save-button" onClick={() => handleSave(item.id)}>Save</button>
+      <button className="cancel-button" onClick={handleCancel}>Cancel</button>
+    </React.Fragment>
+  ) : (
+    <React.Fragment>
+      <button
+        className="edit-button action-buttons"
+        onClick={() => handleEdit(item.id, item)}
+        style={{
+          cursor: editingItem !== null && editingItem !== item.id ? 'not-allowed' : 'pointer',
+        }}
+        disabled={editingItem !== null && editingItem !== item.id}
+      >
+        Edit
+      </button>
 
-                    <FontAwesomeIcon
-                      icon={faTrashAlt}
-                      className="delete-icon action-icons"
-                      onClick={() => {
-                        if (editingItem === null || editingItem === item.id) {
-                          onDelete(item.id);
-                        }
-                      }}
-                      style={{
-                        cursor: editingItem !== null && editingItem !== item.id ? 'not-allowed' : 'pointer',
-                        // color: editingItem !== null && editingItem !== item.id ? 'grey' : 'red'
-                      }}
-                      disabled={editingItem !== null && editingItem !== item.id}
-                    />
-                    <span className="hover-text delete-hover">Delete</span>
+      <button
+        className="delete-button action-buttons"
+        onClick={() => {
+          if (editingItem === null || editingItem === item.id) {
+            onDelete(item.id);
+          }
+        }}
+        style={{
+          cursor: editingItem !== null && editingItem !== item.id ? 'not-allowed' : 'pointer',
+        }}
+        disabled={editingItem !== null && editingItem !== item.id}
+      >
+        Delete
+      </button>
 
-                    <FontAwesomeIcon
-                      icon={faCamera}
-                      className="scan-icon action-icons"
-                      onClick={handlescanExpiry}
-                      style={{
-                        cursor: editingItem !== null && editingItem !== item.id ? 'not-allowed' : 'pointer',
-                        // color: editingItem !== null && editingItem !== item.id ? 'grey' : 'red'
-                      }}
-                      disabled={editingItem !== null && editingItem !== item.id}
-                    />
-                    <span className="hover-text scan-hover">Scan Expiry</span>
-                  </React.Fragment>
-                )}
-              </div>
+      <button
+        className="scan-button action-buttons"
+        onClick={handlescanExpiry}
+        style={{
+          cursor: editingItem !== null && editingItem !== item.id ? 'not-allowed' : 'pointer',
+        }}
+        disabled={editingItem !== null && editingItem !== item.id}
+      >
+        Scan Expiry
+      </button>
+    </React.Fragment>
+  )}
+</div>
+
             </td>
           </tr>
         ))}

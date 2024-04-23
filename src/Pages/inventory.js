@@ -3,9 +3,6 @@ import InventoryList from './components/InventoryList';
 import './App.css';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
-import { faCoffee } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-
 
 
 import statusGreen from './images/status-green.png';
