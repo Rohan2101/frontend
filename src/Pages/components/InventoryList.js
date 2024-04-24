@@ -108,7 +108,7 @@ const InventoryList = ({ inventory, onEdit, onDelete, togglePopup }) => {
           <th>Price</th>
           <th>Expiry Date</th>
           {/* <th>Status</th> */}
-          <th>Status <FontAwesomeIcon icon={faInfoCircle} className="info-icon" onClick={() => togglePopup('statusInfo')} /></th>
+          <th>Expiry Status <FontAwesomeIcon icon={faInfoCircle} className="info-icon" onClick={() => togglePopup('statusInfo')} /></th>
           <th>Actions</th>
         </tr>
       </thead>
