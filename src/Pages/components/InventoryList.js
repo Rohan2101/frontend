@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { calculateStatus } from '../inventory';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faInfoCircle } from '@fortawesome/free-solid-svg-icons';
 
 import '../App.css';
 
@@ -105,11 +107,11 @@ const InventoryList = ({ inventory, onEdit, onDelete, togglePopup }) => {
           <th>Price</th>
           <th>Expiry Date</th>
           {/* <th>Status</th> */}
-<<<<<<< HEAD
+
           <th>Expiry Status <FontAwesomeIcon icon={faInfoCircle} className="info-icon" onClick={() => togglePopup('statusInfo')} /></th>
-=======
-          <th>Status <button info className="info-icon" onClick={() => togglePopup('statusInfo')} /></th>
->>>>>>> e2e7a37312ebcfc33f9765ffdd83ff2e1884aebe
+
+          
+
           <th>Actions</th>
         </tr>
       </thead>
@@ -158,53 +160,53 @@ const InventoryList = ({ inventory, onEdit, onDelete, togglePopup }) => {
               />
             </td>
             <td>
-<div className="action-icons">
-  {editingItem === item.id ? (
-    <React.Fragment>
-      <button className="save-button" onClick={() => handleSave(item.id)}>Save</button>
-      <button className="cancel-button" onClick={handleCancel}>Cancel</button>
-    </React.Fragment>
-  ) : (
-    <React.Fragment>
-      <button
-        className="edit-button action-buttons"
-        onClick={() => handleEdit(item.id, item)}
-        style={{
-          cursor: editingItem !== null && editingItem !== item.id ? 'not-allowed' : 'pointer',
-        }}
-        disabled={editingItem !== null && editingItem !== item.id}
-      >
-        Edit
-      </button>
+              <div className="action-icons">
+                {editingItem === item.id ? (
+                  <React.Fragment>
+                    <button className="save-button" onClick={() => handleSave(item.id)}>Save</button>
+                    <button className="cancel-button" onClick={handleCancel}>Cancel</button>
+                  </React.Fragment>
+                ) : (
+                  <React.Fragment>
+                    <button
+                      className="edit-button action-buttons"
+                      onClick={() => handleEdit(item.id, item)}
+                      style={{
+                        cursor: editingItem !== null && editingItem !== item.id ? 'not-allowed' : 'pointer',
+                      }}
+                      disabled={editingItem !== null && editingItem !== item.id}
+                    >
+                      Edit
+                    </button>
 
-      <button
-        className="delete-button action-buttons"
-        onClick={() => {
-          if (editingItem === null || editingItem === item.id) {
-            onDelete(item.id);
-          }
-        }}
-        style={{
-          cursor: editingItem !== null && editingItem !== item.id ? 'not-allowed' : 'pointer',
-        }}
-        disabled={editingItem !== null && editingItem !== item.id}
-      >
-        Delete
-      </button>
+                    <button
+                      className="delete-button action-buttons"
+                      onClick={() => {
+                        if (editingItem === null || editingItem === item.id) {
+                          onDelete(item.id);
+                        }
+                      }}
+                      style={{
+                        cursor: editingItem !== null && editingItem !== item.id ? 'not-allowed' : 'pointer',
+                      }}
+                      disabled={editingItem !== null && editingItem !== item.id}
+                    >
+                      Delete
+                    </button>
 
-      <button
-        className="scan-button action-buttons"
-        onClick={handlescanExpiry}
-        style={{
-          cursor: editingItem !== null && editingItem !== item.id ? 'not-allowed' : 'pointer',
-        }}
-        disabled={editingItem !== null && editingItem !== item.id}
-      >
-        Scan Expiry
-      </button>
-    </React.Fragment>
-  )}
-</div>
+                    <button
+                      className="scan-button action-buttons"
+                      onClick={handlescanExpiry}
+                      style={{
+                        cursor: editingItem !== null && editingItem !== item.id ? 'not-allowed' : 'pointer',
+                      }}
+                      disabled={editingItem !== null && editingItem !== item.id}
+                    >
+                      Scan Expiry
+                    </button>
+                  </React.Fragment>
+                )}
+              </div>
 
             </td>
           </tr>
