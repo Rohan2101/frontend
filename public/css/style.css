@@ -178,15 +178,18 @@ hr {
   color: #fff;
   background-color: #2e8b57; /* Bottle greenish color */
   background-image: linear-gradient(to right, #2e8b57 0%, #3cb371 100%); /* Gradient from bottle green to a slightly lighter shade */
-  padding: 14px 34px;
+  padding: 6px 18px;
   letter-spacing: 1px;
-  margin: 0;
-  margin-top:30px;
   font-size: 15px;
   font-weight: 500;
   border-radius: 25px;
   transition: all 0.5s linear;
   border: 0;
+  width: 200px; /* Fixed width for all buttons */
+  margin: 0 auto; /* Center the buttons horizontally */
+  margin-top: 10px;
+  margin-bottom: 50px;
+}
 }
 
 .btn-custom:hover,
@@ -477,10 +480,10 @@ a:focus,
 }
 
 .intro-text p.bullets {
-  margin-bottom: 10px; /* Add some space between each bullet point */
-  font-size: 18px; /* Increase font size for more prominence */
+  margin-bottom: 2px; /* Add some space between each bullet point */
+  font-size: 16px; /* Increase font size for more prominence */
   line-height: 1.6; /* Adjust the line height */
-  color: #333; /* Adjust the text color */
+  color: #000080; /* Adjust the text color */
 }
 
 .intro-text p.bullets::before {

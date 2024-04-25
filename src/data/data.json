@@ -1,10 +1,10 @@
 {
   "Header": {
     "title": "Fight Food Waste",
-    "paragraph": "Manage your fridge and pantry to generate less food waste!",
+    "paragraph": "Make smarter food choices to eat fresh and generate less food waste!",
     "bulletPoints": [
-      "Inventory Management: See what's in your fridge and pantry along with their expiry dates.",
-    "Expiry Date Extractor: Log expiry dates for packages with click of a button!\n\n",
+      "Inventory Management: Add your purchased food items to manage them better and track their expiry.",
+    "Expiry Date Extractor: Log expiry dates for your food items with click of a button!\n\n",
     "Recommended Recipes: Get tailored recipes at your fingertips using the food items from your inventory."
   ]
   },
