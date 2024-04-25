@@ -309,54 +309,13 @@ const handleAddToSearch = (itemName) => {
   };
 
 
-  //Filter component
-// Define state for the filter
-const [filter, setFilter] = useState({
-  column: 'name', // Default filter column
-  keyword: '',    // Default filter keyword
-  applyFilter: false // Flag to indicate if filter should be applied
-});
-
-// Inside the Recipes component
-
-// Define applyFilter function to trigger the filter application
-const applyFilter = () => {
-  setFilter(prevFilter => ({ ...prevFilter, applyFilter: true }));
-};
-
-// Filter the displayed inventory based on the selected filter when "Filter" button is clicked
-useEffect(() => {
-  if (filter.applyFilter) {
-    setDisplayedInventory(prevInventory => {
-      return prevInventory.filter(item => {
-        const { column, keyword } = filter;
-        // Apply filtering logic based on the selected column
-        if (column === 'name') {
-          return item.name.toLowerCase().includes(keyword.toLowerCase());
-        } else if (column === 'quantity') {
-          return item.amount.toString().toLowerCase().includes(keyword.toLowerCase());
-        } else if (column === 'status') {
-          // Assuming status is a string property of the item
-          return item.status.toLowerCase().includes(keyword.toLowerCase());
-        }
-        return true; // Return true by default to include all items if no filter applied
-      });
-    });
-  }
-}, [filter]);
-
-// Function to handle changes in filter selection
-const handleFilterChange = (column, keyword) => {
-  setFilter({ column, keyword, applyFilter: false }); // Set applyFilter to false when filter changes
-};
-
 
   return (
     <div>
       <div class="inventory-container">
       <div class="top-buttons">
       <button class="finalize-button" onClick={finalizeInventory}>Finalize</button>
-      <button class="finalize-button" onClick={applyFilter}>Filter</button>
+      <button class="finalize-button" >Reset</button>
       </div>
         <table class="inventory-table">
           <thead>

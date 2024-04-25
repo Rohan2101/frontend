@@ -21,7 +21,7 @@ export const Landing = () => {
   return (
     <div className="landing-page"> {/* Apply the landing-page class */}
       <Header data={landingPageData.Header} />
-]     {/* Other components */}
+     {/* Other components */}
     </div>
   );
 };
