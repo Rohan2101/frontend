@@ -2,6 +2,34 @@ import './recipe.css';
 import InventoryList from '../components/InventoryList';
 import React, { useState, useEffect } from 'react';
 
+export const calculateStatus = (expiryDate) => {
+   console.log("Calculating status for expiry date:", expiryDate);
+  const parts = expiryDate.split('/');
+  const formattedDate = `${parts[2]}-${parts[1]}-${parts[0]}`;
+  const expiry = new Date(formattedDate);
+  const currentDate = new Date();
+
+  // Set to start of the day for comparison
+  currentDate.setHours(0, 0, 0, 0);
+  expiry.setHours(0, 0, 0, 0);
+
+  // Set the current datetime to the start of the day, ignoring hours, minutes and seconds currentDate.setHours(0, 0, 0, 0);
+  const diffDays = (expiry - currentDate) / (1000 * 60 * 60 * 24);
+
+  // set 3 period(safe/reminder/alert) for status
+  if (Math.ceil(diffDays) < 0) {
+    return { message: 'Expired ' + Math.abs(Math.ceil(diffDays)) + 'd', color: 'red' };
+  } else if (Math.ceil(diffDays) === 0) {
+    return { message: 'Expires Today', color: 'red' };
+  } else if (Math.ceil(diffDays) <= 5) {
+    return { message: Math.ceil(diffDays) + 'd to Expire', color: '#DAA520' };
+  } else {
+    return { message: 'Safe (>5d)', color: 'green' };
+  }
+};
+
+
+
 // SearchBar Component
 const SearchBar = ({ onSearch, onInputChange, selectedItems, onRemoveSelected, onAddToSearch }) => {
   const [input, setInput] = useState('');
@@ -39,7 +67,7 @@ const SearchBar = ({ onSearch, onInputChange, selectedItems, onRemoveSelected, o
   onKeyPress={handleKeyPress}
 />
 
-            <button className="add-to-search-button" onClick={() => onAddToSearch(input)}>Add to Search</button>
+            <button className="add-to-search-button" onClick={() => onAddToSearch(input)}>Add to Recipe</button>
            <div>
               <button className="search-button" onClick={onSearch}>Search Recipes</button>
             </div>
@@ -79,20 +107,24 @@ export const Recipes = () => {
     setInput(value);
   };
 
-  useEffect(() => {
-    try {
-      const storedInventory = localStorage.getItem('inventory');
-      if (storedInventory) {
-        setInventory(JSON.parse(storedInventory));
-      }
-    } catch (error) {
-      console.error('Error parsing inventory:', error);
+useEffect(() => {
+  try {
+    const storedInventory = localStorage.getItem('inventory');
+    if (storedInventory) {
+      const parsedInventory = JSON.parse(storedInventory);
+      const updatedDisplayedInventory = parsedInventory.map(item => {
+        const status = calculateStatus(item.expiryDate);
+        return { ...item, status: status };
+      });
+      setInventory(parsedInventory);
+      setDisplayedInventory(updatedDisplayedInventory);
     }
-  }, []);
+  } catch (error) {
+    console.error('Error parsing inventory:', error);
+  }
+}, []);
 
-  useEffect(() => {
-    setDisplayedInventory([...inventory]); // Create a shallow copy of the inventory and set it to displayedInventory
-  }, [inventory]);
+
 
   useEffect(() => {
     const script = document.createElement('script');
@@ -261,6 +293,17 @@ const handleFetchRecipes = async () => {
     { title: 'Egg and Bacon Breakfast Hash', ingredients: 'Potatoes, Eggs, Bacon', time: '25 mins', hasIngredients: 'You have all ingredients', imageUrl: 'placeholder-image.jpg' },
     { title: 'Egg and Avocado Toast', ingredients: 'Bread, Eggs, Avocado', time: '10 mins', hasIngredients: 'You have 2/3 ingredients', imageUrl: 'placeholder-image.jpg' }
   ];
+const handleAddToSearchManual = (itemName) => {
+  // Update the selected items
+  setSelectedItems(prevItems => [...prevItems, itemName]);
+
+  // Update the input value
+  setInput(prevInput => {
+    const trimmedInput = prevInput.trim();
+    return trimmedInput ? trimmedInput + ' ' + itemName : itemName;
+  });
+};
+
 
 const handleAddToSearch = (itemName) => {
   // Find the item in the displayed inventory
@@ -326,26 +369,20 @@ const handleAddToSearch = (itemName) => {
               <th>Action</th>
             </tr>
           </thead>
-          <tbody class="inventory-body">
-            {displayedInventory.map((item) => (
-              <tr key={item.id}>
-                <td>{item.name}</td>
-                <td>{item.amount}</td>
-                <td>
-                  <img
-                    src={item.status}
-                    alt="Status Indicator"
-                    className="status-image"
-                    style={{ width: '55px', height: 'auto' }}
-                  />
-                </td>
-                <td>
-                  <button className="add-to-search-button" onClick={() => handleAddToSearch(item.name)}>Add to Search</button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+
+<tbody className="inventory-body">
+  {displayedInventory.map((item) => (
+    <tr key={item.id}>
+      <td>{item.name}</td>
+      <td>{item.amount}</td>
+      <td>{item.status.message}</td> {/* Display status message as text */}
+      <td>
+        <button className="add-to-search-button" onClick={() => handleAddToSearch(item.name)}>Add to Recipe</button>
+      </td>
+    </tr>
+  ))}
+</tbody>
+     </table>
 
 
       </div>
@@ -355,7 +392,7 @@ const handleAddToSearch = (itemName) => {
           onSearch={handleFetchRecipes }
           selectedItems={selectedItems}
           onRemoveSelected={handleRemoveSelected}
-          onAddToSearch={handleAddToSearch}
+          onAddToSearch={handleAddToSearchManual}
         />
         <div className="recipes-container">
           {recipes.map((recipe, index) => (
