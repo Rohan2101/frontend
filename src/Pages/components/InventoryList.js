@@ -2,13 +2,10 @@ import React, { useState } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { calculateStatus } from '../inventory';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faInfoCircle } from '@fortawesome/free-solid-svg-icons';
-
 import '../App.css';
 
 
-const InventoryList = ({ inventory, onEdit, onDelete, togglePopup }) => {
+const InventoryList = ({ inventory, onEdit, onDelete, togglePopup, onEditingItemChange}) => {
   const [editingItem, setEditingItem] = useState(null);
   const [updatedValues, setUpdatedValues] = useState({});
   const [originalValues, setOriginalValues] = useState({});
@@ -17,12 +14,11 @@ const InventoryList = ({ inventory, onEdit, onDelete, togglePopup }) => {
     // Prevent editing if another item is currently being edited
     if (editingItem !== null && editingItem !== id) return;
 
-
-
     const parts = item.expiryDate.split('/');
     const formattedExpiryDate = new Date(`${parts[2]}-${parts[1]}-${parts[0]}`);
     setOriginalValues(item);
     setEditingItem(id);
+    onEditingItemChange(id); // pass edit status changes to Inventory.js
     setUpdatedValues({
       ...item,
       expiryDate: formattedExpiryDate,
@@ -32,6 +28,7 @@ const InventoryList = ({ inventory, onEdit, onDelete, togglePopup }) => {
   const handleCancel = () => {
     setUpdatedValues(originalValues);
     setEditingItem(null);
+    onEditingItemChange(null); // pass edit status changes to Inventory.js
   };
 
   const handleInputChange = (e, field) => {
@@ -81,6 +78,7 @@ const InventoryList = ({ inventory, onEdit, onDelete, togglePopup }) => {
 
     onEdit(id, { ...updatedValues, expiryDate: formattedExpiryDate });
     setEditingItem(null);
+    onEditingItemChange(null); // pass edit status changes to Inventory.js
     setUpdatedValues({});
   };
 
@@ -108,9 +106,10 @@ const InventoryList = ({ inventory, onEdit, onDelete, togglePopup }) => {
           <th>Expiry Date</th>
           {/* <th>Status</th> */}
 
-          <th>Expiry Status <FontAwesomeIcon icon={faInfoCircle} className="info-icon" onClick={() => togglePopup('statusInfo')} /></th>
+          {/* <th>Expiry Status <FontAwesomeIcon icon={faInfoCircle} className="info-icon" onClick={() => togglePopup('statusInfo')} /></th> */}
+          <th>Expiry Status</th>
 
-          
+
 
           <th>Actions</th>
         </tr>
@@ -151,14 +150,22 @@ const InventoryList = ({ inventory, onEdit, onDelete, togglePopup }) => {
                 item.expiryDate
               )}
             </td>
-            <td>
+            {/* <td>
               <img
                 src={calculateStatus(item.expiryDate)}
                 alt="Indicator Fail"
                 className="status-image"
                 style={{ width: '55px', height: 'auto' }}
               />
+            </td> */}
+
+            <td>
+              <span style={{ color: calculateStatus(item.expiryDate).color }}>
+                {calculateStatus(item.expiryDate).message}
+              </span>
             </td>
+
+
             <td>
               <div className="action-icons">
                 {editingItem === item.id ? (

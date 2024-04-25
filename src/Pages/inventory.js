@@ -5,12 +5,12 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 
 
-import statusGreen from './images/status-green.png';
-import statusYellow from './images/status-yellow.png';
-import statusRed from './images/status-red.png';
+// import statusGreen from './images/status-green.png';
+// import statusYellow from './images/status-yellow.png';
+// import statusRed from './images/status-red.png';
 
 
-import statusIndicator from './images/status-indicator.png';
+// import statusIndicator from './images/status-indicator.png';
 
 
 
@@ -28,23 +28,15 @@ export const calculateStatus = (expiryDate) => {
   // Set the current datetime to the start of the day, ignoring hours, minutes and seconds currentDate.setHours(0, 0, 0, 0); 
   const diffDays = (expiry - currentDate) / (1000 * 60 * 60 * 24);
 
-  // if (diffDays <= 0) {
-  //   return './images/status-red.png';
-  // } else if (diffDays <= 5) {
-  //   return './images/status-yellow.png';
-  // } else {
-  //   return './images/status-green.png';
-  // }
-
   // set 3 period(safe/reminder/alert) for status
   if (Math.ceil(diffDays) < 0) {
-    return statusRed;
+    return { message: 'Expired ' + Math.abs(Math.ceil(diffDays)) + 'd', color: 'red' };
   } else if (Math.ceil(diffDays) === 0) {
-    return statusRed
+    return { message: 'Expires Today', color: 'red' };
   } else if (Math.ceil(diffDays) <= 5) {
-    return statusYellow;
+    return { message: Math.ceil(diffDays) + 'd to Expire', color: '#DAA520' };
   } else {
-    return statusGreen;
+    return { message: 'Safe (>5d)', color: 'green' };
   }
 };
 
@@ -81,25 +73,17 @@ export function Maininventory() {
   const [extractedText2, setExtractedText2] = useState('');
 
 
+  // handle  "Add Manually" "Scan Receipt"  status while editing
+  const [editingItem, setEditingItem] = useState(null);
+  const handleEditingItemChange = (itemId) => {
+    setEditingItem(itemId);
+  };
+
+  
+
+
   // for status indicator popup 
   const [showStatusModal, setShowStatusModal] = useState(false);
-
-
-  // const webcamRef = useRef(null);
-
-  // // Define handleEditItem function
-  // const handleEditItem = (id, updatedItem) => {
-  //   // Find the item in the inventory array and update it
-  //   const updatedInventory = inventory.map(item => {
-  //     if (item.id === id) {
-  //       //return { ...item, ...updatedItem };
-  //       return updatedItem;
-  //     }
-  //     return item;
-  //   });
-  //   setInventory(updatedInventory);
-  //   //localStorage.setItem('inventory', JSON.stringify(updatedInventory));
-  // };
 
   const handleEditItem = (id, updatedItem) => {
     const updatedInventory = inventory.map(item => {
@@ -113,6 +97,7 @@ export function Maininventory() {
 
     setInventory(updatedInventory);
     localStorage.setItem('inventory', JSON.stringify(updatedInventory));
+    
   };
 
   // Define handleDeleteItem function
@@ -147,31 +132,6 @@ export function Maininventory() {
     localStorage.setItem('inventory', JSON.stringify(inventory));
     console.log("Inventory saved to local storage:", inventory);
   }, [inventory]);
-
-
-
-  //  useEffect(() => {
-  //    // Check expiry dates against current date
-  //    const updatedInventory = inventory.map(item => {
-  //      // Split the date string and rearrange it to "YYYY-MM-DD" format
-  //      const parts = item.expiryDate.split('/');
-  //      const formattedDate = `${parts[2]}-${parts[1]}-${parts[0]}`;
-
-  //      const expiryDate = new Date(formattedDate);
-  //      const currentDate = new Date();
-
-  //      if (expiryDate < currentDate) {
-  //        console.log("Item expired:", item.name);
-  //        return { ...item, status: 'Expired' };
-  //      } else {
-  //        console.log("Item not expired:", item.name);
-  //        return { ...item, status: 'Not Expired' };
-  //      }
-  //    });
-  //    setInventory(updatedInventory);
-  //  }, []);
-
-
 
 
 
@@ -257,10 +217,6 @@ export function Maininventory() {
     }
 
     // Check if any field contains special characters
-    // if (specialCharsRegex.test(newItem.name) || specialCharsRegex.test(newItem.status)) {
-    //   alert('Please do not use special characters in the name or status field');
-    //   return;
-    // }
     if (specialCharsRegex.test(newItem.name)) {
       alert('Please do not use special characters in the name or status field');
       return;
@@ -309,25 +265,6 @@ export function Maininventory() {
     const updatedInventory = [...inventory, newInventoryItem];
     setInventory(updatedInventory);
     localStorage.setItem('inventory', JSON.stringify(updatedInventory));
-
-    // Check expiry date and update status for the new item
-    // const updatedInventoryWithStatus = updatedInventory.map(item => {
-    //   if (item.id === newInventoryItem.id) {
-    //     const parts = item.expiryDate.split('/');
-    //     const formattedDate = `${parts[2]}-${parts[1]}-${parts[0]}`;
-    //     const expiryDate = new Date(formattedDate);
-    //     const currentDate = new Date();
-
-    //     if (expiryDate < currentDate) {
-    //       return { ...item, status: 'Expired' };
-    //     } else {
-    //       return { ...item, status: 'Not Expired' };
-    //     }
-    //   }
-    //   return item;
-    // });
-    // setInventory(updatedInventoryWithStatus);
-
 
     // Reset the form fields and hide the add popup
     setNewItem({
@@ -458,11 +395,11 @@ export function Maininventory() {
   };
 
   return (
-
-
     <div>
       {isPopupActive && <div className="modal-overlay" onClick={closeAllPopups}></div>}
       <div className="main-content"></div>
+
+      {/* toolbar for every page */}
       <div className="toolbar">
         <div style={{ display: 'flex', alignItems: 'center' }}>
           <img src="ProjectLogo.png" alt="App Logo" style={{ width: '40px', height: '40px', marginRight: '10px' }} />
@@ -476,23 +413,36 @@ export function Maininventory() {
         </div>
         <div></div>
       </div>
+
+      {/* inventory main content */}
       <div className="App">
         <header></header>
         <InventoryList
           inventory={inventory}
           onEdit={handleEditItem}
           onDelete={handleDeleteItem}
-
           togglePopup={togglePopup} // Add this line to pass the function as a prop
-        />
-        <div className="actions">
-          <button className="add-button" onClick={() => togglePopup('add')}>Add Manually</button>
-          <div className="scan-buttons">
-            <button onClick={() => togglePopup('receipt')}>Scan Receipt</button>
-            {/* <button onClick={() => togglePopup('package')}>Scan Package</button>
-            <button onClick={() => togglePopup('produce')}>Scan Fresh Produce</button> */}
-          </div>
 
+
+          onEditingItemChange={handleEditingItemChange} 
+        />
+
+        <div className="actions">
+        <button
+            className="add-button"
+            onClick={() => togglePopup('add')}
+            disabled={editingItem !== null} 
+          >
+            Add Manually
+          </button>
+          <div className="scan-buttons">
+            <button
+              onClick={() => togglePopup('receipt')}
+              disabled={editingItem !== null} 
+            >
+              Scan Receipt
+            </button>
+          </div>
 
 
           {showAddPopup && (
@@ -616,14 +566,14 @@ export function Maininventory() {
           )}
 
           {/* Show Status Indicator Popup */}
-          {showStatusModal && (
+          {/* {showStatusModal && (
             <div className="popup status-popup">
               <div className="content">
                 <img src={statusIndicator} alt="Status Indicator"  />
               </div>
               <button className="center-button" onClick={() => togglePopup('statusInfo')}>Close</button>
             </div>
-          )}
+          )} */}
         </div>
       </div>
     </div>
