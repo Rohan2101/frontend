@@ -2,11 +2,10 @@ import React, { useState } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { calculateStatus } from '../inventory';
-
 import '../App.css';
 
 
-const InventoryList = ({ inventory, onEdit, onDelete, togglePopup }) => {
+const InventoryList = ({ inventory, onEdit, onDelete, togglePopup, onEditingItemChange}) => {
   const [editingItem, setEditingItem] = useState(null);
   const [updatedValues, setUpdatedValues] = useState({});
   const [originalValues, setOriginalValues] = useState({});
@@ -15,12 +14,11 @@ const InventoryList = ({ inventory, onEdit, onDelete, togglePopup }) => {
     // Prevent editing if another item is currently being edited
     if (editingItem !== null && editingItem !== id) return;
 
-
-
     const parts = item.expiryDate.split('/');
     const formattedExpiryDate = new Date(`${parts[2]}-${parts[1]}-${parts[0]}`);
     setOriginalValues(item);
     setEditingItem(id);
+    onEditingItemChange(id); // pass edit status changes to Inventory.js
     setUpdatedValues({
       ...item,
       expiryDate: formattedExpiryDate,
@@ -30,6 +28,7 @@ const InventoryList = ({ inventory, onEdit, onDelete, togglePopup }) => {
   const handleCancel = () => {
     setUpdatedValues(originalValues);
     setEditingItem(null);
+    onEditingItemChange(null); // pass edit status changes to Inventory.js
   };
 
   const handleInputChange = (e, field) => {
@@ -79,6 +78,7 @@ const InventoryList = ({ inventory, onEdit, onDelete, togglePopup }) => {
 
     onEdit(id, { ...updatedValues, expiryDate: formattedExpiryDate });
     setEditingItem(null);
+    onEditingItemChange(null); // pass edit status changes to Inventory.js
     setUpdatedValues({});
   };
 
@@ -105,7 +105,12 @@ const InventoryList = ({ inventory, onEdit, onDelete, togglePopup }) => {
           <th>Price</th>
           <th>Expiry Date</th>
           {/* <th>Status</th> */}
-          <th>Status <button info className="info-icon" onClick={() => togglePopup('statusInfo')} /></th>
+
+          {/* <th>Expiry Status <FontAwesomeIcon icon={faInfoCircle} className="info-icon" onClick={() => togglePopup('statusInfo')} /></th> */}
+          <th>Expiry Status</th>
+
+
+
           <th>Actions</th>
         </tr>
       </thead>
@@ -145,62 +150,70 @@ const InventoryList = ({ inventory, onEdit, onDelete, togglePopup }) => {
                 item.expiryDate
               )}
             </td>
-            <td>
+            {/* <td>
               <img
                 src={calculateStatus(item.expiryDate)}
                 alt="Indicator Fail"
                 className="status-image"
                 style={{ width: '55px', height: 'auto' }}
               />
-            </td>
+            </td> */}
+
             <td>
-<div className="action-icons">
-  {editingItem === item.id ? (
-    <React.Fragment>
-      <button className="save-button" onClick={() => handleSave(item.id)}>Save</button>
-      <button className="cancel-button" onClick={handleCancel}>Cancel</button>
-    </React.Fragment>
-  ) : (
-    <React.Fragment>
-      <button
-        className="edit-button action-buttons"
-        onClick={() => handleEdit(item.id, item)}
-        style={{
-          cursor: editingItem !== null && editingItem !== item.id ? 'not-allowed' : 'pointer',
-        }}
-        disabled={editingItem !== null && editingItem !== item.id}
-      >
-        Edit
-      </button>
+              <span style={{ color: calculateStatus(item.expiryDate).color }}>
+                {calculateStatus(item.expiryDate).message}
+              </span>
+            </td>
 
-      <button
-        className="delete-button action-buttons"
-        onClick={() => {
-          if (editingItem === null || editingItem === item.id) {
-            onDelete(item.id);
-          }
-        }}
-        style={{
-          cursor: editingItem !== null && editingItem !== item.id ? 'not-allowed' : 'pointer',
-        }}
-        disabled={editingItem !== null && editingItem !== item.id}
-      >
-        Delete
-      </button>
 
-      <button
-        className="scan-button action-buttons"
-        onClick={handlescanExpiry}
-        style={{
-          cursor: editingItem !== null && editingItem !== item.id ? 'not-allowed' : 'pointer',
-        }}
-        disabled={editingItem !== null && editingItem !== item.id}
-      >
-        Scan Expiry
-      </button>
-    </React.Fragment>
-  )}
-</div>
+            <td>
+              <div className="action-icons">
+                {editingItem === item.id ? (
+                  <React.Fragment>
+                    <button className="save-button" onClick={() => handleSave(item.id)}>Save</button>
+                    <button className="cancel-button" onClick={handleCancel}>Cancel</button>
+                  </React.Fragment>
+                ) : (
+                  <React.Fragment>
+                    <button
+                      className="edit-button action-buttons"
+                      onClick={() => handleEdit(item.id, item)}
+                      style={{
+                        cursor: editingItem !== null && editingItem !== item.id ? 'not-allowed' : 'pointer',
+                      }}
+                      disabled={editingItem !== null && editingItem !== item.id}
+                    >
+                      Edit
+                    </button>
+
+                    <button
+                      className="delete-button action-buttons"
+                      onClick={() => {
+                        if (editingItem === null || editingItem === item.id) {
+                          onDelete(item.id);
+                        }
+                      }}
+                      style={{
+                        cursor: editingItem !== null && editingItem !== item.id ? 'not-allowed' : 'pointer',
+                      }}
+                      disabled={editingItem !== null && editingItem !== item.id}
+                    >
+                      Delete
+                    </button>
+
+                    <button
+                      className="scan-button action-buttons"
+                      onClick={handlescanExpiry}
+                      style={{
+                        cursor: editingItem !== null && editingItem !== item.id ? 'not-allowed' : 'pointer',
+                      }}
+                      disabled={editingItem !== null && editingItem !== item.id}
+                    >
+                      Scan Expiry
+                    </button>
+                  </React.Fragment>
+                )}
+              </div>
 
             </td>
           </tr>
