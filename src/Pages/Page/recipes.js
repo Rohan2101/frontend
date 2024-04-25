@@ -17,6 +17,8 @@ const SearchBar = ({ onSearch, onInputChange, selectedItems, onRemoveSelected, o
     }
   };
 
+  console.log("Input state:", input); // Add this console log
+
   return (
     <div className="search-container">
       <div className="selected-items-box">
@@ -29,13 +31,14 @@ const SearchBar = ({ onSearch, onInputChange, selectedItems, onRemoveSelected, o
       </div>
       <div>
       <input
-        className="search-input"
-        type="text"
-        placeholder="Add more items to your search..."
-        value={input}
-        onChange={(e) => handleInputChange(e.target.value)}
-        onKeyPress={handleKeyPress}
-      />
+  className="search-input"
+  type="text"
+  placeholder="Add more items to your search..."
+  value={input}
+  onChange={(e) => handleInputChange(e.target.value)}
+  onKeyPress={handleKeyPress}
+/>
+
             <button className="add-to-search-button" onClick={() => onAddToSearch(input)}>Add to Search</button>
            <div>
               <button className="search-button" onClick={onSearch}>Search Recipes</button>
@@ -49,11 +52,14 @@ const SearchBar = ({ onSearch, onInputChange, selectedItems, onRemoveSelected, o
 const RecipeCard = ({ recipe }) => {
   return (
     <div className="recipe-card">
-      <div className="recipe-image-placeholder"></div>
+<div className="recipe-image-placeholder">
+  <img src={recipe.image} alt="Recipe" />
+</div>
+
       <div className="recipe-info">
         <h2 className="recipe-title">{recipe.title}</h2>
-        <p className="recipe-ingredients">{recipe.ingredients}</p>
-        <p className="recipe-time">{recipe.time}</p>
+        <p className="recipe-ingredients">{recipe.instructions}</p>
+        <p className="recipe-time">{recipe.preparationMinutes}</p>
         <p className="recipe-has-ingredients">{recipe.hasIngredients}</p>
       </div>
     </div>
@@ -106,66 +112,128 @@ export const Recipes = () => {
     };
   }, []);
 
-  useEffect(() => {
-    const runPythonCode = async () => {
-      if (pyodideLoaded) {
-        const ingredients = ['Egg']; // Modify this to use dynamic ingredients
-
-        const fetchWithBackoff = async (url, options, delay) => {
-          await new Promise(resolve => setTimeout(resolve, delay));
-          return await fetch(url, options);
-        };
-
-        const fetchRecipes = async () => {
-          const url = "https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/recipes/findByIngredients";
-          const headers = {
-            "X-RapidAPI-Key": "590374f09cmshedcb45928ac60bap18e369jsn8f0c8e3fe0a0",
-            "X-RapidAPI-Host": "spoonacular-recipe-food-nutrition-v1.p.rapidapi.com"
-          };
-          const querystring = {
-            "ingredients": ingredients.join(','),
-            "number": "15",
-            "ranking": "1",
-            "ignorePantry": "true"
-          };
-
-          const options = {
-            method: 'GET',
-            headers: headers,
-            params: querystring
-          };
-
-          try {
-            const response = await fetchWithBackoff(url, options, 1000); // Initial delay of 1 second
-            console.log("Response status:", response.status); // Log the response status
-            if (!response.ok) {
-              if (response.status === 429) {
-                throw new Error('Too many requests');
-              } else {
-                throw new Error('Failed to fetch data');
-              }
-            }
-            const data = await response.json();
-            console.log("Response data:", data); // Log the response data
-            return data;
-          } catch (error) {
-            console.error("Error fetching recipes:", error.message);
-            throw error;
-          }
-        };
-
-        try {
-          const result = await fetchRecipes();
-          console.log(result);
-          setRecipes(result);
-        } catch (error) {
-          console.error("Error fetching recipes:", error.message);
-        }
+const fetchWithBackoff = async (url, options, delay) => {
+  const maxRetries = 3; // Maximum number of retries
+  let retries = 0;
+  while (retries < maxRetries) {
+    try {
+      return await fetch(url, options);
+    } catch (error) {
+      // If the error is not recoverable or max retries are reached, throw error
+      if (error.name !== 'AbortError' && retries === maxRetries - 1) {
+        throw error;
       }
-    };
+      // Exponential backoff
+      await new Promise(resolve => setTimeout(resolve, delay * Math.pow(2, retries)));
+      retries++;
+    }
+  }
+};
 
-    runPythonCode();
-  }, [pyodideLoaded]);
+
+const fetchRecipes = async () => {
+  if (!pyodideLoaded) return; // Exit if pyodide is not loaded
+
+  const baseUrl = "https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/recipes/findByIngredients";
+  const apiKey = "590374f09cmshedcb45928ac60bap18e369jsn8f0c8e3fe0a0";
+  const ingredients = selectedItems;
+  const number = 15;
+  const ranking = 1;
+  const ignorePantry = true;
+
+  const queryParams = new URLSearchParams({
+    ingredients: ingredients.join(','),
+    number: number,
+    ranking: ranking,
+    ignorePantry: ignorePantry
+  });
+
+  const url = `${baseUrl}?${queryParams}`;
+
+  const headers = {
+    "X-RapidAPI-Key": apiKey,
+    "X-RapidAPI-Host": "spoonacular-recipe-food-nutrition-v1.p.rapidapi.com"
+  };
+
+  const options = {
+    method: 'GET',
+    headers: headers
+  };
+
+  try {
+    const response = await fetchWithBackoff(url, options, 1000); // Initial delay of 1 second
+    console.log("Response status:", response.status); // Log the response status
+    if (!response.ok) {
+      if (response.status === 429) {
+        throw new Error('Too many requests');
+      } else {
+        throw new Error('Failed to fetch data');
+      }
+    }
+    const data = await response.json();
+    console.log("Response data:", data); // Log the response data
+    return data;
+  } catch (error) {
+    console.error("Error fetching recipes:", error.message);
+    throw error;
+  }
+};
+
+const fetchRecipeDetails = async (recipeId) => {
+  if (!pyodideLoaded) return; // Exit if pyodide is not loaded
+
+  const baseUrl = `https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/recipes/${recipeId}/information`;
+  const apiKey = "590374f09cmshedcb45928ac60bap18e369jsn8f0c8e3fe0a0";
+
+  const headers = {
+    "X-RapidAPI-Key": apiKey,
+    "X-RapidAPI-Host": "spoonacular-recipe-food-nutrition-v1.p.rapidapi.com"
+  };
+
+  const options = {
+    method: 'GET',
+    headers: headers
+  };
+
+  try {
+    const response = await fetchWithBackoff(baseUrl, options, 1000); // Initial delay of 1 second
+    console.log("Response status:", response.status); // Log the response status
+    if (!response.ok) {
+      if (response.status === 429) {
+        throw new Error('Too many requests');
+      } else {
+        throw new Error('Failed to fetch data');
+      }
+    }
+    const data = await response.json();
+    console.log("Recipe details:", data); // Log the recipe details
+    return data;
+  } catch (error) {
+    console.error("Error fetching recipe details:", error.message);
+    throw error;
+  }
+};
+
+const handleFetchRecipes = async () => {
+  try {
+    const result = await fetchRecipes();
+    console.log(result);
+
+    // Assuming result is an array of objects with recipe IDs
+    const recipeIds = result.map(recipe => recipe.id);
+
+    // Fetch details for each recipe ID
+    const recipeDetails = await Promise.all(recipeIds.map(fetchRecipeDetails));
+    setRecipes(recipeDetails);
+    console.log(recipeDetails);
+
+    // Handle the recipe details as needed, e.g., display them in your application
+  } catch (error) {
+    console.error("Error fetching recipes:", error.message);
+  }
+};
+
+
 
   const finalizeInventory = () => {
     // Update the main inventory with the displayed inventory
@@ -180,12 +248,7 @@ export const Recipes = () => {
     }
   };
 
-  const handleSearch = () => {
-    if (input.toLowerCase().includes('papaya')) {
-      setRecipes(sampleRecipes);
-      console.log(input)
-    }
-  };
+
 
   const sampleRecipes = [
     { title: 'Egg Salad Sandwich', ingredients: 'Bread, Eggs, Mayonnaise', time: '10 mins', hasIngredients: 'You have 2/3 ingredients', imageUrl: 'placeholder-image.jpg' },
@@ -330,7 +393,7 @@ const handleFilterChange = (column, keyword) => {
       <div className="App">
         <SearchBar
           onInputChange={handleInputChange}
-          onSearch={handleSearch}
+          onSearch={handleFetchRecipes }
           selectedItems={selectedItems}
           onRemoveSelected={handleRemoveSelected}
           onAddToSearch={handleAddToSearch}
