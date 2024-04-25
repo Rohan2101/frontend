@@ -382,11 +382,11 @@ export function Maininventory() {
         name: '',
         amount: '',
         spent: '',
-        expiryDate: data.extracted_text2.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' }),
+        expiryDate: data.extracted_text2,
         status: ''
       }));
       if (extractedText2 !== '' || msg2 !== '') {
-        populateItems('', '', '', data.extracted_text2.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' }), '');
+        populateItems('', '', '', data.extracted_text2, '');
       }
     } catch (error) {
       console.error('Error uploading image:', error);
