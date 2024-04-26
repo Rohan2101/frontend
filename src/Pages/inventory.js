@@ -3,6 +3,10 @@ import InventoryList from './components/InventoryList';
 import './App.css';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
+import { Link } from 'react-router-dom';
+import { Header } from '../components/header'; // Adjust the import path according to your file structure
+
+
 
 
 // import statusGreen from './images/status-green.png';
@@ -25,7 +29,7 @@ export const calculateStatus = (expiryDate) => {
   currentDate.setHours(0, 0, 0, 0);
   expiry.setHours(0, 0, 0, 0);
 
-  // Set the current datetime to the start of the day, ignoring hours, minutes and seconds currentDate.setHours(0, 0, 0, 0); 
+  // Set the current datetime to the start of the day, ignoring hours, minutes and seconds currentDate.setHours(0, 0, 0, 0);
   const diffDays = (expiry - currentDate) / (1000 * 60 * 60 * 24);
 
   // set 3 period(safe/reminder/alert) for status
@@ -71,6 +75,13 @@ export function Maininventory() {
   const [file2, setFile2] = useState(null);
   const [imgSrc2, setImgSrc2] = useState('');
   const [extractedText2, setExtractedText2] = useState('');
+const [hasOneItemInInventory, setHasOneItemInInventory] = useState(inventory.length === 1);
+const [hasBlinked, setHasBlinked] = useState(false);
+  const [showCongratsPopup, setShowCongratsPopup] = useState(true);
+    const [showCongratsTimer, setShowCongratsTimer] = useState(true);
+
+
+
 
 
   // handle  "Add Manually" "Scan Receipt"  status while editing
@@ -79,10 +90,38 @@ export function Maininventory() {
     setEditingItem(itemId);
   };
 
-  
+
+  const [blink, setBlink] = useState(false);
+
+// Use useEffect to automatically close the congratulations popup after 4 seconds
+useEffect(() => {
+  const timeout = setTimeout(() => {
+    setShowCongratsTimer(false);
+  }, 4000);
+
+  return () => clearTimeout(timeout);
+}, []);
+
+// Use useEffect to hide the congratulations popup when the timer is up
+useEffect(() => {
+  if (!showCongratsTimer) {
+    setShowCongratsPopup(false);
+  }
+}, [showCongratsTimer]);
 
 
-  // for status indicator popup 
+useEffect(() => {
+  // Show the congratulations popup if there's exactly one item in inventory and the timer is still active
+  if (hasOneItemInInventory && showCongratsTimer) {
+    setShowCongratsPopup(true);
+  } else {
+    // Otherwise, hide the congratulations popup
+    setShowCongratsPopup(false);
+  }
+}, [hasOneItemInInventory, showCongratsTimer]);
+
+
+  // for status indicator popup
   const [showStatusModal, setShowStatusModal] = useState(false);
 
   const handleEditItem = (id, updatedItem) => {
@@ -92,13 +131,25 @@ export function Maininventory() {
         const status = calculateStatus(updatedItem.expiryDate);
         return { ...item, ...updatedItem, status: status };
       }
+
       return item;
     });
 
     setInventory(updatedInventory);
     localStorage.setItem('inventory', JSON.stringify(updatedInventory));
-    
+
   };
+
+useEffect(() => {
+  // Check if the inventory has exactly one item
+  const hasOneItem = inventory.length === 1;
+
+  // Update hasOneItemInInventory state if it's different from the current state
+  if (hasOneItem !== hasOneItemInInventory) {
+    setHasOneItemInInventory(hasOneItem);
+  }
+}, [inventory]); // Run this effect whenever the inventory changes
+
 
   // Define handleDeleteItem function
   const handleDeleteItem = (id) => {
@@ -370,6 +421,23 @@ export function Maininventory() {
     setFile2(e.target.files[0]);
   };
 
+// Toggle blinking effect
+useEffect(() => {
+  if (!hasBlinked) {
+    const blinkInterval = setInterval(() => {
+      setBlink(prevBlink => !prevBlink);
+    }, 1000);
+
+    // Clear interval after one blink
+    setTimeout(() => {
+      clearInterval(blinkInterval);
+      setHasBlinked(true);
+    }, 1000);
+
+    return () => clearInterval(blinkInterval); // Clear interval when unmounting or button has blinked
+  }
+}, [hasBlinked]);
+
   const handleUpload3 = async (e) => {
     e.preventDefault();
     const formData = new FormData();
@@ -390,11 +458,14 @@ export function Maininventory() {
         name: '',
         amount: '',
         spent: '',
-        expiryDate: data.extracted_text2.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' }),
+        expiryDate: "10 Apr 2023",
         status: ''
       }));
       if (extractedText2 !== '' || msg2 !== '') {
-        populateItems('', '', '', data.extracted_text2.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' }), '');
+        populateItems('', '', '', data.extracted_text2, '');
+        alert("Successfully scanned the image!");
+        togglePopup('package');
+
       }
     } catch (error) {
       console.error('Error uploading image:', error);
@@ -404,6 +475,7 @@ export function Maininventory() {
 
   return (
     <div>
+
       {isPopupActive && <div className="modal-overlay" onClick={closeAllPopups}></div>}
       <div className="main-content"></div>
 
@@ -424,6 +496,7 @@ export function Maininventory() {
 
       {/* inventory main content */}
       <div className="App">
+
         <header></header>
         <InventoryList
           inventory={inventory}
@@ -432,28 +505,34 @@ export function Maininventory() {
           togglePopup={togglePopup} // Add this line to pass the function as a prop
 
 
-          onEditingItemChange={handleEditingItemChange} 
+          onEditingItemChange={handleEditingItemChange}
         />
 
         <div className="actions">
         <button
             className="add-button"
             onClick={() => togglePopup('add')}
-            disabled={editingItem !== null} 
+            disabled={editingItem !== null}
           >
-            Add Manually
+            Add an Item
           </button>
           <div className="scan-buttons">
             <button
               onClick={() => togglePopup('receipt')}
-              disabled={editingItem !== null} 
+              disabled={editingItem !== null}
             >
               Scan Receipt
             </button>
-                 <button onClick={() => togglePopup('package')} disabled={editingItem !== null}>Scan Package</button>
-                <button onClick={() => togglePopup('produce')} disabled={editingItem !== null}>Scan Fresh Produce</button>
+<button
+  onClick={() => togglePopup('package')}
+  disabled={editingItem !== null}
+>
+  Scan Package Expiry
+</button>
+               <button onClick={() => togglePopup('produce')}  disabled={editingItem !== null}
+  className={learnMoreClicked && blink ? 'blink' : ''} >Scan Fresh Produce</button>
           </div>
-        
+
 
           {showAddPopup && (
             <div
@@ -461,7 +540,7 @@ export function Maininventory() {
               onClick={() => setShowAddPopup(false)}
             ></div>
           )}
-        
+
 
 
           {/* Add Popup */}
@@ -586,8 +665,25 @@ export function Maininventory() {
           )} */}
         </div>
       </div>
+{inventory.length > 0 && (
+<div className="generate-button">
+  <Link to="/recipes">
+    <button className={hasOneItemInInventory && !hasBlinked ? 'blink' : ''}>Generate recipes!</button>
+  </Link>
+</div>
+)}
+
+ {showCongratsPopup && (
+        <div className="congrats-popup">
+          <p>Congratulations on starting your inventory! Check out some recipes now.</p>
+        </div>
+      )}
+
+
+
     </div>
   );
 }
 
 export default Maininventory;
+
