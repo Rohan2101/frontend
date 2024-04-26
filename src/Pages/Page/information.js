@@ -5,42 +5,54 @@ import { motion, useAnimation } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 import { throttle } from 'lodash';
 
+import FoodWasteNews from './foodwastenews';
+
 // Food Journey
 const steps = [
   {
     id: 1,
-    name: "Plan and Purchase",
-    description: "Plan meals and use a shopping list.",
+    name: "Smart Shopping",
+    description: "Make informed decisions during the purchasing stage",
     color: "#fde47f",
-    tips: ["·Tip 1 for Plan and Purchase", "·Tip 2 for Plan and Purchase"]
+    tips: ["· Create a shopping list to avoid impulse buying", "· Choose seasonal and local to reduce carbon emission in transportation", "· Purchase the right quantities", "· Check the freshness and expiration carefully"]
   },
   {
     id: 2,
     name: "Proper Storage",
-    description: "Store food correctly to extend freshness.",
+    description: "Store ingredients correctly to extend their shelf life and maintain freshness",
     color: "#e0e0e0",
-    tips: ["·Tip 1 for Plan and Purchase", "·Tip 2 for Plan and Purchase"]
+    tips: ["· Know the storage requirements, such as temperature and humidity", "· Use appropriate containers and packaging to prolong the shelf life", "· Regularly check and handle spoiled or expired items", "· Organize fridge space wisely to avoid cross-contamination"]
   },
   {
     id: 3,
-    name: "Preparation",
-    description: "Cook realistically to avoid unnecessary leftovers.",
+    name: "Creative Cooking",
+    description: "Utilize every ingredient to its fullest potential with innovative cooking methods",
     color: "#f0f8ff",
-    tips: ["·Tip 1 for Plan and Purchase", "·Tip 2 for Plan and Purchase"]
+    tips: ["· Learn diverse cooking techniques", "· Plan the cooking sequence based on the expiration dates of ingredients", "· Create new dishes with leftover ingredients"]
   },
   {
     id: 4,
-    name: "Utilizing Leftovers",
-    description: "Repurpose leftovers into new meals.",
+    name: "Mindful Eating",
+    description: "Develop good eating habits by focusing on the quality and quantity of food",
     color: "#d1c4e9",
-    tips: ["·Tip 1 for Plan and Purchase", "·Tip 2 for Plan and Purchase"]
+    tips: ["· Control portion sizes", "· Listen to your hunger and fullness signals"]
+
   },
   {
     id: 5,
-    name: "Composting",
-    description: "Compost food waste instead of disposing of it.",
+    name: "Recycling and Repurposing",
+    description: "Transform leftover food and scraps into new resources to achieve food circularity",
     color: "#b2dfdb",
-    tips: ["·Tip 1 for Plan and Purchase", "·Tip 2 for Plan and Purchase"]
+    tips: ["· Transform leftovers into new dishes", "· Compost food scraps", "· Participate in local food recovery and repurposing programs"]
+
+  },
+  {
+    id: 6,
+    name: "Community Engagement",
+    description: "Promote sustainable development through community collaboration and sharing",
+    color: "#fde47f",
+    tips: ["· Support food banks and charities", "· Promote local, sustainable food", "· Share excess food with others"]
+
   }
 ];
 
@@ -139,177 +151,24 @@ const FoodJourneyAnimation = () => {
 };
 
 
-// Map
-const stateNews = {
-  WA: [
-    {
-      imageUrl: "news-thumbnail-1.jpg",
-      title: "WA 1",
-      link: "https://example.com/news1"
-    },
-    {
-      imageUrl: "news-thumbnail-2.jpg",
-      title: "WA 2",
-      link: "https://example.com/news1"
-    },
-    {
-      imageUrl: "news-thumbnail-2.jpg",
-      title: "WA 2",
-      link: "https://example.com/news1"
-    },
-  ],
-
-  QLD: [
-    {
-      imageUrl: "news-thumbnail-1.jpg",
-      title: "QLD 1",
-      link: "https://example.com/news1"
-    },
-    {
-      imageUrl: "news-thumbnail-2.jpg",
-      title: "QLD 2",
-      link: "https://example.com/news1"
-    },
-    {
-      imageUrl: "news-thumbnail-2.jpg",
-      title: "QLD 2",
-      link: "https://example.com/news1"
-    },
-  ],
-
-  NT: [
-    {
-      imageUrl: "news-thumbnail-1.jpg",
-      title: "NT 1",
-      link: "https://example.com/news1"
-    },
-    {
-      imageUrl: "news-thumbnail-2.jpg",
-      title: "NT 2",
-      link: "https://example.com/news1"
-    },
-    {
-      imageUrl: "news-thumbnail-2.jpg",
-      title: "NT 2",
-      link: "https://example.com/news1"
-    },
-  ],
-
-  SA: [
-    {
-      imageUrl: "news-thumbnail-1.jpg",
-      title: "SA 1",
-      link: "https://example.com/news1"
-    },
-    {
-      imageUrl: "news-thumbnail-2.jpg",
-      title: "SA 2",
-      link: "https://example.com/news1"
-    },
-    {
-      imageUrl: "news-thumbnail-2.jpg",
-      title: "WA 2",
-      link: "https://example.com/news1"
-    },
-  ],
-
-  VIC: [
-    {
-      imageUrl: "news-thumbnail-1.jpg",
-      title: "VIC 1",
-      link: "https://example.com/news1"
-    },
-    {
-      imageUrl: "news-thumbnail-2.jpg",
-      title: "VIC 2",
-      link: "https://example.com/news1"
-    },
-    {
-      imageUrl: "news-thumbnail-2.jpg",
-      title: "VIC 2",
-      link: "https://example.com/news1"
-    },
-  ],
-
-  NSW: [
-    {
-      imageUrl: "news-thumbnail-1.jpg",
-      title: "NSW 1",
-      link: "https://example.com/news1"
-    },
-    {
-      imageUrl: "news-thumbnail-2.jpg",
-      title: "NSW 2",
-      link: "https://example.com/news1"
-    },
-    {
-      imageUrl: "news-thumbnail-2.jpg",
-      title: "NSW 2",
-      link: "https://example.com/news1"
-    },
-  ],
-
-  TAS: [
-    {
-      imageUrl: "news-thumbnail-1.jpg",
-      title: "TAS 1",
-      link: "https://example.com/news1"
-    },
-    {
-      imageUrl: "news-thumbnail-2.jpg",
-      title: "TAS 2",
-      link: "https://example.com/news1"
-    },
-    {
-      imageUrl: "news-thumbnail-2.jpg",
-      title: "TAS 2",
-      link: "https://example.com/news1"
-    },
-  ],
-
-  ACT: [
-    {
-      imageUrl: "news-thumbnail-1.jpg",
-      title: "ACT 1",
-      link: "https://example.com/news1"
-    },
-    {
-      imageUrl: "news-thumbnail-2.jpg",
-      title: "ACT 2",
-      link: "https://example.com/news1"
-    },
-    {
-      imageUrl: "news-thumbnail-2.jpg",
-      title: "ACT 2",
-      link: "https://example.com/news1"
-    },
-  ],
-};
-
-const renderNewsItems = (newsLinks, onClose) => {
-  return (
-    <>
-      <div className="close-button" onClick={onClose}>
-        &times;
-      </div>
-      {newsLinks.map((newsItem, index) => (
-        <div key={index} className="news-item">
-          <div className="news-theme">{newsItem.theme}</div>
-          <img src={newsItem.imageUrl} alt="news thumbnail" className="news-thumbnail" />
-          <div className="news-title">{newsItem.title}</div>
-          <a href={newsItem.link} className="news-link" target="_blank" rel="noopener noreferrer">Read More</a>
-        </div>
-      ))}
-    </>
-  );
-};
 
 // integrate Map and Food Journey to Information Page
 export const Information = () => {
   const [selectedState, setSelectedState] = useState(null);
   const [newsLinks, setNewsLinks] = useState([]);
   const [activeSection, setActiveSection] = useState('journey');
-  // news closing
+
+  useEffect(() => {
+    if (selectedState) {
+      getTopArticles(selectedState);
+    }
+  }, [selectedState]);
+
+  const getTopArticles = async (state) => {
+    const articles = await FoodWasteNews({ selectedState: state });
+    setNewsLinks(articles);
+  };
+
   const handleCloseNews = () => {
     setSelectedState(null);
     setNewsLinks([]);
@@ -318,14 +177,13 @@ export const Information = () => {
   const handleStateClick = (state) => {
     console.log("State clicked:", state);
     setSelectedState(state);
-    setNewsLinks(stateNews[state] || []);
     setActiveSection('newsMap');
   };
 
-  // news dispaly position
-  const newsContainerPosition = selectedState && ['WA', 'NT', 'SA'].includes(selectedState) ? 'left' : 'right';
+
 
   return (
+  <div className="info-page">
     <div>
       <div className="toolbar">
         <div style={{ display: 'flex', alignItems: 'center' }}>
@@ -364,6 +222,13 @@ export const Information = () => {
           {activeSection === 'journey' && (
             <>
               <h1 className="information-title">Food Waste Journey</h1>
+              <p className="information-text">
+                Explore how to reduce waste at every stage of food's journey and contribute to environmental protection.
+              </p>
+              <p className="information-text">
+                Scroll down to start your Food Waste Journey!
+              </p>
+
               <FoodJourneyAnimation />
             </>
           )}
@@ -372,11 +237,9 @@ export const Information = () => {
             <>
               <h1 className="information-title">News Map</h1>
               <p className="information-text">
-                Click on a state on the map below to learn more about Food Waste and Climate Change.
+                Click on a state on the map below to get its top news about Food Waste.
               </p>
-              <div className={`news-container ${newsContainerPosition} ${newsLinks.length > 0 ? 'show' : ''}`}>
-                {renderNewsItems(newsLinks, handleCloseNews)}
-              </div>
+              <FoodWasteNews selectedState={selectedState} onClose={handleCloseNews} />
               <div className="map-container">
                 <AUMap
                   onStateClick={handleStateClick}
@@ -388,6 +251,7 @@ export const Information = () => {
           )}
         </div>
       </div>
+    </div>
     </div>
   );
 }

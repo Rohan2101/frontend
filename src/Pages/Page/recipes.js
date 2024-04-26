@@ -1,3 +1,6 @@
+//Hello World
+
+
 import './recipe.css';
 import InventoryList from '../components/InventoryList';
 import React, { useState, useEffect } from 'react';
@@ -34,10 +37,27 @@ export const calculateStatus = (expiryDate) => {
 const SearchBar = ({ onSearch, onInputChange, selectedItems, onRemoveSelected, onAddToSearch }) => {
   const [input, setInput] = useState('');
 
-  const handleInputChange = (value) => {
+const handleInputChange = (value) => {
+  // Regular expression to match non-alphabetic characters
+  const regex = /[^a-zA-Z\s]/;
+
+  // Check if the input value contains any non-alphabetic characters
+  if (regex.test(value)) {
+    // Show an alert message indicating invalid input
+    alert('Please enter only alphabetic characters and spaces.');
+
+    // Reset the input value to remove non-alphabetic characters
+    setInput(value.replace(regex, ''));
+
+    // Call the onInputChange function with the modified value
+    onInputChange(value.replace(regex, ''));
+  } else {
+    // If the input value is valid, update the state and call the onInputChange function
     setInput(value);
     onInputChange(value);
-  };
+  }
+};
+
 
   const handleKeyPress = (e) => {
     if (e.key === 'Enter' && input.trim() !== '') {
@@ -48,16 +68,7 @@ const SearchBar = ({ onSearch, onInputChange, selectedItems, onRemoveSelected, o
   console.log("Input state:", input); // Add this console log
 
   return (
-    <div className="search-container">
-      <div className="selected-items-box">
-        {selectedItems.map((item, index) => (
-          <div key={index} className="selected-item">
-            <span>{item}</span>
-            <button onClick={() => onRemoveSelected(item)}>×</button>
-          </div>
-        ))}
-      </div>
-      <div>
+          <div>
       <input
   className="search-input"
   type="text"
@@ -67,7 +78,18 @@ const SearchBar = ({ onSearch, onInputChange, selectedItems, onRemoveSelected, o
   onKeyPress={handleKeyPress}
 />
 
-            <button className="add-to-search-button" onClick={() => onAddToSearch(input)}>Add to Recipe</button>
+            <button className="add-to-search-button" onClick={() => onAddToSearch(input)}>Add</button>
+
+          <div className="search-container">
+      <div className="selected-items-box">
+        {selectedItems.map((item, index) => (
+          <div key={index} className="selected-item">
+            <span>{item}</span>
+            <button onClick={() => onRemoveSelected(item)}>×</button>
+          </div>
+        ))}
+      </div>
+
            <div>
               <button className="search-button" onClick={onSearch}>Search Recipes</button>
             </div>
@@ -80,19 +102,26 @@ const SearchBar = ({ onSearch, onInputChange, selectedItems, onRemoveSelected, o
 const RecipeCard = ({ recipe }) => {
   return (
     <div className="recipe-card">
-<div className="recipe-image-placeholder">
-  <img src={recipe.image} alt="Recipe" />
-</div>
+      <div className="recipe-image-placeholder">
+        <img src={recipe.image} alt="Recipe" />
+      </div>
 
       <div className="recipe-info">
         <h2 className="recipe-title">{recipe.title}</h2>
+        <p className="recipe-instructions">Instructions:</p>
         <p className="recipe-ingredients">{recipe.instructions}</p>
-        <p className="recipe-time">{recipe.preparationMinutes}</p>
-        <p className="recipe-has-ingredients">{recipe.hasIngredients}</p>
+        <p className="recipe-instructions">Preparation Time (minutes):</p>
+        {recipe.preparationMinutes !== -1 ? (
+          <p className="recipe-ingredients">{recipe.preparationMinutes}</p>
+        ) : (
+          <p className="recipe-ingredients">Data not available</p>
+        )}
       </div>
     </div>
   );
 };
+
+
 
 // Recipes Component
 export const Recipes = () => {
@@ -339,11 +368,22 @@ const handleAddToSearch = (itemName) => {
         setInput(prevInput => {
           const trimmedInput = prevInput.trim();
           return trimmedInput ? trimmedInput + ' ' + itemName : itemName;
-        });
+        })
+        ;
       }
     }
   }
 };
+
+ const handleResetInventory = () => {
+    // Recalculate status for each item in the main inventory
+    const updatedDisplayedInventory = inventory.map(item => {
+      const status = calculateStatus(item.expiryDate);
+      return { ...item, status: status };
+    });
+    // Update displayed inventory with recalculated status
+    setDisplayedInventory(updatedDisplayedInventory);
+  };
 
 
   const handleRemoveSelected = (itemName) => {
@@ -353,14 +393,14 @@ const handleAddToSearch = (itemName) => {
 
 
 
-  return (
-    <div>
-      <div class="inventory-container">
-      <div class="top-buttons">
-      <button class="finalize-button" onClick={finalizeInventory}>Finalize</button>
-      <button class="finalize-button" >Reset</button>
-      </div>
-        <table class="inventory-table">
+   return (
+    <div className="recipe-page">
+      <div className="inventory-container">
+        <div className="top-buttons">
+          <button className="finalize-button" onClick={finalizeInventory}>Finalize</button>
+          <button className="finalize-button" onClick={handleResetInventory}>Reset</button>
+        </div>
+        <table className="inventory-table">
           <thead>
             <tr>
               <th>Name</th>
@@ -369,31 +409,28 @@ const handleAddToSearch = (itemName) => {
               <th>Action</th>
             </tr>
           </thead>
-
-<tbody className="inventory-body">
-  {displayedInventory.map((item) => (
-    <tr key={item.id}>
-      <td>{item.name}</td>
-      <td>{item.amount}</td>
-      <td>{item.status.message}</td> {/* Display status message as text */}
-      <td>
-        <button className="add-to-search-button" onClick={() => handleAddToSearch(item.name)}>Add to Recipe</button>
-      </td>
-    </tr>
-  ))}
-</tbody>
-     </table>
-
-
-      </div>
-      <div className="App">
+          <tbody className="inventory-body">
+            {displayedInventory.map((item) => (
+              <tr key={item.id}>
+                <td>{item.name}</td>
+                <td>{item.amount}</td>
+                <td>{item.status.message}</td> {/* Display status message as text */}
+                <td>
+                  <button className="add-to-search-button" onClick={() => handleAddToSearch(item.name)}>Add</button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
         <SearchBar
           onInputChange={handleInputChange}
-          onSearch={handleFetchRecipes }
+          onSearch={handleFetchRecipes}
           selectedItems={selectedItems}
           onRemoveSelected={handleRemoveSelected}
           onAddToSearch={handleAddToSearchManual}
         />
+      </div>
+      <div className="App">
         <div className="recipes-container">
           {recipes.map((recipe, index) => (
             <RecipeCard key={index} recipe={recipe} />
@@ -403,5 +440,7 @@ const handleAddToSearch = (itemName) => {
     </div>
   );
 };
+
+
 
 export default Recipes;

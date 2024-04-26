@@ -5,12 +5,11 @@ body, html {
   padding: 0;
   font-family: 'Arial', sans-serif;
   background-color: #f4f4f4;
-    background-image: url('../public/recipebg.avif');
+  background-image: url('../public/recipebg.avif');
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center 25%; /* Adjust background position to start from 1/4 of the page */
 }
-
 
 .App {
   text-align: center;
@@ -19,51 +18,50 @@ body, html {
   background-color: #f7f7f7; /* Optional: Sets a background color for the app */
 }
 
-/* Styles for the inventory container */
 .inventory-container {
   color: black; /* Set text color to black */
   margin-top: 100px;
-  margin-left: 400px ;
-  margin-right: 400px ;
-
-  max-width: 800px;
+  margin-left: auto; /* Center horizontally */
+  margin-right: auto; /* Center horizontally */
+  max-width: 78%; /* Set maximum width to 90% of the viewport width */
   background-color: #f9f9f9;
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  border-radius: 30px;
   padding: 20px; /* Add padding for better spacing */
 }
 
-/* Styles for the inventory table */
 .inventory-table {
   margin-top: 10px; /* Reduce the margin-top for closer proximity to the heading */
   width: 100%;
   border-collapse: collapse;
 }
 
-/* Styles for table headers */
 .inventory-table th {
   background-color: #f2f2f2;
-  padding: 6px; /* Reduce the padding */
+  padding: 10px; /* Reduce the padding */
   text-align: center;
   border-radius: 10px; /* Reduce the border-radius */
-  font-size: 12px; /* Reduce the font size */
+  font-size: 14px; /* Reduce the font size */
+
 }
 
-/* Styles for table rows */
-.inventory-table tr {
-  height: 1px; /* Reset the height to auto */
+.inventory-table tr:nth-child(even) {
+  background-color: #ff; /* Set background color for even rows */
 }
 
-/* Styles for table cells */
+.inventory-table tr:nth-child(odd) {
+  background-color: #F2F6FF; /* Set background color for odd rows */
+}
+
 .inventory-table td {
-  padding: 4px; /* Further reduce the padding for tighter spacing */
-  font-size: 11px; /* Further reduce the font size */
-  line-height: 0.1; /* Adjust line height to fit content closely */
+  padding: 10px; /* Adjust padding for better spacing */
+  font-size: 14px; /* Keep the font size */
+  line-height: 1.2; /* Adjust line height for better readability */
 }
 
-
-
+.inventory-table tr:hover {
+  background-color: #f5f5f5; /* Very light gray */
+}
 
 .finalize-button {
   padding: 0; /* Remove padding */
@@ -72,8 +70,8 @@ body, html {
   border: none;
   border-radius: 0; /* No border radius */
   cursor: pointer;
-  margin-left: 5px;
-  margin-right: 5px;
+  margin-left: 450px;
+  margin-right: -410px;
   font-size: 1.4rem; /* Moderate font size */
   font-weight: bold; /* Bold text for emphasis */
   transition: color 0.3s ease; /* Smooth transition for hover effect */
@@ -81,22 +79,14 @@ body, html {
 
 .finalize-button:hover {
   text-decoration: underline; /* Underline text */
-
   color: #555; /* Darker text color on hover */
 }
 
-
-.top-buttons{
+.top-buttons {
   margin-left: 550px;
-display: flex;
-text-align: center; /* Align buttons to the center horizontally */
+  display: flex;
+  text-align: center; /* Align buttons to the center horizontally */
   margin-top: 10px;
-}
-
-
-/* Styles for table cells */
-.inventory-table td {
-  padding: 5px;
 }
 
 /* Styles for status images */
@@ -105,7 +95,6 @@ text-align: center; /* Align buttons to the center horizontally */
   height: auto;
 }
 
-/* Styles for action buttons */
 .action-button {
   background-color: #4caf50;
   color: white;
@@ -119,20 +108,16 @@ text-align: center; /* Align buttons to the center horizontally */
   cursor: pointer;
 }
 
-/* Hover effect for action buttons */
 .action-button:hover {
   background-color: #45a049;
 }
 
-.search-container {
-  display: flex;
-  flex-wrap: wrap;
-}
+
 
 .selected-items-box {
   display: flex;
   flex-wrap: wrap;
-  border: 1px solid #ccc;
+  border: none;
   padding: 5px;
   border-radius: 5px;
   margin-bottom: 10px;
@@ -156,118 +141,188 @@ text-align: center; /* Align buttons to the center horizontally */
   background-color: transparent;
   border: none;
   cursor: pointer;
-  font-size: 16px;
+  font-size: 14px;
   color: #666;
 }
 
-
 .search-container {
-  flex-direction: column; /* Stack items vertically */
+  flex-direction: column;
   margin-bottom: 2em;
-  padding: 0 1em; /* Adds horizontal padding */
+  padding: 0 1em;
+  border: 1.5px solid #0A1D44; /* Green border */
+  border: 1.5px solid #0A1D44; /* Green border */
+  border-radius: 10px; /* Rounded borders */
 }
-
-.search-input {
-  color: #333; /* Or any other color you prefer */
-  padding: 0.5em;
-  border: 1px solid #333; /* Add a solid border with color #333 */
-  font-size: 2.0rem;
-  border: none; /* Removes the border */
-  border-radius: 25px; /* Rounds the corners of the search bar */
-  width: calc(100% - 4em); /* Adjust width for the search input */
-  margin-right: 1em; /* Space between the search input and button */
-}
-
-.add-to-search-button {
-  padding: 8px 16px; /* Slightly smaller padding */
-  background-color: #FFE082; /* Lighter gold color */
-  color: #666; /* Darker text for subtlety */
-  border: 1px solid #ccc; /* Add a light border for definition */
-  border-radius: 20px; /* Slightly smaller border radius */
-  cursor: pointer;
-  font-size: 1.3rem; /* Smaller font size */
-  font-weight: normal; /* Normal font weight for lighter appearance */
-  text-transform: uppercase; /* Uppercase text for emphasis */
-  transition: background-color 0.3s ease, color 0.3s ease; /* Smooth transition for hover effect */
-}
-
-.add-to-search-button:hover {
-  background-color: #FFD54F; /* Darker shade of gold on hover */
-  color: #444; /* Darker text color on hover for contrast */
-}
-
-
-.search-button {
-  margin-left: 10px;
-  margin-top: 30px; /* Adjust as needed */
-  margin-bottom: -45px;
-  padding: 10px 20px; /* Increase padding for better visual appeal */
-  background-color: #FF4081; /* A prominent pink color */
-  color: #fff; /* White text for better contrast */
+.search-container .search-button {
+  background-color: #0D2D6B; /* Dark blue */
   border: none;
-  border-radius: 25px;
+  color: white;
+  padding: 10px 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  border-radius: 5px; /* Rounded corners for buttons */
   cursor: pointer;
-  font-size: 1.5rem; /* Adjust font size as needed */
-  font-weight: bold; /* Make the text bold */
-  text-transform: uppercase; /* Uppercase text for emphasis */
   transition: background-color 0.3s ease; /* Smooth transition for hover effect */
 }
 
-.search-button:hover {
-  background-color: #E91E63; /* Darker shade of pink on hover */
+.search-container .search-button:hover {
+  background-color: #0A1D44; /* Darker blue on hover */
 }
 
+.search-input {
+  color: #333;
+  padding: 0.4em;
+  border: 1px solid #4CAF50;
+  font-size: 1.5rem;
+  border-radius: 25px;
+  width: calc(100% - 17.5em);
+  margin-right: 1em;
+  margin-bottom: 30px;
+
+
+}
+
+
+.add-to-search-button {
+  padding: 8px 14px;
+  min-width: 110px; /* Fixed width */
+  height: 25px; /* Fixed height */
+  background: linear-gradient(to right, #A9A9A9, #808080);
+  color: #fff;
+  border: none;
+  border-radius: 30px;
+  cursor: pointer;
+  font-size: 1.2rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s, box-shadow 0.2s;
+    align-items: center; /* Align items vertically */
+  justify-content: center; /* Align items horizontally */
+  line-height: 1; /* Adjust line height for vertical alignment */
+
+}
+
+.add-to-search-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2);
+}
+
+.search-button {
+  margin-left: 470px;
+  margin-top: 80px;
+  margin-bottom: -60px;
+  padding: 10px 20px;
+
+   background: linear-gradient(to right, #5D4E157, #7CB342);
+
+
+  color: #fff;
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+  font-size: 1.5rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.3s ease, transform 0.2s, box-shadow 0.2s;
+}
+
+.search-button:hover {
+  background-color: #0d47a1;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2);
+}
 
 .recipes-container {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-around;
-  padding: 0; /* Resets padding */
+  padding: 0;
+  margin-top: 1px; /* Moved from previous section */
 }
 
 .recipe-card {
-  width: calc(100% - 2em); /* Full width minus margin on mobile */
-  margin: 1em; /* Adds space around cards */
-  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-  background-color: #fff; /* Card background color */
-  border-radius: 10px; /* Rounds the corners of the cards */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 350px; /* Adjusted width */
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  margin: 20px; /* Adjusted margin for better spacing */
+  overflow: hidden; /* Ensures content fits within the borders */
+  margin-top: 20px; /* Adjusted margin */
+  margin-bottom: 20px; /* Adjusted margin */
 }
 
 .recipe-image-placeholder {
-  height: 200px;
-  background-color: #e9e9e9;
+  width: 100%;
+  height: auto;
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
 }
 
 .recipe-info {
-  padding: 1em;
-}
-
-.recipe-title, .recipe-ingredients, .recipe-time, .recipe-has-ingredients {
-  margin-bottom: 0.5em; /* Adjusts margin between text elements */
+  padding: 20px;
 }
 
 .recipe-title {
-text-transform: none; /* This ensures the text case is unchanged */
-font-size: 2.0rem; /* Adjust the font size as needed */
+  font-size: 1.5rem;
+  margin-bottom: 10px;
 }
 
+.recipe-ingredients {
+  font-size: 1.1rem;
+  margin-bottom: 10px;
+}
 
-/* Responsive styles for tablets */
-@media (min-width: 481px) and (max-width: 768px) {
-  .recipe-card {
-    width: calc(50% - 2em); /* Two cards per row on tablets */
+.recipe-time {
+  font-size: 1rem;
+  color: #777;
+}
+
+@media (max-width: 768px) {
+  .inventory-container {
+    margin-left: 50px;
+    margin-right: 50px;
+  }
+
+  .recipes-container {
+    margin-top: 20px;
   }
 }
 
-/* Responsive styles for desktops */
-@media (min-width: 769px) {
-  .search-input {
-    width: 80%; /* Larger search input on desktop */
+@media (max-width: 480px) {
+  .inventory-container {
+    margin-left: 20px;
+    margin-right: 20px;
   }
 
+  .recipes-container {
+    margin-top: 10px;
+  }
+}
+
+.recipe-title,
+.recipe-instructions,
+.recipe-preparation,
+.recipe-ingredients {
+  text-align: left;
+  font-weight: bold;
+}
+
+
+@media (max-width: 768px) {
   .recipe-card {
-    width: calc(33.333% - 2em); /* Three cards per row on desktop */
+    width: calc(50% - 20px); /* Adjusted width for responsiveness */
+  }
+}
+
+@media (max-width: 480px) {
+  .recipe-card {
+    width: calc(100% - 40px); /* Adjusted width for responsiveness */
   }
 }
