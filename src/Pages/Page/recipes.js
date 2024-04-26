@@ -380,9 +380,11 @@ const handleAddToSearch = (itemName) => {
     const updatedDisplayedInventory = inventory.map(item => {
       const status = calculateStatus(item.expiryDate);
       return { ...item, status: status };
+       
     });
     // Update displayed inventory with recalculated status
     setDisplayedInventory(updatedDisplayedInventory);
+    alert("Your inventory state is updated!")
   };
 
 
