@@ -336,7 +336,7 @@ export function Maininventory() {
     formData.append('file1', file1);
     setShowScanReceiptPopup(false); // Close the popup
     try {
-      const response = await fetch('https://new12222-18275757747f.herokuapp.com/pred', {
+      const response = await fetch('https://rohan2101new.pythonanywhere.com/pred', {
         method: 'POST',
         body: formData
       });
@@ -349,6 +349,14 @@ export function Maininventory() {
       const currentDate = new Date();
       currentDate.setDate(currentDate.getDate() + daysToAdd);
       const formattedDate = `${currentDate.getDate()}/${currentDate.getMonth() + 1}/${currentDate.getFullYear()}`;
+      setNewItem(prevItem => ({
+        ...prevItem,
+        name: '',
+        amount: '',
+        spent: '',
+        expiryDate: data.extracted_text2,
+        status: ''
+      }));
       if (extractedText1 !== '' || msg1 !== '') {
         populateItems(data.extracted_text1, '', '', formattedDate, '');
       }
@@ -442,8 +450,9 @@ export function Maininventory() {
             >
               Scan Receipt
             </button>
+                <button onClick={() => togglePopup('produce')} disabled={editingItem !== null}>Scan Fresh Produce</button>
           </div>
-
+        
 
           {showAddPopup && (
             <div
@@ -451,7 +460,7 @@ export function Maininventory() {
               onClick={() => setShowAddPopup(false)}
             ></div>
           )}
-
+        
 
 
           {/* Add Popup */}
