@@ -450,6 +450,7 @@ export function Maininventory() {
             >
               Scan Receipt
             </button>
+                 <button onClick={() => togglePopup('package')} disabled={editingItem !== null}>Scan Package</button>
                 <button onClick={() => togglePopup('produce')} disabled={editingItem !== null}>Scan Fresh Produce</button>
           </div>
         
