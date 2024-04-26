@@ -384,7 +384,7 @@ const handleAddToSearch = (itemName) => {
     });
     // Update displayed inventory with recalculated status
     setDisplayedInventory(updatedDisplayedInventory);
-    alert("Your inventory state is updated!")
+    alert("Your inventory state has been reset!")
   };
 
 
