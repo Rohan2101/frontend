@@ -530,7 +530,7 @@ useEffect(() => {
   Scan Package Expiry
 </button>
                <button onClick={() => togglePopup('produce')}  disabled={editingItem !== null}
-  className={learnMoreClicked && blink ? 'blink' : ''} >Scan Fresh Produce</button>
+  >Scan Fresh Produce</button>
           </div>
 
 
