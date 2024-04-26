@@ -1,17 +1,3 @@
-import React, { useState, useEffect } from 'react';
-
-function FoodWasteNews({ selectedState, onClose }) {
-    const [topArticles, setTopArticles] = useState([]);
-
-    const newsContainerPosition = selectedState && ['WA', 'NT', 'SA'].includes(selectedState) ? 'left' : 'right';
-
-    useEffect(() => {
-        if (selectedState) {
-            const stateFullName = getStateFullName(selectedState);
-            getTopArticles(stateFullName);
-        }
-    }, [selectedState]);
-
     const getStateFullName = (stateAbbreviation) => {
         const stateMapping = {
             WA: "Western Australia",
