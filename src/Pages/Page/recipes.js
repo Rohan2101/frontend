@@ -1,6 +1,3 @@
-//Hello World
-
-
 import './recipe.css';
 import InventoryList from '../components/InventoryList';
 import React, { useState, useEffect } from 'react';
@@ -72,7 +69,7 @@ const handleInputChange = (value) => {
       <input
   className="search-input"
   type="text"
-  placeholder="Add more items to your search..."
+  placeholder="ex:egg"
   value={input}
   onChange={(e) => handleInputChange(e.target.value)}
   onKeyPress={handleKeyPress}
@@ -90,10 +87,11 @@ const handleInputChange = (value) => {
         ))}
       </div>
 
-           <div>
-              <button className="search-button" onClick={onSearch}>Search Recipes</button>
-            </div>
+
 </div>
+           <div>
+              <button className="search-button" onClick={onSearch}>Generate Recipes</button>
+            </div>
     </div>
   );
 };
@@ -331,6 +329,7 @@ const handleAddToSearchManual = (itemName) => {
     const trimmedInput = prevInput.trim();
     return trimmedInput ? trimmedInput + ' ' + itemName : itemName;
   });
+  console.log(input);
 };
 
 
@@ -398,7 +397,9 @@ const handleAddToSearch = (itemName) => {
    return (
     <div className="recipe-page">
       <div className="inventory-container">
-        <div className="top-buttons">
+
+        <div className="heading">Meet your personal recipe generator! Get tailored recipes for the items in your inventory, select items below</div>
+         <div className="top-buttons">
           <button className="finalize-button" onClick={finalizeInventory}>Finalize</button>
           <button className="finalize-button" onClick={handleResetInventory}>Reset</button>
         </div>
@@ -408,7 +409,7 @@ const handleAddToSearch = (itemName) => {
               <th>Name</th>
               <th>Quantity</th>
               <th>Status</th>
-              <th>Action</th>
+              <th>Add to recipe</th>
             </tr>
           </thead>
           <tbody className="inventory-body">
@@ -424,6 +425,7 @@ const handleAddToSearch = (itemName) => {
             ))}
           </tbody>
         </table>
+
         <SearchBar
           onInputChange={handleInputChange}
           onSearch={handleFetchRecipes}
@@ -431,7 +433,10 @@ const handleAddToSearch = (itemName) => {
           onRemoveSelected={handleRemoveSelected}
           onAddToSearch={handleAddToSearchManual}
         />
+
       </div>
+        <div class="tip">Tip: Add ingredients that are near expiry to utilize your groceries better</div>
+
       <div className="App">
         <div className="recipes-container">
           {recipes.map((recipe, index) => (

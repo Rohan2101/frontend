@@ -7,7 +7,7 @@ body, html {
   background-color: #f4f4f4;
   background-image: url('../public/recipebg.avif');
   background-size: cover;
-  background-repeat: no-repeat;
+  background-repeat: repeat;
   background-position: center 25%; /* Adjust background position to start from 1/4 of the page */
 }
 
@@ -29,39 +29,40 @@ body, html {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   padding: 20px; /* Add padding for better spacing */
 }
+/* CSS for modern and visually appealing table */
 
 .inventory-table {
-  margin-top: 10px; /* Reduce the margin-top for closer proximity to the heading */
+  margin-top: 20px; /* Add some space at the top */
   width: 100%;
   border-collapse: collapse;
+  background-color: #fff; /* Set background color to white */
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1); /* Add a subtle box shadow */
 }
 
 .inventory-table th {
-  background-color: #f2f2f2;
-  padding: 10px; /* Reduce the padding */
-  text-align: center;
-  border-radius: 10px; /* Reduce the border-radius */
-  font-size: 14px; /* Reduce the font size */
-
-}
-
-.inventory-table tr:nth-child(even) {
-  background-color: #ff; /* Set background color for even rows */
-}
-
-.inventory-table tr:nth-child(odd) {
-  background-color: #F2F6FF; /* Set background color for odd rows */
+  background-color: #4c994c; /* Dark blue background color for header */
+  color: #fff; /* White text color */
+  padding: 5px; /* Add padding */
+  text-align: center; /* Align text to the left */
+  font-size: 14px; /* Increase font size */
+  text-transform: uppercase; /* Convert text to uppercase */
 }
 
 .inventory-table td {
-  padding: 10px; /* Adjust padding for better spacing */
-  font-size: 14px; /* Keep the font size */
-  line-height: 1.2; /* Adjust line height for better readability */
+  padding: 15px; /* Add padding */
+  font-size: 14px; /* Keep font size */
+  border-bottom: 1px solid #f0f0f0; /* Add bottom border */
 }
 
 .inventory-table tr:hover {
-  background-color: #f5f5f5; /* Very light gray */
+  background-color: #f5f5f5; /* Light gray background color on hover */
 }
+
+/* Alternate row background color */
+.inventory-table tr:nth-child(even) {
+  background-color: #f9f9f9; /* Very light gray */
+}
+
 
 .finalize-button {
   padding: 0; /* Remove padding */
@@ -146,42 +147,42 @@ body, html {
 }
 
 .search-container {
+  display: flex;
   flex-direction: column;
   margin-bottom: 2em;
-  padding: 0 1em;
-  border: 1.5px solid #0A1D44; /* Green border */
-  border: 1.5px solid #0A1D44; /* Green border */
-  border-radius: 10px; /* Rounded borders */
-}
-.search-container .search-button {
-  background-color: #0D2D6B; /* Dark blue */
-  border: none;
-  color: white;
-  padding: 10px 20px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 16px;
-  border-radius: 5px; /* Rounded corners for buttons */
-  cursor: pointer;
-  transition: background-color 0.3s ease; /* Smooth transition for hover effect */
-}
-
-.search-container .search-button:hover {
-  background-color: #0A1D44; /* Darker blue on hover */
+  padding: 1em;
+  border: 1.5px solid #0A1D44; /* Dark blue border */
+  border-radius: 25px; /* Rounded borders */
+  background-color: #fff; /* White background */
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1); /* Add a subtle box shadow */
 }
 
 .search-input {
+  flex: 1; /* Take up remaining space */
   color: #333;
-  padding: 0.4em;
-  border: 1px solid #4CAF50;
+  padding: 0.6em 1em; /* Add padding */
+  border: none;
   font-size: 1.5rem;
   border-radius: 25px;
-  width: calc(100% - 17.5em);
-  margin-right: 1em;
-  margin-bottom: 30px;
+  margin-bottom: 1em;
+  outline: none; /* Remove default focus outline */
+}
 
+.search-button {
+  align-self: center; /* Center button horizontally */
+  padding: 10px 20px;
+  background: linear-gradient(to right, #0D2D6B, #0A1D44); /* Gradient background */
+  color: #fff;
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+  font-size: 16px;
+  text-transform: uppercase;
+  transition: background-color 0.3s ease; /* Smooth transition for hover effect */
+}
 
+.search-button:hover {
+  background-color: #0A1D44; /* Darker blue on hover */
 }
 
 
@@ -210,9 +211,33 @@ body, html {
   box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2);
 }
 
+.manual-button {
+  padding: 8px 14px;
+  min-width: 110px; /* Fixed width */
+  height: 25px; /* Fixed height */
+  background: linear-gradient(to right, #4A90E2, #2B71C4); /* Gradient background */
+  color: #fff;
+  border: none;
+  border-radius: 30px;
+  cursor: pointer;
+  font-size: 1.2rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s, box-shadow 0.2s;
+  align-items: center; /* Align items vertically */
+  justify-content: center; /* Align items horizontally */
+  line-height: 1; /* Adjust line height for vertical alignment */
+}
+
+.manual-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2);
+}
+
 .search-button {
   margin-left: 470px;
-  margin-top: 80px;
+  margin-top: 50px;
   margin-bottom: -60px;
   padding: 10px 20px;
 
@@ -325,4 +350,17 @@ body, html {
   .recipe-card {
     width: calc(100% - 40px); /* Adjusted width for responsiveness */
   }
+}
+
+/* CSS for bold uppercase heading */
+.heading {
+  font-weight: bold;
+  text-transform: uppercase;
+  font-size: 20px;
+}
+
+.tip {
+  text-align: center; /* Center align the text */
+  margin-top: 50px;
+  color: #FFA500; /* Bright orange color */
 }
