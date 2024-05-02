@@ -44,12 +44,12 @@ body, html {
   color: #fff; /* White text color */
   padding: 5px; /* Add padding */
   text-align: center; /* Align text to the left */
-  font-size: 14px; /* Increase font size */
+  font-size: 12px; /* Increase font size */
   text-transform: uppercase; /* Convert text to uppercase */
 }
 
 .inventory-table td {
-  padding: 15px; /* Add padding */
+  padding: 5px; /* Add padding */
   font-size: 14px; /* Keep font size */
   border-bottom: 1px solid #f0f0f0; /* Add bottom border */
 }
@@ -64,27 +64,59 @@ body, html {
 }
 
 
+/* Styling for the finalize button */
 .finalize-button {
-  padding: 0; /* Remove padding */
-  background-color: transparent; /* Transparent background */
-  color: #333; /* Set text color */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 5px 10px; /* Increased padding for better visibility */
+  font-family: -apple-system, BlinkMacSystemFont, 'Roboto', sans-serif;
+  border-radius: 8px; /* Slightly rounded border */
   border: none;
-  border-radius: 0; /* No border radius */
+  color: #fff;
+background: linear-gradient(180deg, #7f8c8d 0%, #95a5a6 100%);
+
+  box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.16), 0px 3px 6px rgba(0, 0, 0, 0.23); /* Subtle shadow for depth */
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
   cursor: pointer;
-  margin-left: 450px;
-  margin-right: -410px;
-  font-size: 1.4rem; /* Moderate font size */
+  margin-left: 1px; /* Adjust margin as needed */
+  margin-right: 10px; /* Adjust margin as needed */
+  font-size: 1.1rem; /* Moderate font size */
   font-weight: bold; /* Bold text for emphasis */
-  transition: color 0.3s ease; /* Smooth transition for hover effect */
+  transition: background-color 0.3s ease, color 0.3s ease; /* Smooth transitions */
+  position: relative; /* Positioning for tooltip */
 }
 
+/* Hover effect for finalize button */
 .finalize-button:hover {
-  text-decoration: underline; /* Underline text */
-  color: #555; /* Darker text color on hover */
+  background: linear-gradient(180deg, #34495e 0%, #2c3e50 100%); /* Darker gradient on hover */
+}
+
+/* Styling for the tooltip */
+.finalize-button::after {
+  content: attr(data-hover-text); /* Retrieve hover text from data attribute */
+  position: absolute;
+  top: -30px; /* Position above the button */
+  left: 50%; /* Centered horizontally */
+  transform: translateX(-50%);
+  background-color: #333; /* Dark background color */
+  color: #fff; /* White text color */
+  padding: 5px 10px; /* Padding for the tooltip */
+  border-radius: 5px; /* Rounded corners */
+  font-size: 0.9rem; /* Smaller font size */
+  opacity: 0; /* Initially hidden */
+  transition: opacity 0.3s ease; /* Smooth transition for visibility */
+}
+
+/* Tooltip visibility on hover */
+.finalize-button:hover::after {
+  opacity: 1; /* Show tooltip */
 }
 
 .top-buttons {
-  margin-left: 550px;
+  margin-left: 1000px;
   display: flex;
   text-align: center; /* Align buttons to the center horizontally */
   margin-top: 10px;
@@ -122,6 +154,8 @@ body, html {
   padding: 5px;
   border-radius: 5px;
   margin-bottom: 10px;
+  max-height: 50px; /* Set a maximum height */
+  overflow-y: auto; /* Add vertical scroll when content exceeds the height */
 }
 
 .selected-item {
@@ -187,15 +221,15 @@ body, html {
 
 
 .add-to-search-button {
-  padding: 8px 14px;
-  min-width: 110px; /* Fixed width */
+  padding: 2px 5px;
+  min-width: 30px; /* Fixed width */
   height: 25px; /* Fixed height */
   background: linear-gradient(to right, #A9A9A9, #808080);
   color: #fff;
   border: none;
   border-radius: 30px;
   cursor: pointer;
-  font-size: 1.2rem;
+  font-size: 2rem;
   font-weight: bold;
   text-transform: uppercase;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);

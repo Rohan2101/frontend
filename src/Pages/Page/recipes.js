@@ -34,64 +34,44 @@ export const calculateStatus = (expiryDate) => {
 const SearchBar = ({ onSearch, onInputChange, selectedItems, onRemoveSelected, onAddToSearch }) => {
   const [input, setInput] = useState('');
 
-const handleInputChange = (value) => {
-  // Regular expression to match non-alphabetic characters
-  const regex = /[^a-zA-Z\s]/;
-
-  // Check if the input value contains any non-alphabetic characters
-  if (regex.test(value)) {
-    // Show an alert message indicating invalid input
-    alert('Please enter only alphabetic characters and spaces.');
-
-    // Reset the input value to remove non-alphabetic characters
-    setInput(value.replace(regex, ''));
-
-    // Call the onInputChange function with the modified value
-    onInputChange(value.replace(regex, ''));
-  } else {
-    // If the input value is valid, update the state and call the onInputChange function
+  const handleInputChange = (value) => {
     setInput(value);
     onInputChange(value);
-  }
-};
-
+  };
 
   const handleKeyPress = (e) => {
     if (e.key === 'Enter' && input.trim() !== '') {
-      onSearch();
+      // Add the typed item to the selected items
+      onAddToSearch(input.trim());
+      // Clear the input field
+      setInput('');
     }
   };
 
-  console.log("Input state:", input); // Add this console log
-
   return (
-          <div>
-      <input
-  className="search-input"
-  type="text"
-  placeholder="ex:egg"
-  value={input}
-  onChange={(e) => handleInputChange(e.target.value)}
-  onKeyPress={handleKeyPress}
-/>
-
-            <button className="add-to-search-button" onClick={() => onAddToSearch(input)}>Add</button>
-
-          <div className="search-container">
-      <div className="selected-items-box">
-        {selectedItems.map((item, index) => (
-          <div key={index} className="selected-item">
-            <span>{item}</span>
-            <button onClick={() => onRemoveSelected(item)}>×</button>
-          </div>
-        ))}
-      </div>
-
-
-</div>
-           <div>
-              <button className="search-button" onClick={onSearch}>Generate Recipes</button>
+    <div>
+      <div className="search-container">
+        <div className="selected-items-box">
+          {selectedItems.map((item, index) => (
+            <div key={index} className="selected-item">
+              <span>{item}</span>
+              <button onClick={() => onRemoveSelected(item)}>×</button>
             </div>
+          ))}
+          {/* Editable input field for adding more items */}
+          <input
+            className="search-input"
+            type="text"
+            placeholder="Add extra ingredients..."
+            value={input}
+            onChange={(e) => handleInputChange(e.target.value)}
+            onKeyPress={handleKeyPress}
+          />
+        </div>
+      </div>
+      <div>
+        <button className="search-button" onClick={onSearch}>Generate Recipes</button>
+      </div>
     </div>
   );
 };
@@ -400,8 +380,8 @@ const handleAddToSearch = (itemName) => {
 
         <div className="heading">Meet your personal recipe generator! Get tailored recipes for the items in your inventory, select items below</div>
          <div className="top-buttons">
-          <button className="finalize-button" onClick={finalizeInventory}>Finalize</button>
-          <button className="finalize-button" onClick={handleResetInventory}>Reset</button>
+          <button className="finalize-button"  data-hover-text="Button 1 Hover Text" onClick={finalizeInventory}>Finalize</button>
+          <button className="finalize-button" data-hover-text="Button 2 Hover Text" onClick={handleResetInventory}>Reset</button>
         </div>
         <table className="inventory-table">
           <thead>
@@ -419,7 +399,7 @@ const handleAddToSearch = (itemName) => {
                 <td>{item.amount}</td>
                 <td>{item.status.message}</td> {/* Display status message as text */}
                 <td>
-                  <button className="add-to-search-button" onClick={() => handleAddToSearch(item.name)}>Add</button>
+                  <button className="add-to-search-button" onClick={() => handleAddToSearch(item.name)}>+</button>
                 </td>
               </tr>
             ))}
