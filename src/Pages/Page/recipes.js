@@ -151,6 +151,16 @@ useEffect(() => {
     };
   }, []);
 
+  useEffect(() => {
+  // Check if recipes are loaded
+  if (recipes.length > 0) {
+    // Scroll to the recipe container
+    const recipesContainer = document.getElementById("recipes-container");
+    recipesContainer.scrollIntoView({ behavior: "smooth" });
+  }
+}, [recipes]);
+
+
 const fetchWithBackoff = async (url, options, delay) => {
   const maxRetries = 3; // Maximum number of retries
   let retries = 0;
@@ -380,8 +390,8 @@ const handleAddToSearch = (itemName) => {
 
         <div className="heading">Meet your personal recipe generator! Get tailored recipes for the items in your inventory, select items below</div>
          <div className="top-buttons">
-          <button className="finalize-button"  data-hover-text="Button 1 Hover Text" onClick={finalizeInventory}>Finalize</button>
-          <button className="finalize-button" data-hover-text="Button 2 Hover Text" onClick={handleResetInventory}>Reset</button>
+          <button className="finalize-button"  data-hover-text="Finalize your inventory state if you are happy with your current recipe!" onClick={finalizeInventory}>Finalize</button>
+          <button className="finalize-button" data-hover-text="Remove all ingredients from search and reset the inventory to original state." onClick={handleResetInventory}>Reset</button>
         </div>
         <table className="inventory-table">
           <thead>
@@ -415,14 +425,15 @@ const handleAddToSearch = (itemName) => {
         />
 
       </div>
-        <div class="tip">Tip: Add ingredients that are near expiry to utilize your groceries better</div>
+        <div class="tip"></div>
 
       <div className="App">
-        <div className="recipes-container">
-          {recipes.map((recipe, index) => (
-            <RecipeCard key={index} recipe={recipe} />
-          ))}
-        </div>
+     <div id="recipes-container" className="recipes-container">
+  {recipes.map((recipe, index) => (
+    <RecipeCard key={index} recipe={recipe} />
+  ))}
+</div>
+
       </div>
     </div>
   );

@@ -1,15 +1,18 @@
 /* App.css */
 
-body, html {
+
+.recipe-page {
   margin: 0;
   padding: 0;
   font-family: 'Arial', sans-serif;
   background-color: #f4f4f4;
-  background-image: url('../public/recipebg.avif');
-  background-size: cover;
-  background-repeat: repeat;
-  background-position: center 25%; /* Adjust background position to start from 1/4 of the page */
+  background-image: url('../images/orange1.jpg') !important;
+  background-size: cover; /* Cover the entire container */
+  background-repeat: no-repeat; /* Prevent background from repeating */
+  background-position: center; /* Center the background image */
+  height: 100vh; /* Ensure container covers the entire viewport height */
 }
+
 
 .App {
   text-align: center;
@@ -20,11 +23,11 @@ body, html {
 
 .inventory-container {
   color: black; /* Set text color to black */
-  margin-top: 100px;
+  margin-top: 80px;
   margin-left: auto; /* Center horizontally */
   margin-right: auto; /* Center horizontally */
   max-width: 78%; /* Set maximum width to 90% of the viewport width */
-  background-color: #f9f9f9;
+  background-color: #fffef0;
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   padding: 20px; /* Add padding for better spacing */
@@ -40,8 +43,8 @@ body, html {
 }
 
 .inventory-table th {
-  background-color: #4c994c; /* Dark blue background color for header */
-  color: #fff; /* White text color */
+  background-color: #b1e2b1; /* Dark blue background color for header */
+  color: #333; /* White text color */
   padding: 5px; /* Add padding */
   text-align: center; /* Align text to the left */
   font-size: 12px; /* Increase font size */
@@ -91,7 +94,7 @@ background: linear-gradient(180deg, #7f8c8d 0%, #95a5a6 100%);
 
 /* Hover effect for finalize button */
 .finalize-button:hover {
-  background: linear-gradient(180deg, #34495e 0%, #2c3e50 100%); /* Darker gradient on hover */
+  background: linear-gradient(180deg, #7f8c8d 0%, #95a5a6 100%); /* Adjusted gradient on hover */
 }
 
 /* Styling for the tooltip */
@@ -105,15 +108,21 @@ background: linear-gradient(180deg, #7f8c8d 0%, #95a5a6 100%);
   color: #fff; /* White text color */
   padding: 5px 10px; /* Padding for the tooltip */
   border-radius: 5px; /* Rounded corners */
-  font-size: 0.9rem; /* Smaller font size */
+  font-size: 1rem; /* Smaller font size */
   opacity: 0; /* Initially hidden */
   transition: opacity 0.3s ease; /* Smooth transition for visibility */
+  max-width: 600px; /* Limit width for two lines */
+  white-space: nowrap; /* Prevent text from wrapping */
+  text-overflow: ellipsis; /* Show ellipsis for overflow text */
+  text-align: center; /* Center-align text */
+  line-height: 1.2; /* Adjust line height */
 }
 
 /* Tooltip visibility on hover */
 .finalize-button:hover::after {
   opacity: 1; /* Show tooltip */
 }
+
 
 .top-buttons {
   margin-left: 1000px;
