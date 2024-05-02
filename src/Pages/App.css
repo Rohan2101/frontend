@@ -596,6 +596,35 @@ tr:hover {
 .info-icon {
   cursor: pointer;
 }
+.empty-inventory-message {
+  text-align: center;
+  font-family: 'Comic Sans MS', cursive, sans-serif;
+  color: #006400; /* Bottle Green */
+  padding: 10px;
+  margin-left: 10px;
+  font-size: 20px;
+}
+
+.empty-inventory-message h2 {
+  font-size: 2em;
+  margin-bottom: 10px;
+
+}
+
+.empty-inventory-message p {
+
+  font-size: 1.2em;
+  margin-bottom: 10px;
+}
+
+.empty-cart-image {
+  background-image: url('images/cart.jpeg');
+  width: 200px;
+  height: 200px;
+  margin: 2px auto;
+  background-repeat: no-repeat;
+}
+
 
 
 

@@ -87,7 +87,22 @@ const RecipeCard = ({ recipe }) => {
       <div className="recipe-info">
         <h2 className="recipe-title">{recipe.title}</h2>
         <p className="recipe-instructions">Instructions:</p>
-        <p className="recipe-ingredients">{recipe.instructions}</p>
+<div className="recipe-instructions">
+  {recipe.analyzedInstructions.map((instruction, index) => (
+    <div key={index}>
+      <h4>{instruction.name}</h4>
+      <ol>
+        {instruction.steps.map((step, idx) => (
+          <li key={idx}>
+            <span>{step.number}. </span>
+            {step.step}
+          </li>
+        ))}
+      </ol>
+    </div>
+  ))}
+</div>
+
         <p className="recipe-instructions">Preparation Time (minutes):</p>
         {recipe.preparationMinutes !== -1 ? (
           <p className="recipe-ingredients">{recipe.preparationMinutes}</p>
@@ -415,6 +430,23 @@ const handleAddToSearch = (itemName) => {
             ))}
           </tbody>
         </table>
+        {inventory.length === 0 ? (
+  <React.Fragment>
+
+    <div className="empty-inventory-message">
+      <p>Uh, oh! So empty.</p>
+    </div>
+<div className="message">
+  <p>Log some items in <a href="/inventory">inventory</a> or search recipes by adding ingredients manually below:</p>
+</div>
+
+  </React.Fragment>
+) : (
+  <div>
+    {/* Your existing inventory display logic */}
+  </div>
+)}
+
 
         <SearchBar
           onInputChange={handleInputChange}

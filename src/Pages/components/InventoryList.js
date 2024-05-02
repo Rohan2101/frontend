@@ -133,6 +133,7 @@ const InventoryList = ({ inventory, onEdit, onDelete, togglePopup, onEditingItem
             <th>Actions</th>
           </tr>
         </thead>
+
         <tbody>
           {inventory.map((item) => (
             <tr key={item.id}>
@@ -224,7 +225,21 @@ const InventoryList = ({ inventory, onEdit, onDelete, togglePopup, onEditingItem
             </tr>
           ))}
         </tbody>
+
       </table>
+{inventory.length === 0 ? (
+  <React.Fragment>
+    <div className="empty-cart-image"></div>
+    <div className="empty-inventory-message">
+      <p>Uh, oh! So empty. Time for some grocery shopping :)</p>
+    </div>
+  </React.Fragment>
+) : (
+  <div>
+    {/* Your existing inventory display logic */}
+  </div>
+)}
+
       {showDeleteConfirmation && (
         <div className="delete-confirmation-popup">
           <p>Are you sure you want to delete this item?</p>

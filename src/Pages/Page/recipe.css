@@ -27,7 +27,7 @@
   margin-left: auto; /* Center horizontally */
   margin-right: auto; /* Center horizontally */
   max-width: 78%; /* Set maximum width to 90% of the viewport width */
-  background-color: #fffef0;
+  background-color: rgba(255, 254, 240, 0.7); /* 70% transparent background color */
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   padding: 20px; /* Add padding for better spacing */
@@ -214,7 +214,7 @@ background: linear-gradient(180deg, #7f8c8d 0%, #95a5a6 100%);
 .search-button {
   align-self: center; /* Center button horizontally */
   padding: 10px 20px;
-  background: linear-gradient(to right, #0D2D6B, #0A1D44); /* Gradient background */
+  background: linear-gradient(to right, #FFA07A, #FFB6C1); /* Gradient background */
   color: #fff;
   border: none;
   border-radius: 25px;
@@ -223,6 +223,9 @@ background: linear-gradient(180deg, #7f8c8d 0%, #95a5a6 100%);
   text-transform: uppercase;
   transition: background-color 0.3s ease; /* Smooth transition for hover effect */
 }
+
+
+
 
 .search-button:hover {
   background-color: #0A1D44; /* Darker blue on hover */
@@ -395,12 +398,20 @@ background: linear-gradient(180deg, #7f8c8d 0%, #95a5a6 100%);
   }
 }
 
-/* CSS for bold uppercase heading */
 .heading {
-  font-weight: bold;
   text-transform: uppercase;
-  font-size: 20px;
+  font-size: 22px; /* Increase font size for emphasis */
+  font-family: 'Roboto', sans-serif; /* Change font family to a modern sans-serif font */
+  color: #4CAF50; /* Set a green color */
+  letter-spacing: 0.3px; /* Add some letter spacing for clarity */
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3); /* Add a subtle shadow for depth */
 }
+
+.message{
+font-weight: bold;
+text-align: center;}
+
+
 
 .tip {
   text-align: center; /* Center align the text */
