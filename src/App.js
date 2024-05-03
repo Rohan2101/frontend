@@ -26,7 +26,7 @@ function App() {
   }, []);
 
   const handleLogin = (username, password) => {
-    if (username === "admin" && password === "12345") {
+    if (username === "admin" && password === "Random666#") {
       localStorage.setItem("loggedIn", "true"); // Store login state in localStorage
       setLoggedIn(true);
     } else {
