@@ -1,6 +1,6 @@
 /* Updated App.css */
 
-body, html {
+/* body, html {
   margin: 0;
   padding: 0;
   font-family: 'Arial', sans-serif;
@@ -9,7 +9,7 @@ body, html {
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center 25%; /* Adjust background position to start from 1/4 of the page */
-}
+/*} */
 
 /* Define the blinking animation */
 @keyframes blink-animation {
@@ -24,18 +24,18 @@ body, html {
 }
 
 
-.App {
+/* .App {
   max-width: 1200px;
 
   margin-top: 40px;
   padding: 20px;
   background-color: rgba(255, 255, 255, 0.1); /* Adjust alpha value to make it half transparent */
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-}
+/*} */
 
 
 .toolbar {
-  background-color: #f8f8f8;
+  /* background-color: #f8f8f8; */
   padding: 7px 0;
   display: flex;
   justify-content: space-around;

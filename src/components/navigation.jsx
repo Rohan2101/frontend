@@ -23,7 +23,7 @@ export const Navigation = (props) => {
               <a href="/">
                 <img src={logo} style={{ width: '80px', height: '60px', marginRight: '0px', borderRadius: '50%', padding: '2px', boxShadow: '0px 0px 3px rgba(0, 0, 0, 0.5)', transition: 'box-shadow 0.3s ease', cursor: 'pointer' }} onMouseOver={(e) => { e.currentTarget.style.boxShadow = '0px 0px 20px rgba(0, 0.2, 0.3, 0.8)' }} onMouseOut={(e) => { e.currentTarget.style.boxShadow = '0px 0px 3px rgba(0, 0, 0, 0.5)' }}/>
               </a>
-                <a className="navbar-brand page-scroll" style={{padding: '25px', transition: 'transform 0.3s ease'}} href="/" onMouseOver={(e) => { e.currentTarget.style.transform='scale(1.5)' }} onMouseOut={(e) => { e.currentTarget.style.transform='scale(1)' }}>
+              <a className="navbar-brand page-scroll" style={{ padding: '25px' }} href="/">
               Ecopalette
             </a>{" "}
           </div>
@@ -46,8 +46,14 @@ export const Navigation = (props) => {
             </li>
 
             <li>
-              <a href="/information" className="page-scroll">
-              Information
+              <a href="/information" className="page-scroll"> {/* You will Change "/information" to something */}
+              Reminder
+              </a>
+            </li>
+
+            <li>
+              <a href="/information" className="page-scroll"> {/* You will Change "/information" to something */}
+              Tips
               </a>
             </li>
 

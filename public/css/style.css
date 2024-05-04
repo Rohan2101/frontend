@@ -1,4 +1,4 @@
-body,
+/* body,
 html {
   font-family: "Open Sans", sans-serif;
   text-rendering: optimizeLegibility !important;
@@ -7,7 +7,7 @@ html {
   font-weight: 400;
   width: 100% !important;
   height: 100% !important;
-}
+} */
 h2,
 h3,
 h4 {
@@ -82,8 +82,16 @@ hr {
   align-items: center; /* Align logo and text vertically */
 }
 
-#menu.navbar-default {
+
+
+/* #menu.navbar-default {
   background: linear-gradient(to bottom, #f5f5f5, #e0e0e0);
+  border-color: rgba(8, 7, 7, 0);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
+} */
+
+#menu.navbar-default {
+  background-color: #035828; /* Sustainable green color */
   border-color: rgba(8, 7, 7, 0);
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
 }
@@ -93,19 +101,33 @@ hr {
   font-family: "Raleway", sans-serif;
   font-size: 24px;
   font-weight: 700;
-  color: green;
+  color: white;
   text-transform: uppercase;
 }
-#menu.navbar-default .navbar-nav > li > a {
+
+/* #menu.navbar-default .navbar-nav > li > a {
   font-family: "Lato", sans-serif;
   text-transform: uppercase;
-  color: #191313;
-  font-size: 15px;
+  color: #ffffff; /* Change the color to white */
+  /*font-size: 15px;
   font-weight: 500;
   padding: 8px 2px;
   border-radius: 0;
   margin: 9px 20px 0;
+/*} */
+
+#menu.navbar-default .navbar-nav > li > a {
+  font-family: "Lato", sans-serif;
+  text-transform: capitalize; /* Convert only the first letter to uppercase */
+  font-weight: bold; /* Apply bold font weight */
+  color: #ffffff; /* Change the color to white */
+  font-size: 20px;
+  padding: 8px 2px;
+  border-radius: 0;
+  margin: 9px 20px 0;
 }
+
+
 #menu.navbar-default .navbar-nav > li > a:after {
   display: block;
   position: absolute;
@@ -190,7 +212,7 @@ hr {
   margin-top: 10px;
   margin-bottom: 50px;
 }
-}
+
 
 .btn-custom:hover,
 .btn-custom:focus,
@@ -493,4 +515,42 @@ a:focus,
   margin-right: 10px; /* Add space between the bullet and the text */
   font-size: 1.2em; /* Adjust the size of the bullet icon */
   color: #006633; /* Use bottle green color for the tick marks */
+}
+
+
+
+.intro {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  justify-content: flex-start;
+}
+
+.intro .intro-text {
+  flex: 1;
+  margin: 80;
+  text-align: left;
+}
+
+#about {
+  /* Padding removed */
+}
+
+#services {
+  /* Padding removed */
+  background: linear-gradient(to right, #6372ff 0%, #5ca9fb 100%);
+  color: #fff;
+}
+
+#portfolio {
+  /* Padding removed */
+}
+
+#testimonials {
+  /* Padding removed */
+  background: #f6f6f6;
+}
+
+#team {
+  /* Padding removed */
 }

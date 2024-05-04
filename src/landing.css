@@ -1,60 +1,91 @@
-.App {
-  max-width: 1200px;
-  margin: auto;
-  padding: 20px;
-  background-color: rgba(255, 255, 255, 0.9); /* Adjust alpha value to make it more opaque */
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
-
-.bullets
-{
-color:green;
-} 
-
-
-
-.app {
+/* .app {
   text-align: center;
   color: white;
-}
+} */
 
 .full-width-card {
-  height: 900px; /* Adjust the height as needed */
+  height: 900px;
   display: flex;
   align-items: center;
   justify-content: center;
   background-size: cover;
   background-position: center;
   margin-bottom: 20px;
+  /* background-size: 90%;  */
 }
 
 .full-width-card h1 {
-  font-size: 100px; /* Adjust the font size as needed */
+  font-size: 100px;
 }
 
-.grid-container {
+/********************************************************************************/
+/* .grid-container {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  grid-gap: 10px;
-}
+  grid-template-columns: repeat(4, 1fr); /* Updated to 4 columns */
+  /*grid-gap: 20px; /* Increased gap */
+/*} */
 
-.quarter {
-  height: 700px; /* Increased height */
-  background-size: cover;
+/* .quarter {
+  height: 400px; /* Decreased height */
+  /*background-size: cover;
   background-position: center;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 40px; /* Adjust the font size as needed */
-}
+  font-size: 30px; /* Adjusted font size */
+  /*border-radius: 20px; /* Rounded corners */
+  /*margin: 10px; /* Added margin */
+/*} */
+/********************************************************************************/
 
 .headline-container {
   text-align: center;
   padding: 20px;
-  color: white; /* Adjust text color as needed */
+  color: white;
 }
 
 .subheadline {
-  margin-top: 20px; /* Adjust spacing as needed */
-  /font-size: 30px;
+  margin-top: 20px;
+  font-size: 30px;
 }
+
+/* Fixes the navigation bar at the top */
+/* .nav-bar {
+  position: fixed;
+  width: 100%;
+  top: 0;
+  z-index: 1000; /* Ensures it stays on top of other content */
+/*} */
+
+/* Adds top margin to the main app container */
+.app {
+  margin-top: 60px; /* Adjust this value based on the actual height of your navigation bar */
+  text-align: center;
+  color: white;
+}
+
+.quarter h2 {
+  color: white;
+  font-family: Arial, sans-serif;
+}
+
+
+
+.grid-container {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* Change to 2 columns */
+  grid-gap: 20px;
+}
+
+.quarter {
+  height: 400px; /* Keep as per your previous setting */
+  background-size: cover; /* Ensures the background image covers the entire div */
+  background-position: center; /* Centers the background image */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 30px;
+  border-radius: 20px;
+  margin: 10px;
+}
+

@@ -32,7 +32,7 @@ export const Header = (props) => {
                             to="/inventory"
                             className="btn btn-custom btn-lg page-scroll"
                           >
-                            Explore Inventory
+                            Manage Inventory
                           </Link>
                         )}
                         {index === 1 && (

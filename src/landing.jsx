@@ -19,37 +19,31 @@ export const Landing = () => {
       setLandingPageData(JsonData);
     }, []);
 
-  return (
-    <div className="landing-page"> {/* Apply the landing-page class */}
-      {/* <Header data={landingPageData.Header} /> */}
+    return (
       <div className="app">
-        {/* Full-width Cards */}
         <div className="full-width-card" style={{ backgroundImage: "url('/foodwaste_bin.jpeg')" }}>
           <div className="headline-container">
             <h1>Fight Food Waste</h1>
             <p className="subheadline">Check Out Our Top Picks below</p>
           </div>
         </div>
-
-        {/* Grid Section */}
+  
         <div className="grid-container">
           <div className="quarter" style={{ backgroundImage: "url('/inventory_landing.jpg')" }}>
-            <h2>1. Manage Inventory</h2>
-          </div>
-          <div className="quarter" style={{ backgroundImage: "url('/expiry_landing.jpg')" }}>
-            <h2>2. Track Expiry</h2>
+            <h2>Manage Pantry</h2>
           </div>
           <div className="quarter" style={{ backgroundImage: "url('/recipe_landing.jpg')" }}>
-            <h2>3. Search Recipes</h2>
+            <h2>Search Recipes</h2>
           </div>
-          <div className="quarter" style={{ backgroundImage: "url('/analysis_landing.jpg')" }}>
-            <h2>4. Check Your Behavior</h2>
+          <div className="quarter" style={{ backgroundImage: "url('/expiry_landing.jpg')" }}>
+            <h2>Expiry Reminder</h2>
+          </div>
+          <div className="quarter" style={{ backgroundImage: "url('/preservation_landing.jpg')" }}>
+            <h2>food preservation tips</h2>
           </div>
         </div>
       </div>
-      {/* Include other components like Features, About, Services, Gallery, Testimonials, Team, Contact if needed */}
-    </div>
-  );
+    );
 };
 
 export default Landing;
