@@ -30,7 +30,7 @@ export const Landing = () => {
   
         <div className="grid-container">
           <div className="quarter" style={{ backgroundImage: "url('/inventory_landing.jpg')" }}>
-            <h2>Manage Pantry</h2>
+            <h2>Manage Food Inventory</h2>
           </div>
           <div className="quarter" style={{ backgroundImage: "url('/recipe_landing.jpg')" }}>
             <h2>Search Recipes</h2>
@@ -39,7 +39,7 @@ export const Landing = () => {
             <h2>Expiry Reminder</h2>
           </div>
           <div className="quarter" style={{ backgroundImage: "url('/preservation_landing.jpg')" }}>
-            <h2>food preservation tips</h2>
+            <h2>Food Preservation Tips</h2>
           </div>
         </div>
       </div>
