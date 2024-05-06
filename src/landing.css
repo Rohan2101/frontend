@@ -3,8 +3,8 @@
   color: white;
 } */
 
-.full-width-card {
-  height: 900px;
+/* .full-width-card {
+  height: 600px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -12,11 +12,91 @@
   background-position: center;
   margin-bottom: 20px;
   /* background-size: 90%;  */
+  /*margin-top: 90px; /* Add some top margin to push it down */
+/*} */
+
+/* .full-width-card h1 {
+  font-size: 100px;
+} */
+
+
+/***************************chatgpt*****************************************************/
+.full-width-card {
+  height: 600px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-size: cover;
+  background-position: center;
+  margin-bottom: 20px;
+  margin-top: 90px;
+  position: relative; /* Establish relative positioning for absolute child elements */
 }
 
-.full-width-card h1 {
-  font-size: 100px;
+.full-width-card:before {
+  content: ""; /* Necessary for generating the pseudo-element */
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  /* background: linear-gradient(to bottom, rgba(128,128,128,0.2) 0%, rgba(128,128,128,0.7) 100%); */
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.5) 0%, rgba(0, 0, 0, 0.7) 100%);
+  z-index: 1; /* Ensures the overlay is above the background image but below any content */
 }
+
+/* .full-width-card h1 {
+  position: relative; /* Ensure the text appears above the overlay */
+  /*z-index: 2; /* Higher z-index than the overlay */
+  /*font-size: 100px;
+  color: white; /* Ensure text color is visible on darker backgrounds */
+/*} */
+
+/* .full-width-card h1{ */
+  /* position: relative; /* Ensure the text appears above the overlay */
+  /* z-index: 2; Higher z-index than the overlay */
+  /* font-size: 100px; */
+  /* color: white; Ensure text color is visible on darker backgrounds */
+  /* font-weight: bold; Make the font bold */
+  /* font-family: Arial, sans-serif; Change font type */ 
+/*} 
+
+/* .full-width-card h2 { */
+  /* position: relative; Ensures it's correctly positioned within the parent */
+  /* z-index: 2; Keeps it above the overlay */
+  /* color: white; Ensures text color is visible against a darker background */
+  /* font-size: 30px; Adjust the size as needed */
+  /* font-weight: normal; Adjust the weight as desired */
+  /* font-family: Arial, sans-serif; Ensures consistent font usage */
+  /* text-align: center; Centers the text within the element */
+  /* text-transform: capitalize; */
+  /* padding-top: 20px; Adds spacing between the headlines */
+  /* cursor: pointer; Makes it selectable (clickable) */
+/*}
+*/
+
+.full-width-card h1 {
+  position: relative; /* Ensure the text appears above the overlay */
+  z-index: 2; /* Higher z-index than the overlay */
+  font-size: 100px;
+  color: white; /* Ensure text color is visible on darker backgrounds */
+  font-weight: bold; /* Make the font bold */
+  font-family: Arial, sans-serif; /* Change font type */
+}
+
+.full-width-card h2 {
+  position: relative; /* Ensures it's correctly positioned within the parent */
+  z-index: 2; /* Keeps it above the overlay */
+  color: white; /* Ensures text color is visible against a darker background */
+  font-size: 30px; /* Adjust the size as needed */
+  font-weight: normal; /* Adjust the weight as desired */
+  font-family: Arial, sans-serif; /* Ensures consistent font usage */
+  text-align: center; /* Centers the text within the element */
+  text-transform: capitalize;
+  padding-top: 60px; /* Increased padding-top to push it down more */
+}
+
+
 
 /********************************************************************************/
 /* .grid-container {
@@ -45,9 +125,12 @@
 }
 
 .subheadline {
-  margin-top: 20px;
-  font-size: 30px;
+  color: white;
+  font-size: 24px; /* Adjust font size if needed */
+  text-align: center; /* Center the text */
+  margin-top: 10px; /* Adjust the margin-top value to push it down further */
 }
+
 
 /* Fixes the navigation bar at the top */
 /* .nav-bar {

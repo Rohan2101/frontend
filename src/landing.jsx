@@ -22,9 +22,12 @@ export const Landing = () => {
     return (
       <div className="app">
         <div className="full-width-card" style={{ backgroundImage: "url('/foodwaste_bin.jpeg')" }}>
+          <div className="overlay">
           <div className="headline-container">
             <h1>Fight Food Waste</h1>
-            <p className="subheadline">Check Out Our Top Picks below</p>
+            <h2 class="subheadline">Learn How to Fight Food Waste Below</h2> 
+            {/* <p className="subheadline">Learn How to Fight Food Waste</p> */}
+          </div>
           </div>
         </div>
   
