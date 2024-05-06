@@ -315,7 +315,7 @@ export const Recipes = () => {
                 <td>{item.amount}</td>
                 <td>{item.status.message}</td> {/* Display status message as text */}
                 <td>
-                  <button className="add-to-search-button" onClick={() => handleAddToSearch(item.name)}>Add</button>
+                  <button className="add-to-search-button" onClick={() => handleAddToSearch(item.name)}>+</button>
                 </td>
               </tr>
             ))}

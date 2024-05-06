@@ -22,6 +22,7 @@ export const RecipeCard = ({ recipe }) => {
         <p className="recipe-instructions">Instructions:</p>
         {/* Display recipe instructions */}
         <p className="recipe-ingredients">{recipe.instructions}</p>
+        console.log(recipe.instructions);
         {/* Preparation time */}
         <p className="recipe-instructions">Preparation Time (minutes):</p>
         {/* Display preparation time or message if not available */}
