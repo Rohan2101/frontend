@@ -23,7 +23,7 @@
 
 .inventory-container {
   color: black; /* Set text color to black */
-  margin-top: 80px;
+  margin-top: 8px;
   margin-left: auto; /* Center horizontally */
   margin-right: auto; /* Center horizontally */
   max-width: 78%; /* Set maximum width to 90% of the viewport width */
@@ -384,6 +384,13 @@ background: linear-gradient(180deg, #7f8c8d 0%, #95a5a6 100%);
   text-align: left;
   font-weight: bold;
   color: #333;
+}
+
+.suggestion-box {
+margin-top: 150px;
+    width: 100%; /* Make it cover the whole width of the page */
+    background-color: white; /* Set white background */
+    /* Add any other styling you may need */
 }
 
 

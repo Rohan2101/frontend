@@ -13,6 +13,7 @@ import InventoryList from '../components/InventoryList';
 import React, { useState, useEffect } from 'react';
 import { SearchBar } from './SearchBar';
 import { RecipeCard } from './RecipeCard';
+import { SRecipeCard } from './SRecipeCard';
 import { calculateStatus } from './calculateStatus';
 import { finalizeInventory, handleResetInventory } from './inventoryUtils';
 import { fetchRecipes, fetchRecipeDetails } from './apiUtils';
@@ -22,6 +23,7 @@ export const Recipes = () => {
   // State Variables:
   const [input, setInput] = useState('');
   const [recipes, setRecipes] = useState([]);
+  const [srecipes, setsRecipes] = useState([]);
   const [inventory, setInventory] = useState([]);
   const [selectedItems, setSelectedItems] = useState([]);
   const [pyodideLoaded, setPyodideLoaded] = useState(false);
@@ -68,6 +70,14 @@ export const Recipes = () => {
       document.body.removeChild(script);
     };
   }, []);
+
+ useEffect(() => {
+    // Scroll to the recipe container when recipes are loaded
+    window.scrollTo({
+      top: document.getElementById('recipes-container').offsetTop,
+      behavior: 'smooth', // Optional: Smooth scrolling animation
+    });
+  }, [recipes]); // Run every time recipes state changes
 
   // Function to Fetch with Exponential Backoff:
   const fetchWithBackoff = async (url, options, delay) => {
@@ -207,18 +217,24 @@ export const Recipes = () => {
     }
   };
 
-  // Sample Recipe Data:
+// Within the Recipes component
+
+useEffect(() => {
+  // Define your sample recipes
   const sampleRecipes = [
     { title: 'Egg Salad Sandwich', ingredients: 'Bread, Eggs, Mayonnaise', time: '10 mins', hasIngredients: 'You have 2/3 ingredients', imageUrl: 'placeholder-image.jpg' },
     { title: 'Deviled Eggs', ingredients: 'Eggs, Mayonnaise, Mustard', time: '20 mins', hasIngredients: 'You have all ingredients', imageUrl: 'placeholder-image.jpg' },
-    { title: 'Scrambled Eggs with Toast', ingredients: 'Bread, Eggs, Butter', time: '15 mins', hasIngredients: 'You have all ingredients', imageUrl: 'placeholder-image.jpg' },
-    { title: 'Egg Fried Rice', ingredients: 'Rice, Eggs, Soy Sauce', time: '15 mins', hasIngredients: 'You have 2/3 ingredients', imageUrl: 'placeholder-image.jpg' },
-    { title: 'Egg and Veggie Breakfast Burrito', ingredients: 'Tortilla, Eggs, Bell Peppers', time: '20 mins', hasIngredients: 'You have 2/3 ingredients', imageUrl: 'placeholder-image.jpg' },
-    { title: 'Egg and Spinach Omelette', ingredients: 'Eggs, Spinach, Cheese', time: '10 mins', hasIngredients: 'You have 2/3 ingredients', imageUrl: 'placeholder-image.jpg' },
-    { title: 'Egg McMuffin', ingredients: 'English Muffin, Eggs, Canadian Bacon', time: '15 mins', hasIngredients: 'You have 2/3 ingredients', imageUrl: 'placeholder-image.jpg' },
-    { title: 'Egg and Bacon Breakfast Hash', ingredients: 'Potatoes, Eggs, Bacon', time: '25 mins', hasIngredients: 'You have all ingredients', imageUrl: 'placeholder-image.jpg' },
-    { title: 'Egg and Avocado Toast', ingredients: 'Bread, Eggs, Avocado', time: '10 mins', hasIngredients: 'You have 2/3 ingredients', imageUrl: 'placeholder-image.jpg' }
+    // Add more sample recipes here...
   ];
+
+  // Set the sample recipes
+  setsRecipes(sampleRecipes);
+}, []); // Empty dependency array ensures the effect runs only once on mount
+
+
+
+
+
 
   // Function to Handle Manual Addition to Search:
   const handleAddToSearchManual = (itemName) => {
@@ -294,6 +310,16 @@ export const Recipes = () => {
   // Return JSX:
   return (
     <div className="recipe-page">
+<div className="suggestion-box">
+  Here are some recipe suggestions for you!
+  <div className="recipes-container">
+    {/* Ensure srecipes is populated and map over it */}
+    {srecipes.length > 0 && srecipes.map((sampleRecipe, index) => (
+  <SRecipeCard key={index} recipe={sampleRecipe} />
+))}
+  </div>
+</div>
+
       <div className="inventory-container">
         <div className="top-buttons">
           <button className="finalize-button" onClick={finalizeInventory}>Finalize</button>
@@ -330,11 +356,11 @@ export const Recipes = () => {
         />
       </div>
       <div className="App">
-        <div className="recipes-container">
-          {recipes.map((recipe, index) => (
-            <RecipeCard key={index} recipe={recipe} />
-          ))}
-        </div>
+<div id="recipes-container" className="recipes-container">
+  {recipes.map((recipe, index) => (
+    <RecipeCard key={index} recipe={recipe} />
+  ))}
+</div>
       </div>
     </div>
   );
