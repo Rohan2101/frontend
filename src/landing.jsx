@@ -14,40 +14,44 @@ import SmoothScroll from "smooth-scroll";
 import "./landing.css";
 
 export const Landing = () => {
-    const [landingPageData, setLandingPageData] = useState({});
-    useEffect(() => {
-      setLandingPageData(JsonData);
-    }, []);
+  const [landingPageData, setLandingPageData] = useState({});
+  useEffect(() => {
+    setLandingPageData(JsonData);
+  }, []);
 
-    return (
-      <div className="app">
-        <div className="full-width-card" style={{ backgroundImage: "url('/foodwaste_bin.jpeg')" }}>
-          <div className="overlay">
+  return (
+    <div className="app">
+      <div className="full-width-card" style={{ backgroundImage: "url('/foodwaste_bin.jpeg')" }}>
+        <div className="overlay">
           <div className="headline-container">
-            <h1>Wasting a lot of food?
-We'll help you manage it all!</h1>
-            <h2 class="subheadline">Learn How we help you prevent Food Waste below</h2>
-            {/* <p className="subheadline">Learn How to Fight Food Waste</p> */}
+            <h1>Stop Wasting Food</h1>
+            <h1>Save Money</h1>
           </div>
-          </div>
-        </div>
-  
-        <div className="grid-container">
-          <div className="quarter" style={{ backgroundImage: "url('/inventory_landing.jpg')" }}>
-            <h2>Manage Food Inventory</h2>
-          </div>
-          <div className="quarter" style={{ backgroundImage: "url('/recipe_landing.jpg')" }}>
-            <h2>Search Recipes</h2>
-          </div>
-          <div className="quarter" style={{ backgroundImage: "url('/expiry_landing.jpg')" }}>
-            <h2>Expiry Reminder</h2>
-          </div>
-          <div className="quarter" style={{ backgroundImage: "url('/preservation_landing.jpg')" }}>
-            <h2>Food Preservation Tips</h2>
+          <div className="button-container">
+            <button className="get-started-button">Get Started</button>
           </div>
         </div>
       </div>
-    );
+    </div>
+  );
 };
 
 export default Landing;
+
+  
+      //   <div className="grid-container">
+      //     <div className="quarter" style={{ backgroundImage: "url('/inventory_landing.jpg')" }}>
+      //       <h2>Manage Food Inventory</h2>
+      //     </div>
+      //     <div className="quarter" style={{ backgroundImage: "url('/recipe_landing.jpg')" }}>
+      //       <h2>Search Recipes</h2>
+      //     </div>
+      //     <div className="quarter" style={{ backgroundImage: "url('/expiry_landing.jpg')" }}>
+      //       <h2>Expiry Reminder</h2>
+      //     </div>
+      //     <div className="quarter" style={{ backgroundImage: "url('/preservation_landing.jpg')" }}>
+      //       <h2>Food Preservation Tips</h2>
+      //     </div>
+      //   </div>
+      // </div>
+
