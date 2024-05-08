@@ -13,8 +13,9 @@ export const SRecipeCard = ({ recipe }) => {
       <div className="recipe-info">
         {/* Recipe title */}
         <h2 className="recipe-title">{recipe.title}</h2>
-
         {/* Recipe instructions */}
+         <div className="recipe-instructions">Searched Ingredients: {recipe.searchedIngredients}</div>
+
         <div className="recipe-instructions">
           <h3>Instructions:</h3>
           <ol>

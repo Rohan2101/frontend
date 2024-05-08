@@ -19,9 +19,18 @@ export const RecipeCard = ({ recipe }) => {
         {/* Recipe title */}
         <h2 className="recipe-title">{recipe.title}</h2>
         {/* Recipe instructions */}
-        <p className="recipe-instructions">Instructions:</p>
-        {/* Display recipe instructions */}
-        <p className="recipe-ingredients">{recipe.instructions}</p>
+    {/* Recipe instructions */}
+         <div className="recipe-instructions">Searched Ingredients: {recipe.searchedIngredients}</div>
+
+        <div className="recipe-instructions">
+          <h3>Instructions:</h3>
+          <ol>
+            {recipe.analyzedInstructions.length > 0 ? recipe.analyzedInstructions[0].steps.map((step, index) => (
+              <li key={index}>{`Step ${index + 1}: ${step.step}`}</li>
+            )) : <li>No instructions available</li>}
+          </ol>
+        </div>
+       {/* Display recipe instructions */}
         console.log(recipe.instructions);
         {/* Preparation time */}
         <p className="recipe-instructions">Preparation Time (minutes):</p>

@@ -222,8 +222,15 @@ const handleFetchRecipes = async () => {
 
     // Fetch details for each recipe ID
     const recipeDetails = await Promise.all(recipeIds.map(fetchRecipeDetails));
-    setRecipes(recipeDetails);
-    console.log(recipeDetails);
+
+// Append searched ingredients to each recipe detail
+const recipesWithIngredients = recipeDetails.map((recipeDetail, index) => ({
+  ...recipeDetail,
+  searchedIngredients: input.split(' ').join(', '), // Join ingredients with commas
+}));
+
+    setRecipes(recipesWithIngredients); // Update recipes state with recipes containing searched ingredients
+    console.log("Recipe details:", recipesWithIngredients); // Log the recipe details
 
     // Handle the recipe details as needed, e.g., display them in your application
   } catch (error) {
@@ -327,41 +334,54 @@ const handleFetchRecipes = async () => {
 
 useEffect(() => {
   // Function to get the first 3 ingredients from inventory
-  const getTopIngredients = () => {
-    // Extract the names of the first 3 ingredients, assuming the inventory is already in the desired order
-    console.log("top3", inventory.slice(0, 3).map(item => item.name));
-    return inventory.slice(0, 3).map(item => item.name).join(','); // Join the array elements into a string
-  };
 
-  // Fetch recipes based on the first 3 ingredients
-  const fetchRecipesFromInventory = async () => {
-    try {
-      const topIngredients = getTopIngredients();
-      console.log("Top ingredients:", topIngredients); // Log top ingredients
-      if (topIngredients.length === 0) {
-        console.log("Inventory is empty. No recipes to fetch.");
-        return;
-      }
 
-      const result = await fetchRecipes(topIngredients);
-      console.log("Result:", result); // Log the result
-      if (!result || !Array.isArray(result)) {
-        throw new Error('Invalid response received while fetching recipes');
-      }
+// Fetch Recipes from Inventory:
+const fetchRecipesFromInventory = async () => {
+  try {
+    // Filter out the expired items from the inventory
+    const validItems = inventory.filter(item => calculateStatus(item.expiryDate).status !== 'Expired');
 
-      // Assuming result is an array of objects with recipe IDs
-      const recipeIds = result.map(recipe => recipe.id);
+    // Sort the valid items based on their expiry date, in ascending order
+    validItems.sort((a, b) => new Date(a.expiryDate) - new Date(b.expiryDate));
 
-      // Fetch details for each recipe ID
-      const recipeDetails = await Promise.all(recipeIds.map(fetchRecipeDetails));
-      setsRecipes(recipeDetails);
-      console.log("Recipe details:", recipeDetails); // Log the recipe details
+    // Take the first three items from the sorted list as the ingredients to search for recipes
+    const topIngredients = validItems.slice(0, 3).map(item => item.name); // Don't convert to string yet
+    console.log("Top ingredients:", topIngredients); // Log top ingredients
 
-      // Handle the recipe details as needed, e.g., display them in your application
-    } catch (error) {
-      console.error("Error fetching recipes:", error.message);
+    if (topIngredients.length === 0) {
+      console.log("No non-expired ingredients available. No recipes to fetch.");
+      return;
     }
-  };
+
+    const result = await fetchRecipes(topIngredients.join(',')); // Join ingredients with commas
+    console.log("Result:", result); // Log the result
+
+    if (!result || !Array.isArray(result)) {
+      throw new Error('Invalid response received while fetching recipes');
+    }
+
+    // Assuming result is an array of objects with recipe IDs
+    const recipeIds = result.map(recipe => recipe.id);
+
+    // Fetch details for each recipe ID
+    const recipeDetails = await Promise.all(recipeIds.map(fetchRecipeDetails));
+
+    // Append searched ingredients to each recipe detail
+    const recipesWithIngredients = recipeDetails.map((recipeDetail, index) => ({
+      ...recipeDetail,
+      searchedIngredients: topIngredients.join(', '), // Join ingredients with spaces and commas
+    }));
+
+    setsRecipes(recipesWithIngredients);
+    console.log("Recipe details:", recipesWithIngredients); // Log the recipe details
+
+    // Handle the recipe details as needed, e.g., display them in your application
+  } catch (error) {
+    console.error("Error fetching recipes:", error.message);
+  }
+};
+
 
   // Call the function to fetch recipes from inventory only when Pyodide is loaded
   if (pyodideLoaded) {
@@ -402,6 +422,7 @@ useEffect(() => {
           <button className="finalize-button" onClick={finalizeInventory}>Finalize</button>
           <button className="finalize-button" onClick={handleResetInventory}>Reset</button>
         </div>
+        <div className="inventory-search-container">
         <table className="inventory-table">
           <thead>
             <tr>
@@ -424,6 +445,9 @@ useEffect(() => {
             ))}
           </tbody>
         </table>
+<h1 className="partition-button">&rarr;</h1>
+
+
         <SearchBar
           onInputChange={handleInputChange}
           onSearch={handleFetchRecipes}
@@ -431,6 +455,7 @@ useEffect(() => {
           onRemoveSelected={handleRemoveSelected}
           onAddToSearch={handleAddToSearchManual}
         />
+      </div>
       </div>
       <div className="App">
 <div id="recipes-container" className="recipes-container">

@@ -29,6 +29,7 @@ export const SearchBar = ({ onSearch, onInputChange, selectedItems, onRemoveSele
 
   return (
     <div>
+        <div>
       <div className="search-container">
         <div className="selected-items-box">
           {selectedItems.map((item, index) => (
@@ -47,9 +48,12 @@ export const SearchBar = ({ onSearch, onInputChange, selectedItems, onRemoveSele
             onKeyPress={handleKeyPress}
           />
         </div>
+                <button className="search-button" onClick={onSearch}>Generate Recipes</button>
+
       </div>
-      <div>
-        <button className="search-button" onClick={onSearch}>Generate Recipes</button>
+
+    </div>
+          <div>
       </div>
     </div>
   );
