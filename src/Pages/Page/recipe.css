@@ -1,137 +1,127 @@
 /* App.css */
 
-
 .recipe-page {
   margin: 0;
   padding: 0;
   font-family: 'Arial', sans-serif;
   background-color: #f4f4f4;
   background-image: url('../images/orange1.jpg') !important;
-  background-size: cover; /* Cover the entire container */
-  background-repeat: no-repeat; /* Prevent background from repeating */
-  background-position: center; /* Center the background image */
-  height: 100vh; /* Ensure container covers the entire viewport height */
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  height: 100vh;
 }
-
 
 .App {
   text-align: center;
   font-family: 'Arial', sans-serif;
-  padding: 1em; /* Adds space on all edges of the app */
-  background-color: #f7f7f7; /* Optional: Sets a background color for the app */
+  padding: 1em;
+  background-color: #f7f7f7;
 }
 
 .inventory-container {
-  color: black; /* Set text color to black */
-  margin-top: 8px;
-  margin-left: auto; /* Center horizontally */
-  margin-right: auto; /* Center horizontally */
-  max-width: 78%; /* Set maximum width to 90% of the viewport width */
-  background-color: rgba(255, 254, 240, 0.7); /* 70% transparent background color */
+  color: black;
+  margin-top: 0px;
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 100%;
+  background-color: rgba(255, 254, 240, 0.7);
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  padding: 20px; /* Add padding for better spacing */
+  padding: 20px;
 }
+
 /* CSS for modern and visually appealing table */
 
 .inventory-table {
-  margin-top: 20px; /* Add some space at the top */
+  margin-top: 20px;
   width: 100%;
   border-collapse: collapse;
-  background-color: #fff; /* Set background color to white */
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1); /* Add a subtle box shadow */
+  background-color: #fff;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
 }
 
 .inventory-table th {
-  background-color: #b1e2b1; /* Dark blue background color for header */
-  color: #333; /* White text color */
-  padding: 5px; /* Add padding */
-  text-align: center; /* Align text to the left */
-  font-size: 12px; /* Increase font size */
-  text-transform: uppercase; /* Convert text to uppercase */
+  background-color: #b1e2b1;
+  color: #333;
+  padding: 5px;
+  text-align: center;
+  font-size: 12px;
+  text-transform: uppercase;
 }
 
 .inventory-table td {
-  padding: 5px; /* Add padding */
-  font-size: 14px; /* Keep font size */
-  border-bottom: 1px solid #f0f0f0; /* Add bottom border */
+  padding: 5px;
+  font-size: 14px;
+  border-bottom: 1px solid #f0f0f0;
 }
 
 .inventory-table tr:hover {
-  background-color: #f5f5f5; /* Light gray background color on hover */
+  background-color: #f5f5f5;
 }
 
-/* Alternate row background color */
 .inventory-table tr:nth-child(even) {
-  background-color: #f9f9f9; /* Very light gray */
+  background-color: #f9f9f9;
 }
 
-
-/* Styling for the finalize button */
 .finalize-button {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 5px 10px; /* Increased padding for better visibility */
+  padding: 5px 10px;
   font-family: -apple-system, BlinkMacSystemFont, 'Roboto', sans-serif;
-  border-radius: 8px; /* Slightly rounded border */
+  border-radius: 8px;
   border: none;
   color: #fff;
-background: linear-gradient(180deg, #7f8c8d 0%, #95a5a6 100%);
-
-  box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.16), 0px 3px 6px rgba(0, 0, 0, 0.23); /* Subtle shadow for depth */
+  background: linear-gradient(180deg, #7f8c8d 0%, #95a5a6 100%);
+  box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.16), 0px 3px 6px rgba(0, 0, 0, 0.23);
   user-select: none;
   -webkit-user-select: none;
   touch-action: manipulation;
   cursor: pointer;
-  margin-left: 1px; /* Adjust margin as needed */
-  margin-right: 10px; /* Adjust margin as needed */
-  font-size: 1.1rem; /* Moderate font size */
-  font-weight: bold; /* Bold text for emphasis */
-  transition: background-color 0.3s ease, color 0.3s ease; /* Smooth transitions */
-  position: relative; /* Positioning for tooltip */
+  margin-left: 1px;
+  margin-right: 10px;
+  font-size: 1.1rem;
+  font-weight: bold;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  position: relative;
 }
 
-/* Hover effect for finalize button */
 .finalize-button:hover {
-  background: linear-gradient(180deg, #7f8c8d 0%, #95a5a6 100%); /* Adjusted gradient on hover */
+  background: linear-gradient(180deg, #7f8c8d 0%, #95a5a6 100%);
 }
 
-/* Styling for the tooltip */
 .finalize-button::after {
-  content: attr(data-hover-text); /* Retrieve hover text from data attribute */
+  content: attr(data-hover-text);
   position: absolute;
-  top: -30px; /* Position above the button */
-  left: 50%; /* Centered horizontally */
+  top: -30px;
+  left: 50%;
   transform: translateX(-50%);
-  background-color: #333; /* Dark background color */
-  color: #fff; /* White text color */
-  padding: 5px 10px; /* Padding for the tooltip */
-  border-radius: 5px; /* Rounded corners */
-  font-size: 1rem; /* Smaller font size */
-  opacity: 0; /* Initially hidden */
-  transition: opacity 0.3s ease; /* Smooth transition for visibility */
-  max-width: 600px; /* Limit width for two lines */
-  white-space: nowrap; /* Prevent text from wrapping */
-  text-overflow: ellipsis; /* Show ellipsis for overflow text */
-  text-align: center; /* Center-align text */
-  line-height: 1.2; /* Adjust line height */
+  background-color: #333;
+  color: #fff;
+  padding: 5px 10px;
+  border-radius: 5px;
+  font-size: 1rem;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  max-width: 600px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  text-align: center;
+  line-height: 1.2;
 }
 
-/* Tooltip visibility on hover */
 .finalize-button:hover::after {
-  opacity: 1; /* Show tooltip */
+  opacity: 1;
 }
-
 
 .top-buttons {
   margin-left: 1000px;
   display: flex;
-  text-align: center; /* Align buttons to the center horizontally */
+  text-align: center;
   margin-top: 10px;
 }
 
-/* Styles for status images */
 .status-image {
   width: 55px;
   height: auto;
@@ -154,8 +144,6 @@ background: linear-gradient(180deg, #7f8c8d 0%, #95a5a6 100%);
   background-color: #45a049;
 }
 
-
-
 .selected-items-box {
   display: flex;
   flex-wrap: wrap;
@@ -163,8 +151,8 @@ background: linear-gradient(180deg, #7f8c8d 0%, #95a5a6 100%);
   padding: 5px;
   border-radius: 5px;
   margin-bottom: 10px;
-  max-height: 50px; /* Set a maximum height */
-  overflow-y: auto; /* Add vertical scroll when content exceeds the height */
+  max-height: 50px;
+  overflow-y: auto;
 }
 
 .selected-item {
@@ -194,48 +182,51 @@ background: linear-gradient(180deg, #7f8c8d 0%, #95a5a6 100%);
   flex-direction: column;
   margin-bottom: 2em;
   padding: 1em;
-  border: 1.5px solid #0A1D44; /* Dark blue border */
-  border-radius: 25px; /* Rounded borders */
-  background-color: #fff; /* White background */
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1); /* Add a subtle box shadow */
+  border: 1.5px solid #0A1D44;
+  border-radius: 25px;
+  background-color: #fff;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
 }
 
 .search-input {
-  flex: 1; /* Take up remaining space */
+  flex: 1;
   color: #333;
-  padding: 0.6em 1em; /* Add padding */
+  padding: 0.6em 1em;
   border: none;
   font-size: 1.5rem;
   border-radius: 25px;
   margin-bottom: 1em;
-  outline: none; /* Remove default focus outline */
+  outline: none;
+
 }
 
 .search-button {
-  align-self: center; /* Center button horizontally */
+  /* Remove the margin-left property */
+  margin-top: 50px; /* Keep the margin-top property */
+  margin-bottom: -40px; /* Keep the margin-bottom property */
   padding: 10px 20px;
-  background: linear-gradient(to right, #FFA07A, #FFB6C1); /* Gradient background */
+  background: linear-gradient(to right, #0d47a1, #0d47a1);
   color: #fff;
   border: none;
   border-radius: 25px;
   cursor: pointer;
-  font-size: 16px;
-  text-transform: uppercase;
-  transition: background-color 0.3s ease; /* Smooth transition for hover effect */
+  font-size: 1.5rem;
+  font-weight: bold;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.3s ease, transform 0.2s, box-shadow 0.2s;
 }
 
-
-
-
 .search-button:hover {
-  background-color: #0A1D44; /* Darker blue on hover */
+  background-color: #0d47a1;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2);
 }
 
 
 .add-to-search-button {
   padding: 2px 5px;
-  min-width: 30px; /* Fixed width */
-  height: 25px; /* Fixed height */
+  min-width: 30px;
+  height: 25px;
   background: linear-gradient(to right, #A9A9A9, #808080);
   color: #fff;
   border: none;
@@ -246,10 +237,9 @@ background: linear-gradient(180deg, #7f8c8d 0%, #95a5a6 100%);
   text-transform: uppercase;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   transition: transform 0.2s, box-shadow 0.2s;
-    align-items: center; /* Align items vertically */
-  justify-content: center; /* Align items horizontally */
-  line-height: 1; /* Adjust line height for vertical alignment */
-
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
 }
 
 .add-to-search-button:hover {
@@ -259,9 +249,9 @@ background: linear-gradient(180deg, #7f8c8d 0%, #95a5a6 100%);
 
 .manual-button {
   padding: 8px 14px;
-  min-width: 110px; /* Fixed width */
-  height: 25px; /* Fixed height */
-  background: linear-gradient(to right, #4A90E2, #2B71C4); /* Gradient background */
+  min-width: 110px;
+  height: 25px;
+  background: linear-gradient(to right, #4A90E2, #2B71C4);
   color: #fff;
   border: none;
   border-radius: 30px;
@@ -271,9 +261,9 @@ background: linear-gradient(180deg, #7f8c8d 0%, #95a5a6 100%);
   text-transform: uppercase;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   transition: transform 0.2s, box-shadow 0.2s;
-  align-items: center; /* Align items vertically */
-  justify-content: center; /* Align items horizontally */
-  line-height: 1; /* Adjust line height for vertical alignment */
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
 }
 
 .manual-button:hover {
@@ -286,17 +276,13 @@ background: linear-gradient(180deg, #7f8c8d 0%, #95a5a6 100%);
   margin-top: 50px;
   margin-bottom: -60px;
   padding: 10px 20px;
-
-   background: linear-gradient(to right, #5D4E157, #7CB342);
-
-
+  background: linear-gradient(to right, #5D4E157, #7CB342);
   color: #fff;
   border: none;
   border-radius: 25px;
   cursor: pointer;
   font-size: 1.5rem;
   font-weight: bold;
-  text-transform: uppercase;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   transition: background-color 0.3s ease, transform 0.2s, box-shadow 0.2s;
 }
@@ -312,21 +298,32 @@ background: linear-gradient(180deg, #7f8c8d 0%, #95a5a6 100%);
   flex-wrap: wrap;
   justify-content: space-around;
   padding: 0;
-  margin-top: 1px; /* Moved from previous section */
+  margin-top: 1px;
 }
+
+.recipe-header {
+background-color: rgba(255, 192, 203, 0.08); /* Light pink color with transparency */
+  padding: 25px;
+  border-bottom: 2px solid #e9ecef;
+  text-align: center;
+  font-size: 30px;
+  font-weight: bold;
+  color: #5c7a77;
+}
+
 
 .recipe-card {
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 350px; /* Adjusted width */
+  width: 350px;
   background-color: #fff;
   border-radius: 10px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-  margin: 20px; /* Adjusted margin for better spacing */
-  overflow: hidden; /* Ensures content fits within the borders */
-  margin-top: 20px; /* Adjusted margin */
-  margin-bottom: 20px; /* Adjusted margin */
+  margin: 20px;
+  overflow: hidden;
+  margin-top: 20px;
+  margin-bottom: 20px;
 }
 
 .recipe-image-placeholder {
@@ -351,6 +348,57 @@ background: linear-gradient(180deg, #7f8c8d 0%, #95a5a6 100%);
 }
 
 .recipe-time {
+  font-size: 1rem;
+  color: #777;
+}
+
+.srecipes-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center; /* Center the cards horizontally */
+  align-items: flex-start; /* Align the cards to the top */
+  background-color: #000435;
+  padding: 20px; /* Add some padding */
+}
+
+.srecipe-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 320px; /* Adjust the width as needed */
+  height: 450px; /* Allow height to adjust based on content */
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  margin: 5px;
+  overflow: scroll;
+}
+
+.srecipe-card img {
+  width: 100%;
+  height: auto;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+}
+
+.srecipe-info {
+  padding: 20px;
+  text-align: left;
+}
+
+.srecipe-title {
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+  color: #333;
+}
+
+.srecipe-ingredients {
+  font-size: 1.1rem;
+  margin-bottom: 10px;
+  color: #777;
+}
+
+.srecipe-time {
   font-size: 1rem;
   color: #777;
 }
@@ -387,42 +435,51 @@ background: linear-gradient(180deg, #7f8c8d 0%, #95a5a6 100%);
 }
 
 .suggestion-box {
-margin-top: 150px;
-    width: 100%; /* Make it cover the whole width of the page */
-    background-color: white; /* Set white background */
-    /* Add any other styling you may need */
+  margin-top: 100px;
+  width: 100%;
+  background-color: white;
 }
-
 
 @media (max-width: 768px) {
   .recipe-card {
-    width: calc(50% - 20px); /* Adjusted width for responsiveness */
+    width: calc(50% - 20px);
   }
 }
 
 @media (max-width: 480px) {
   .recipe-card {
-    width: calc(100% - 40px); /* Adjusted width for responsiveness */
+    width: calc(100% - 40px);
   }
 }
 
 .heading {
   text-transform: uppercase;
-  font-size: 22px; /* Increase font size for emphasis */
-  font-family: 'Roboto', sans-serif; /* Change font family to a modern sans-serif font */
-  color: #4CAF50; /* Set a green color */
-  letter-spacing: 0.3px; /* Add some letter spacing for clarity */
-  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3); /* Add a subtle shadow for depth */
+  font-size: 22px;
+  font-family: 'Roboto', sans-serif;
+  color: #4CAF50;
+  letter-spacing: 0.3px;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
 }
 
-.message{
-font-weight: bold;
-text-align: center;}
-
-
+.message {
+  font-weight: bold;
+  text-align: center;
+}
 
 .tip {
-  text-align: center; /* Center align the text */
+  text-align: center;
   margin-top: 50px;
-  color: #FFA500; /* Bright orange color */
+  color: #FFA500;
+}
+
+.previous-next {
+  margin-top: 220px;
+  background-color: transparent;
+  color: white;
+  font-size: 50px;
+  border: none;
+}
+
+.previous-next:disabled {
+  color: gray; /* Change font color to gray when disabled */
 }

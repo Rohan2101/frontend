@@ -28,7 +28,23 @@ export const Recipes = () => {
   const [selectedItems, setSelectedItems] = useState([]);
   const [pyodideLoaded, setPyodideLoaded] = useState(false);
   const [displayedInventory, setDisplayedInventory] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const recipesPerPage = 4;
 
+
+  const handleNextPage = () => {
+    setCurrentPage(prevPage => prevPage + 1);
+  };
+
+  const handlePrevPage = () => {
+    setCurrentPage(prevPage => Math.max(1, prevPage - 1));
+  };
+
+  const indexOfLastRecipe = currentPage * recipesPerPage;
+  const indexOfFirstRecipe = indexOfLastRecipe - recipesPerPage;
+
+  // Slice the recipes array to display only the recipes for the current page
+  const displayedRecipes = srecipes.slice(indexOfFirstRecipe, indexOfLastRecipe);
   // Input Change Handler:
   const handleInputChange = (value) => {
     setInput(value);
@@ -98,54 +114,63 @@ export const Recipes = () => {
     }
   };
 
-  // Function to Fetch Recipes:
-  const fetchRecipes = async () => {
-    if (!pyodideLoaded) return; // Exit if pyodide is not loaded
+// Function to Fetch Recipes:
+const fetchRecipes = async (ingredientsString = '') => {
+  if (!pyodideLoaded) return; // Exit if pyodide is not loaded
 
-    const baseUrl = "https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/recipes/findByIngredients";
-    const apiKey = "590374f09cmshedcb45928ac60bap18e369jsn8f0c8e3fe0a0";
-    const ingredients = selectedItems;
-    const number = 15;
-    const ranking = 1;
-    const ignorePantry = true;
+  let ingredients;
+  if (ingredientsString.trim() !== '') {
+    // If ingredientsString is not empty, split it by comma to get an array of ingredients
+    ingredients = ingredientsString.split(',');
+    console.log("ing:", ingredients);
+  } else {
+    // Otherwise, default to using selectedItems
+    ingredients = selectedItems;
+  }
 
-    const queryParams = new URLSearchParams({
-      ingredients: ingredients.join(','),
-      number: number,
-      ranking: ranking,
-      ignorePantry: ignorePantry
-    });
+  const baseUrl = "https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/recipes/findByIngredients";
+  const apiKey = "590374f09cmshedcb45928ac60bap18e369jsn8f0c8e3fe0a0";
+  const number = 15;
+  const ranking = 1;
+  const ignorePantry = true;
 
-    const url = `${baseUrl}?${queryParams}`;
+  const queryParams = new URLSearchParams({
+    ingredients: ingredients.join(','),
+    number: number,
+    ranking: ranking,
+    ignorePantry: ignorePantry
+  });
 
-    const headers = {
-      "X-RapidAPI-Key": apiKey,
-      "X-RapidAPI-Host": "spoonacular-recipe-food-nutrition-v1.p.rapidapi.com"
-    };
+  const url = `${baseUrl}?${queryParams}`;
 
-    const options = {
-      method: 'GET',
-      headers: headers
-    };
-
-    try {
-      const response = await fetchWithBackoff(url, options, 1000); // Initial delay of 1 second
-      console.log("Response status:", response.status); // Log the response status
-      if (!response.ok) {
-        if (response.status === 429) {
-          throw new Error('Too many requests');
-        } else {
-          throw new Error('Failed to fetch data');
-        }
-      }
-      const data = await response.json();
-      console.log("Response data:", data); // Log the response data
-      return data;
-    } catch (error) {
-      console.error("Error fetching recipes:", error.message);
-      throw error;
-    }
+  const headers = {
+    "X-RapidAPI-Key": apiKey,
+    "X-RapidAPI-Host": "spoonacular-recipe-food-nutrition-v1.p.rapidapi.com"
   };
+
+  const options = {
+    method: 'GET',
+    headers: headers
+  };
+
+  try {
+    const response = await fetchWithBackoff(url, options, 1000); // Initial delay of 1 second
+    console.log("Response status:", response.status); // Log the response status
+    if (!response.ok) {
+      if (response.status === 429) {
+        throw new Error('Too many requests');
+      } else {
+        throw new Error('Failed to fetch data');
+      }
+    }
+    const data = await response.json();
+    console.log("Response data:", data); // Log the response data
+    return data;
+  } catch (error) {
+    console.error("Error fetching recipes:", error.message);
+    throw error;
+  }
+};
 
   // Function to Fetch Recipe Details:
   const fetchRecipeDetails = async (recipeId) => {
@@ -184,24 +209,28 @@ export const Recipes = () => {
   };
 
   // Function to Handle Fetching Recipes:
-  const handleFetchRecipes = async () => {
-    try {
-      const result = await fetchRecipes();
-      console.log(result);
-
-      // Assuming result is an array of objects with recipe IDs
-      const recipeIds = result.map(recipe => recipe.id);
-
-      // Fetch details for each recipe ID
-      const recipeDetails = await Promise.all(recipeIds.map(fetchRecipeDetails));
-      setRecipes(recipeDetails);
-      console.log(recipeDetails);
-
-      // Handle the recipe details as needed, e.g., display them in your application
-    } catch (error) {
-      console.error("Error fetching recipes:", error.message);
+// Function to Handle Fetching Recipes:
+const handleFetchRecipes = async () => {
+  try {
+    const result = await fetchRecipes();
+    if (!result || !Array.isArray(result)) {
+      throw new Error('Invalid response received while fetching recipes');
     }
-  };
+
+    // Assuming result is an array of objects with recipe IDs
+    const recipeIds = result.map(recipe => recipe.id);
+
+    // Fetch details for each recipe ID
+    const recipeDetails = await Promise.all(recipeIds.map(fetchRecipeDetails));
+    setRecipes(recipeDetails);
+    console.log(recipeDetails);
+
+    // Handle the recipe details as needed, e.g., display them in your application
+  } catch (error) {
+    console.error("Error fetching recipes:", error.message);
+  }
+};
+
 
   // Function to Finalize Inventory:
   const finalizeInventory = () => {
@@ -217,19 +246,7 @@ export const Recipes = () => {
     }
   };
 
-// Within the Recipes component
 
-useEffect(() => {
-  // Define your sample recipes
-  const sampleRecipes = [
-    { title: 'Egg Salad Sandwich', ingredients: 'Bread, Eggs, Mayonnaise', time: '10 mins', hasIngredients: 'You have 2/3 ingredients', imageUrl: 'placeholder-image.jpg' },
-    { title: 'Deviled Eggs', ingredients: 'Eggs, Mayonnaise, Mustard', time: '20 mins', hasIngredients: 'You have all ingredients', imageUrl: 'placeholder-image.jpg' },
-    // Add more sample recipes here...
-  ];
-
-  // Set the sample recipes
-  setsRecipes(sampleRecipes);
-}, []); // Empty dependency array ensures the effect runs only once on mount
 
 
 
@@ -307,20 +324,80 @@ useEffect(() => {
     setInput(prevInput => prevInput.replace(itemName, '').trim()); // Remove the item name from the search bar input
   };
 
+
+useEffect(() => {
+  // Function to get the first 3 ingredients from inventory
+  const getTopIngredients = () => {
+    // Extract the names of the first 3 ingredients, assuming the inventory is already in the desired order
+    console.log("top3", inventory.slice(0, 3).map(item => item.name));
+    return inventory.slice(0, 3).map(item => item.name).join(','); // Join the array elements into a string
+  };
+
+  // Fetch recipes based on the first 3 ingredients
+  const fetchRecipesFromInventory = async () => {
+    try {
+      const topIngredients = getTopIngredients();
+      console.log("Top ingredients:", topIngredients); // Log top ingredients
+      if (topIngredients.length === 0) {
+        console.log("Inventory is empty. No recipes to fetch.");
+        return;
+      }
+
+      const result = await fetchRecipes(topIngredients);
+      console.log("Result:", result); // Log the result
+      if (!result || !Array.isArray(result)) {
+        throw new Error('Invalid response received while fetching recipes');
+      }
+
+      // Assuming result is an array of objects with recipe IDs
+      const recipeIds = result.map(recipe => recipe.id);
+
+      // Fetch details for each recipe ID
+      const recipeDetails = await Promise.all(recipeIds.map(fetchRecipeDetails));
+      setsRecipes(recipeDetails);
+      console.log("Recipe details:", recipeDetails); // Log the recipe details
+
+      // Handle the recipe details as needed, e.g., display them in your application
+    } catch (error) {
+      console.error("Error fetching recipes:", error.message);
+    }
+  };
+
+  // Call the function to fetch recipes from inventory only when Pyodide is loaded
+  if (pyodideLoaded) {
+    fetchRecipesFromInventory();
+  }
+}, [inventory, pyodideLoaded]); // Dependency on inventory ensures the effect runs whenever inventory changes, and pyodideLoaded ensures it runs only when Pyodide is loaded
+
   // Return JSX:
   return (
     <div className="recipe-page">
 <div className="suggestion-box">
-  Here are some recipe suggestions for you!
-  <div className="recipes-container">
-    {/* Ensure srecipes is populated and map over it */}
-    {srecipes.length > 0 && srecipes.map((sampleRecipe, index) => (
-  <SRecipeCard key={index} recipe={sampleRecipe} />
-))}
-  </div>
-</div>
+      <div className="recipe-header">  Here are some recipe suggestions for you! </div>
 
+  <div>
+      <div className="srecipes-container">
+<button className="previous-next" onClick={handlePrevPage} disabled={currentPage === 1}>
+  &lt; {/* Display the < character */}
+</button>
+
+
+        {/* Ensure srecipes is populated and map over the recipes for the current page */}
+        {displayedRecipes.length > 0 && displayedRecipes.map((sampleRecipe, index) => (
+          <SRecipeCard key={index} recipe={sampleRecipe} />
+        ))}
+<button className="previous-next" onClick={handleNextPage} disabled={indexOfLastRecipe >= srecipes.length}>
+  &gt; {/* Display the > character */}
+</button>
+      </div>
+
+    </div>
+     <div className="recipe-header">  Didn't suit your palette? Try generating some more recipes below</div>
+
+</div>
       <div className="inventory-container">
+
+
         <div className="top-buttons">
           <button className="finalize-button" onClick={finalizeInventory}>Finalize</button>
           <button className="finalize-button" onClick={handleResetInventory}>Reset</button>
