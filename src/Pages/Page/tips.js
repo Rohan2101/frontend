@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import './information.css';
+import './tips.css';
+
 import AUMap from './au-map';
 import { motion, useAnimation } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
@@ -153,7 +154,7 @@ const FoodJourneyAnimation = () => {
 
 
 // integrate Map and Food Journey to Information Page
-export const Information = () => {
+export const Tips = () => {
   const [selectedState, setSelectedState] = useState(null);
   const [newsLinks, setNewsLinks] = useState([]);
   const [activeSection, setActiveSection] = useState('journey');

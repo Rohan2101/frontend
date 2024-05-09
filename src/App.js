@@ -6,7 +6,8 @@ import { LoginPage } from "./LoginPage";
 import SmoothScroll from "smooth-scroll";
 import { Maininventory } from "./Pages/inventory";
 import { Recipes } from "./Pages/Page/recipes";
-import { Information } from "./Pages/Page/information";
+import { Tips } from "./Pages/Page/tips";
+
 import { Knowledge } from "./Pages/Page/knowledge";
 import { Recycling } from "./Pages/Page/recycling";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
@@ -68,10 +69,10 @@ function App() {
             />
             <Route
               exact
-              path="/information"
+              path="/tips"
               element={
                 <div style={{ width: "100%", height: "100%" }}>
-                  <Information />
+                  <Tips />
                 </div>
               }
             />
