@@ -310,5 +310,5 @@ give me other better idea of color of this:
 }
 
 .get-started-button:hover {
-  background: linear-gradient(135deg, #8BC34A 0%, #4CAF50 100%); /* Gradient from lighter to base color */
+  background: linear-gradient(90deg, #8BC34A 0%, #4CAF50 50%, #8BC34A 100%); /* Gradient from lighter to base color */
 }

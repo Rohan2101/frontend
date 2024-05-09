@@ -9,7 +9,7 @@
 
 // Imports:
 import './recipe.css';
-import InventoryList from '../components/InventoryList';
+import InventoryList from './InventoryList';
 import React, { useState, useEffect } from 'react';
 import { SearchBar } from './SearchBar';
 import { RecipeCard } from './RecipeCard';
