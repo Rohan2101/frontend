@@ -4,7 +4,7 @@ import { Contact } from "./components/contact";
 import { Landing } from "./landing";
 import { LoginPage } from "./LoginPage";
 import SmoothScroll from "smooth-scroll";
-import { Maininventory } from "./Pages/inventory";
+import { Maininventory } from "./Pages/Page/inventory";
 import { Recipes } from "./Pages/Page/recipes";
 import { Information } from "./Pages/Page/information";
 import { Knowledge } from "./Pages/Page/knowledge";
