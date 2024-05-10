@@ -30,25 +30,23 @@
   margin-top: 40px;
   padding: 20px;
   background-color: rgba(255, 255, 255, 0.1); /* Adjust alpha value to make it half transparent */
-  /* box-shadow: 0 0 10px rgba(0, 0, 0, 0.3); */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
 /*} */
 
 
-
-
-/* .toolbar {
-  background-color: #f8f8f8;
+.toolbar {
+  /* background-color: #f8f8f8; */
   padding: 7px 0;
   display: flex;
   justify-content: space-around;
-} */
+}
 
-/* .toolbardiv {
+.toolbardiv {
   padding-right: 0;
   padding-left: 15px;
   display: flex;
   justify-content: space-around;
-} */
+}
 
 .action-button {
   background: none;
@@ -120,11 +118,11 @@ header {
 
 table {
   width: 100%;
-  border-collapse: collapse;
-  margin-top: 60px;  /* Increased from -60px or whatever it was previously */
+  border-collapse: collapse; /* Corrected spelling mistake */
+  margin-top: -60px;
   margin-bottom: 40px;
-}
 
+}
 
 th{
   text-align: center;
@@ -554,44 +552,44 @@ tr:hover {
 
 /* Status Indicator */
 .status-popup {
-  width: auto; 
-  max-width: 70%; 
-  margin: 20px auto; 
-  padding: 5px; 
-  box-shadow: 0 5px 15px rgba(0,0,0,0.2); 
-  display: flex; 
-  flex-direction: column; 
-  align-items: center; 
-  justify-content: center; 
+  width: auto;
+  max-width: 70%;
+  margin: 20px auto;
+  padding: 5px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   background-color: #fff;
-  border-radius: 8px; 
+  border-radius: 8px;
 }
 
 .status-popup .content img {
-  max-width: 100%; 
-  max-height: 400px; 
-  height: auto; 
-  margin: auto; 
-  display: block; 
+  max-width: 100%;
+  max-height: 400px;
+  height: auto;
+  margin: auto;
+  display: block;
 }
 
 
 
 .status-popup .center-button {
-  margin-top: 20px; 
+  margin-top: 20px;
 }
 
 
 .status-popup img {
-  width: 100%; 
-  height: auto; 
+  width: 100%;
+  height: auto;
 }
 
 
 .status-popup .center-button {
-  display: block; 
-  margin: 20px auto; 
-  padding: 10px 20px; 
+  display: block;
+  margin: 20px auto;
+  padding: 10px 20px;
 
 }
 
@@ -625,111 +623,4 @@ tr:hover {
   height: 200px;
   margin: 2px auto;
   background-repeat: no-repeat;
-}
-
-
-.inventory-container {
-  margin-top: 80px;  /* Adjust this value as needed to push the table down */
-}
-
-
-body, html {
-  margin: 0;
-  padding: 0;
-  font-family: 'Arial', sans-serif;
-  background-color: #ffffff; /* Ensuring the rest of the page has a light background for contrast */
-}
-
-/* .app-container {
-  display: flex;
-} */
-
-/* .main-content {
-  flex-grow: 1;
-  background-color: #f1f1f1; /* Light gray background for the content area */
-  /* padding-left: 260px; /* Adding padding to ensure content does not overlap sidebar */
-/* } */
-
-
-
-
-/* Global styles for the inventory page layout */
-.inventory-page {
-    display: flex; /* Flex container for sidebar and content */
-  }
-  
-  /* Sidebar styling assumed to be fixed or absolute positioning */
-  .sidebar {
-    width: 250px; /* Adjust width as necessary */
-    position: fixed;
-    left: 0;
-    top: 0;
-    bottom: 0;
-    overflow: auto; /* For scrollable sidebar */
-  }
-  
- /* Ensure the app container uses flexbox and stacks children vertically */
-.app-container {
-    display: flex;
-    flex-direction: column;  /* Stack children vertically */
-    margin-left: 250px; /* Assuming the sidebar width is 250px */
-    padding: 0; /* Remove padding for full width utilization */
-    width: calc(100% - 250px); /* Adjust width to take sidebar into account */
-    height: calc(100vh - 40px); /* Adjust height if necessary */
-}
-
-/* Style each section to take full width of the container */
-.inventory-list-container {
-    width: 100%; /* Take full width of the parent container */
-    padding: 20px;
-    margin-bottom: 20px; /* Space between sections */
-    border-radius: 8px;
-    background-color: #fff;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-}
-
-/* If you need to handle very small screens or specific design needs */
-@media (max-width: 768px) {
-    .app-container {
-        margin-left: 0; /* Full width on small screens */
-        width: 100%; /* Full width */
-    }
-}
-
-
-/* Adjustments to .scan-receipt-section to center and enlarge the section */
-.scan-receipt-section {
-    padding: 40px; /* Increased padding for larger area */
-    background-color: #fff;
-    border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.2); /* More pronounced shadow for depth */
-    margin-top: 50px; /* Increase top margin to center vertically */
-    text-align: center;
-    width: 80%; /* Increased width percentage */
-    max-width: none; /* Remove max-width limitation */
-    align-self: center; /* Center in the flex container */
-    font-size: 20px; /* Larger font size for better readability */
-    font-weight: bold; /* Bold text for headers and buttons */
-}
-
-.scan-receipt-section h2 {
-    font-size: 32px; /* Larger and bolder header */
-    margin-bottom: 20px; /* Increased spacing below header */
-    font-weight: bold;
-}
-
-.scan-receipt-section p {
-    font-size: 24px; /* Larger paragraph text */
-    margin-bottom: 30px; /* Increased space below paragraph */
-}
-
-.scan-receipt-section button {
-    padding: 15px 30px; /* Larger buttons for better interaction */
-    font-size: 20px; /* Larger button text */
-    border-radius: 6px; /* Slightly more rounded corners for buttons */
-}
-
-.loading-animation {
-    font-size: 20px; /* Larger font for loading animation text */
-    margin-top: 30px; /* More space above the loading animation */
 }

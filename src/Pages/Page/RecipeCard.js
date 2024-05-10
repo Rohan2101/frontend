@@ -1,13 +1,19 @@
-// RecipeCard Component:
-// Description: This component displays details of a recipe including its title,
-// image, instructions, and preparation time.
-// Props:
-// - recipe: Object containing recipe details such as title, image, instructions, and preparation time.
-import React from 'react';
+import React, { useState } from 'react';
 
-export const RecipeCard = ({ recipe }) => {
+export const RecipeCard = ({ recipe, flipStates, setFlipStates }) => {
+  const [isFlipped, setIsFlipped] = useState(false);
+
+  const handleCardFlip = () => {
+    // Toggle the flip state of the clicked card
+    setIsFlipped(!isFlipped);
+
+    // Reset flip state of all other cards
+    const newFlipStates = flipStates.map(() => false);
+    setFlipStates(newFlipStates);
+  };
+
   return (
-    <div className="recipe-card">
+    <div className={`recipe-card ${isFlipped ? 'is-flipped' : ''}`} onClick={handleCardFlip}>
       {/* Recipe image placeholder */}
       <div className="recipe-image-placeholder">
         {/* Display recipe image */}
@@ -17,29 +23,32 @@ export const RecipeCard = ({ recipe }) => {
       {/* Recipe info container */}
       <div className="recipe-info">
         {/* Recipe title */}
-        <h2 className="recipe-title">{recipe.title}</h2>
-        {/* Recipe instructions */}
-    {/* Recipe instructions */}
-         <div className="recipe-instructions">Searched Ingredients: {recipe.searchedIngredients}</div>
-
-        <div className="recipe-instructions">
-          <h3>Instructions:</h3>
-          <ol>
-            {recipe.analyzedInstructions.length > 0 ? recipe.analyzedInstructions[0].steps.map((step, index) => (
-              <li key={index}>{`Step ${index + 1}: ${step.step}`}</li>
-            )) : <li>No instructions available</li>}
-          </ol>
+        {/* Back content (instructions, preparation time) */}
+        <div className="card-back">
+          {/* Recipe instructions */}
+          {/* Preparation time */}
+          <div className="recipe-minutes-div">
+          <p className="recipe-minutes" style={{ textAlign: "right" }}>
+            Preparation Time (minutes):{" "}
+            {recipe.preparationMinutes !== -1 ? (
+              <span className="recipe-minutes">{recipe.preparationMinutes}</span>
+            ) : (
+              <span className="recipe-minutes">Data not available</span>
+            )}
+          </p>
+          </div>
+          <h2 className="recipe-title">{recipe.title}</h2>
+          <div className="recipe-instructions">Searched Ingredients:</div>
+          <div className="recipe-ingredients">{recipe.searchedIngredients}</div>
+          <div className="recipe-instructions">Instructions:</div>
+          <div className="recipe-ingredients">
+            <ol>
+              {recipe.analyzedInstructions.length > 0 ? recipe.analyzedInstructions[0].steps.map((step, index) => (
+                <li key={index}>{`Step ${index + 1}: ${step.step}`}</li>
+              )) : <li>No instructions available</li>}
+            </ol>
+          </div>
         </div>
-       {/* Display recipe instructions */}
-        console.log(recipe.instructions);
-        {/* Preparation time */}
-        <p className="recipe-instructions">Preparation Time (minutes):</p>
-        {/* Display preparation time or message if not available */}
-        {recipe.preparationMinutes !== -1 ? (
-          <p className="recipe-ingredients">{recipe.preparationMinutes}</p>
-        ) : (
-          <p className="recipe-ingredients">Data not available</p>
-        )}
       </div>
     </div>
   );

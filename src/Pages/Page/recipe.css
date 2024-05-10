@@ -225,7 +225,7 @@ margin-top: 3px;
   margin-top: 50px;
   margin-bottom: -40px;
   padding: 10px 20px;
-  background: linear-gradient(to right, #0d47a1, #0d47a1);
+  background: linear-gradient(to right, #987654, #bda089); /* Adjust the colors to achieve the desired bronze pastel effect */
   color: #fff;
   border: none;
   border-radius: 25px;
@@ -321,14 +321,31 @@ margin-top: 3px;
 }
 
 .recipes-container {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-around;
-  padding: 0;
-  margin-top: 1px;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1em;
+  justify-content: center;
 }
 
+
 .recipe-header {
+    background-color: rgba(255, 192, 203, 0.08); /* Light pink color with transparency */
+    padding: 10px; /* Increased padding for better spacing */
+    border-bottom: 2px solid #e9ecef;
+    text-align: center;
+    font-weight: bold;
+    color: #5c7a77;
+    text-transform: uppercase; /* Transform text to uppercase */
+    max-width: 300px; /* Adjust the maximum width as needed */
+    margin: 0 auto; /* Center the div horizontally */
+}
+
+.header-text {
+    margin-top: 60px;
+    font-size: 40px;
+    text-transform: uppercase; /* Transform text to uppercase */
+}
+.generation-header {
 background-color: rgba(255, 192, 203, 0.08); /* Light pink color with transparency */
   padding: 15px;
   border-bottom: 2px solid #e9ecef;
@@ -338,27 +355,123 @@ background-color: rgba(255, 192, 203, 0.08); /* Light pink color with transparen
   color: #5c7a77;
 }
 
-
-.recipe-card {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 400px;
-  height: 500px;
-  background-color: #fff;
-  border-radius: 10px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-  margin: 20px;
-  overflow: hidden;
-  margin-top: 20px;
-  margin-bottom: 20px;
-}
-
 .recipe-image-placeholder {
-  width: 100%;
-  height: auto;
+  width: 90%; /* Smaller width for images, adjust percentage as needed */
+  height: auto; /* Height auto for maintaining aspect ratio */
+  object-fit: cover;
+  margin: auto; /* Centers the image within the card */
+  background-color: #e9e9e9;
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
+}
+
+.recipe-card.is-flipped .card-front {
+  transform: rotateY(180deg);
+}
+
+.recipe-card.is-flipped .card-back {
+  transform: rotateY(0deg);
+}
+
+@media (max-width: 768px) {
+  .recipes-container {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 480px) {
+  .recipes-container {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+  .recipe-card {
+    height: auto;
+  }
+  .recipe-image-placeholder {
+    height: 40%;
+  }
+}
+
+
+.card-section {
+  margin-bottom: 10px; /* Adds spacing between sections */
+}
+
+.card-section strong {
+  display: block; /* Makes label (e.g., 'Cooking Time:') a block element */
+  margin-bottom: 5px; /* Spacing below the section label */
+  color: #333; /* Darker text for better readability */
+  font-size: 1rem; /* Slightly larger font size */
+}
+
+ul.ingredients-list {
+  list-style-type: disc; /* Adds bullet points */
+  margin-left: 20px; /* Indents list */
+  padding-left: 0; /* Removes default padding */
+}
+
+ul.ingredients-list li {
+  margin-bottom: 5px; /* Spacing between list items */
+}
+
+
+
+.card-back {
+  background-color: #f7f7f7;
+  transform: rotateY(180deg);
+  display: flex;
+  flex-direction: column;
+  padding: 20px;  /* Increased padding to avoid cutting text off */
+  overflow-y: auto;
+  align-items: flex-start;
+    border-radius: 5px;
+
+  text-align: left;
+  box-sizing: border-box; /* Ensures padding does not affect the total width */
+}
+
+.card-front, .card-back {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  backface-visibility: hidden;
+  transition: transform 0.6s;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  padding: 20px; /* Ensures padding is consistent */
+  box-sizing: border-box; /* Ensures padding does not affect the total width */
+}
+
+.recipe-card {
+  max-width: 400px;
+  width: 100%;
+  height: 400px;
+  margin: 1em auto;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  background-color: #fff;
+  border-radius: 10px;
+  overflow: hidden;
+  perspective: 1000px;
+  position: relative;
+}
+
+
+.recipe-image-placeholder img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Ensure the image covers the entire container without distortion */
+}
+
+.recipe-name {
+  position: absolute;
+  bottom: -25px; /* Adjust as needed */
+  left: 0;
+  right: 0;
+  text-align: center;
+  font-size: 14px;
+  color: #333;
 }
 
 .recipe-info {
@@ -366,9 +479,12 @@ background-color: rgba(255, 192, 203, 0.08); /* Light pink color with transparen
 }
 
 .recipe-title {
+  margin-top: 0;
   font-size: 1.5rem;
-  margin-bottom: 10px;
+  text-align: center;
+  font-weight: bold;
 }
+
 
 .recipe-ingredients {
   font-size: 1.1rem;
@@ -385,7 +501,7 @@ background-color: rgba(255, 192, 203, 0.08); /* Light pink color with transparen
   flex-wrap: wrap;
   justify-content: center; /* Center the cards horizontally */
   align-items: flex-start; /* Align the cards to the top */
-  background-color: #000435;
+
   padding: 20px; /* Add some padding */
 }
 
@@ -393,21 +509,21 @@ background-color: rgba(255, 192, 203, 0.08); /* Light pink color with transparen
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 320px; /* Adjust the width as needed */
-  height: 300px; /* Allow height to adjust based on content */
+  width: 100px; /* Adjust the width as needed */
+  height: 100px; /* Adjust the height to match the width for a perfect circle */
   background-color: #fff;
-  border-radius: 10px;
+  border-radius: 50%; /* Set border-radius to 50% for a circle */
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-  margin: 5px;
-  overflow: scroll;
+  margin: 12px;
+  overflow: hidden; /* Ensure content doesn't overflow the circular shape */
 }
+
 
 .srecipe-card img {
   width: 100%;
-  height: auto;
-  border-top-left-radius: 10px;
-  border-top-right-radius: 10px;
+  height: 100%;
 }
+
 
 .srecipe-info {
   padding: 20px;
@@ -431,6 +547,70 @@ background-color: rgba(255, 192, 203, 0.08); /* Light pink color with transparen
   color: #777;
 }
 
+
+/* Modal overlay */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black overlay */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Modal content */
+.modal {
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  max-width: 80%;
+  max-height: 80%;
+  overflow: auto;
+  position: relative; /* Ensure relative positioning */
+}
+
+/* Close button */
+.close-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+
+.popup {
+  position: fixed;
+  center: 0px;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.popup-content {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+}
+
+.close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  cursor: pointer;
+}
+
+
+
+
 @media (max-width: 768px) {
   .inventory-container {
     margin-left: 50px;
@@ -440,6 +620,15 @@ background-color: rgba(255, 192, 203, 0.08); /* Light pink color with transparen
   .recipes-container {
     margin-top: 20px;
   }
+}
+
+.recipe-minutes-div
+{margin-left:130px;
+}
+.recipe-minutes {
+  text-align: right;
+  color: #333;
+  font-size: 12px;
 }
 
 @media (max-width: 480px) {
@@ -453,16 +642,33 @@ background-color: rgba(255, 192, 203, 0.08); /* Light pink color with transparen
   }
 }
 
-.recipe-title,
-.recipe-instructions,
+
+.recipe-instructions {
+  font-weight: bold;
+  color: black;
+}
+
 .recipe-preparation,
 .recipe-ingredients {
   text-align: left;
   font-weight: bold;
   color: #333;
+    margin-bottom: 20px;
+
+}
+.recipe-ingredients ol {
+  list-style-type: decimal;
+  padding-left: 20px;
+}
+
+.recipe-ingredients ol li {
+  margin-bottom: 8px;
 }
 
 .suggestion-box {
+display: flex;
+    flex-direction: row;
+    justify-content: space-between;
   margin-top: 100px;
     margin-bottom: 60px;
   width: 100%;
@@ -502,9 +708,9 @@ background-color: rgba(255, 192, 203, 0.08); /* Light pink color with transparen
 }
 
 .previous-next {
-  margin-top: 120px;
+  margin-top: 90px;
   background-color: transparent;
-  color: white;
+  color: black;
   font-size: 50px;
   border: none;
 }
@@ -512,3 +718,36 @@ background-color: rgba(255, 192, 203, 0.08); /* Light pink color with transparen
 .previous-next:disabled {
   color: gray; /* Change font color to gray when disabled */
 }
+
+
+
+.srecipe-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.srecipe-card {
+  position: relative;
+  width: 200px;
+  height: 200px;
+  margin: 12px;
+  overflow: hidden;
+}
+
+.srecipe-card img {
+  width: 100%;
+  height: 100%;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+}
+
+.recipe-title {
+  text-align: center;
+  font-size: 14px;
+  color: #000000;
+  margin-top: 10px;
+}
+
+/* Rest of your CSS */
+

@@ -1,6 +1,3 @@
-
-
-
 // Title: Recipes Page Component
 
 // Description: 
@@ -393,10 +390,12 @@ const fetchRecipesFromInventory = async () => {
   return (
     <div className="recipe-page">
 <div className="suggestion-box">
-      <div className="recipe-header">  Here are some recipe suggestions for you! </div>
+      <div className="recipe-header">  <div className="header-text">Here are some recipe suggestions for you! </div></div>
 
   <div>
+Based on these ingredients which are expiring soon: srecipes.searchedIngredients
       <div className="srecipes-container">
+
 <button className="previous-next" onClick={handlePrevPage} disabled={currentPage === 1}>
   &lt; {/* Display the < character */}
 </button>
@@ -412,9 +411,9 @@ const fetchRecipesFromInventory = async () => {
       </div>
 
     </div>
-     <div className="recipe-header">  Didn't suit your palette? Try generating some more recipes below</div>
 
-</div>
+
+    </div>
       <div className="inventory-container">
 
 
@@ -460,8 +459,12 @@ const fetchRecipesFromInventory = async () => {
       <div className="App">
 <div id="recipes-container" className="recipes-container">
   {recipes.map((recipe, index) => (
+  // Check if the image and analyzed instructions exist
+  recipe.image && recipe.analyzedInstructions && recipe.analyzedInstructions.length > 0 && (
     <RecipeCard key={index} recipe={recipe} />
-  ))}
+  )
+))}
+
 </div>
       </div>
     </div>
