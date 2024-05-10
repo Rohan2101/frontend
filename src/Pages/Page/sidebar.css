@@ -1,43 +1,48 @@
-/* Base element styles to ensure full-page coverage and no inherent margin/padding */
-html, body {
-    margin: 0;
-    padding: 0;
-    width: 100%;
-    height: 100%;
-    overflow-x: hidden; /* Prevents horizontal scrolling */
-}
-
-/* Main container to house sidebar and content */
-.app-container {
-    display: flex;
-    min-height: 100vh; /* Ensures it covers the full viewport height */
-}
-
-/* Sidebar styling */
 .sidebar {
-    position: fixed; /* Keeps the sidebar in place when scrolling */
-    top: 50px; /* Adjust this value to push the sidebar down */
-    left: 0; /* Aligns sidebar to the left edge of the viewport */
-    width: 250px; /* Fixed width of the sidebar */
-    height: calc(100% - 200px); /* Adjusts height to take into account the top offset */
-    background-color: rgba(0, 77, 64, 0.8); /* Semi-transparent green background */
-    padding: 20px 0; /* Vertical padding */
-    box-sizing: border-box; /* Ensures padding is included in width/height calculations */
-    z-index: 1000; /* Keeps sidebar above other content */
-    overflow-y: auto; /* Enables scrolling for overflow content */
-}
-
-/* Sidebar items styling */
-.sidebar-item {
-    display: block;
-    color: white; /* White text for better contrast */
-    padding: 10px 20px; /* Comfortable padding around text */
-    text-decoration: none; /* Removes underline from links */
-    font-size: 16px; /* Readable font size */
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1); /* Subtle separator between items */
-}
-
-.sidebar-item:hover {
-    background-color: rgba(0, 59, 53, 0.9); /* Slightly darker green on hover */
-    cursor: pointer; /* Indicates the item is clickable */
-}
+    width: 250px;
+    height: 100vh;
+    position: fixed;
+    left: 0;
+    top: 0;
+    background-color: #4CAF50; /* Greenish color */
+    color: #fff; /* Text color */
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .sidebar-header {
+    margin-bottom: 30px;
+    padding: 0 10px;
+    font-size: 18px; /* Increase font size */
+    font-weight: bold; /* Make text bold */
+  }
+  
+  .sidebar-item {
+    padding: 10px;
+    margin-bottom: 10px;
+    text-decoration: none;
+    color: #fff; /* Link color */
+    transition: background 0.3s;
+    font-size: 16px; /* Increase font size */
+    font-weight: bold; /* Make text bold */
+  }
+  
+  .sidebar-item:hover {
+    background-color: #388e3c; /* Darker shade for hover effect */
+  }
+  
+  /* Ensure links are styled properly even if visited */
+  .sidebar-item:visited {
+    color: #fff; /* Visited link color */
+  }
+  
+  /* Adding a footer or additional section to the sidebar */
+  .sidebar-footer {
+    margin-top: auto;
+    padding: 20px;
+    border-top: 1px solid #388e3c; /* Use the same darker shade for border */
+    font-size: 16px; /* Increase font size */
+    font-weight: bold; /* Make text bold */
+  }
+  

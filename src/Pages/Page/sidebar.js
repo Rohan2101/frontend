@@ -1,14 +1,17 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import './sidebar.css';  // Assuming you will create a separate CSS file for styling
+import './sidebar.css';
 
 const Sidebar = () => {
   return (
     <div className="sidebar">
-      <a href="/inventory" className="sidebar-item">Inventory Table</a>
-      <a href="/scan-receipt" className="sidebar-item">Scan Receipt</a>
-      <a href="/scan-expiry" className="sidebar-item">Scan Expiry Date</a>
-      <a href="/savings-waste" className="sidebar-item">Savings and Waste Tracker</a>
+      <div className="sidebar-header">
+        <h3>Dashboard</h3>
+      </div>
+      <Link to="/inventory" className="sidebar-item">Scan Receipt</Link>
+      <Link to="/scan-receipt" className="sidebar-item">Inventory Overview</Link>
+      <Link to="/scan-expiry" className="sidebar-item">Scan Expiry Date</Link>
+      <Link to="/savings-waste" className="sidebar-item">Savings and Waste Tracker</Link>
     </div>
   );
 };

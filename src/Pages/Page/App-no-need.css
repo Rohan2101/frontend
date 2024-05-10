@@ -36,12 +36,12 @@
 
 
 
-.toolbar {
+/* .toolbar {
   background-color: #f8f8f8;
   padding: 7px 0;
   display: flex;
   justify-content: space-around;
-}
+} */
 
 .toolbardiv {
   padding-right: 0;
@@ -640,20 +640,15 @@ body, html {
   background-color: #f1f1f1; /* Ensuring the rest of the page has a light background for contrast */
 }
 
-.app-container {
+/* .app-container {
   display: flex;
-}
+} */
 
-.main-content {
+/* .main-content {
   flex-grow: 1;
   background-color: #f1f1f1; /* Light gray background for the content area */
-  padding-left: 260px; /* Adding padding to ensure content does not overlap sidebar */
-}
+  /* padding-left: 260px; /* Adding padding to ensure content does not overlap sidebar */
+/* } */
 
-.app-container .sidebar {
-  background-color: #036a35; /* Dark green color */
-}
 
-.app-container .sidebar-item {
-  color: rgb(250, 250, 250);
-}
+

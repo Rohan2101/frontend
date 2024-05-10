@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import InventoryList from './InventoryList';
-import '../App.css';
+import './inventory.css';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { Link } from 'react-router-dom';
@@ -498,177 +498,115 @@ useEffect(() => {
 
 
   return (
-    <div className="inventory-page">
-            <ScanReceipt onScan={handleScan} /> {/* Component to scan receipts */}
-            {/* <InventoryList inventory={inventory} /> Component to display the list of inventory items */}
-    <div className="app-container">
-        <Sidebar />  
-        <div className="main-content" style={{ marginLeft: '250px', padding: '20px' }}>
-            {/* <div className="toolbar">
-                <div style={{ display: 'flex', alignItems: 'center' }}>
-                    <img src="ProjectLogo.png" alt="App Logo" style={{ width: '40px', height: '40px', marginRight: '10px' }} />
-                    <span style={{ color: 'green', fontWeight: 'bold' }}>EcoEats</span>
-                </div>
-                <div className="toolbardiv">
-                    <button onClick={() => console.log("Recipes clicked")}>Recipes</button>
-                    <button onClick={() => console.log("Information clicked")}>Information</button>
-                    <button onClick={() => console.log("Recycling Agencies Clicked")}>Recycling Agencies</button>
-                    <button onClick={() => console.log("Check My Knowledge Clicked")}>Check My Knowledge</button>
-                </div>
-            </div> */}
-
-            {/* inventory main content */}
-            <div className="App">
-                <InventoryList
-                    inventory={inventory}
-                    onEdit={handleEditItem}
-                    onDelete={handleDeleteItem}
-                    togglePopup={togglePopup}
-                    onEditingItemChange={handleEditingItemChange}
-                />
-
-                <div className="actions">
-                    <button
-                        className="add-button"
-                        onClick={() => togglePopup('add')}
-                        disabled={editingItem !== null}
-                    >
-                        Add an Item
-                    </button>
-                    <div className="scan-buttons">
-                        <button
-                            onClick={() => togglePopup('receipt')}
-                            disabled={editingItem !== null}
-                        >
-                            Scan Receipt
-                        </button>
-                        <button
-                            onClick={() => togglePopup('package')}
-                            disabled={editingItem !== null}
-                        >
-                            Scan Package Expiry
-                        </button>
-                        <button
-                            onClick={() => togglePopup('produce')}
-                            disabled={editingItem !== null}
-                        >
-                            Scan Fresh Produce
-                        </button>
-                    </div>
-
-                    {/* Add Popup */}
-                    {showAddPopup && (
-                        <div
-                            className="modal-overlay"
-                            onClick={() => setShowAddPopup(false)}
-                        ></div>
-                    )}
-
-                    {showAddPopup && (
-                        <div className="popup large-popup">
-                            <h2>Add New Item</h2>
-                            <div className="form-group">
-                                <label>Name:</label>
-                                <input type="text" name="name" value={newItem.name} onChange={handleInputChange} />
-                            </div>
-                            <div className="form-group">
-                                <label>Quantity:</label>
-                                <input type="text" name="amount" value={newItem.amount} onChange={handleInputChange} />
-                            </div>
-                            <div className="form-group">
-                                <div className="form-group">
-                                    <label>Price:</label>
-                                    <input type="text" name="spent" value={newItem.spent} onChange={handleInputChange} />
-                                </div>
-                            </div>
-
-                            <div className="form-group">
-                                <label>Expiry Date:</label>
-                                <DatePicker
-                                    selected={expiryPlaceholder}
-                                    onChange={(date) => {
-                                        const formattedDate = date.toLocaleDateString('en-GB', {
-                                            day: '2-digit', month: 'short', year: 'numeric'
-                                        });
-                                        setExpiryPlaceholder(date);
-                                        setNewItem(prevItem => ({ ...prevItem, expiryDate: formattedDate }));
-                                    }}
-                                    dateFormat="dd MMM yyyy"
-                                    className="date-picker add-date-picker"
-                                />
-                            </div>
-
-                            <div className="form-actions">
-                                <button onClick={handleAddItem}>Save</button>
-                                <button onClick={() => togglePopup('add')}>Cancel</button>
-                            </div>
-                        </div>
-                    )}
-
-                    {/* Scan Receipt Popup */}
-                    {showScanReceiptPopup && (
-                        <div className="popup">
-                            <h2>Scan Receipt</h2>
-                            <div className="scan-options">
-                                <form onSubmit={handleUpload} encType="multipart/form-data">
-                                    <input type="file" name="file" onChange={handleFileChange} />
-                                    <input type="submit" value="Upload" />
-                                </form>
-                                {imgSrc && <img src={imgSrc} alt="Uploaded" />}
-                            </div>
-                            <button onClick={() => togglePopup('receipt')}>Cancel</button>
-                        </div>
-                    )}
-
-                    {/* Scan Package Popup */}
-                    {showScanPackagePopup && (
-                        <div className="popup">
-                            <h2>Scan Package</h2>
-                            <div className="scan-options">
-                                <form onSubmit={handleUpload3} encType="multipart/form-data">
-                                    <input type="file" name="file2" onChange={handleFileChange2} />
-                                    <input type="submit" value="Upload" />
-                                </form>
-                                {imgSrc2 && <img src={imgSrc2} alt="Uploaded" />}
-                            </div>
-                            <button onClick={() => togglePopup('package')}>Cancel</button>
-                        </div>
-                    )}
-
-                    {/* Scan Fresh Produce Popup */}
-                    {showScanProducePopup && (
-                        <div className="popup">
-                            <h2>Scan Produce</h2>
-                            <div className="scan-options">
-                                <form onSubmit={handleUpload2} encType="multipart/form-data">
-                                    <input type="file" name="file1" onChange={handleFileChange1} />
-                                    <input type="submit" value="Upload" />
-                                </form>
-                                {imgSrc1 && <img src={imgSrc1} alt="Uploaded" />}
-                            </div>
-                            <button onClick={() => togglePopup('produce')}>Cancel</button>
-                        </div>
-                    )}
-                </div>
+    <div className="inventory-sidebar">
+      <Sidebar />
+      <div className="app-container">
+          <div className="scan-receipt-section">
+              <ScanReceipt onScan={handleScan} />
+          </div>
+          <div className="inventory-list-container">
+              <InventoryList
+                  inventory={inventory}
+                  onEdit={handleEditItem}
+                  onDelete={handleDeleteItem}
+                  togglePopup={togglePopup}
+                  onEditingItemChange={handleEditingItemChange}
+              />
+    
+            {/* Actions */}
+            <div className="actions">
+              <button
+                className="add-button"
+                onClick={() => togglePopup('add')}
+                disabled={editingItem !== null}
+              >
+                Add an Item
+              </button>
+    
+              <div className="scan-buttons">
+                <button
+                  onClick={() => togglePopup('receipt')}
+                  disabled={editingItem !== null}
+                >
+                  Scan Receipt
+                </button>
+                <button
+                  onClick={() => togglePopup('package')}
+                  disabled={editingItem !== null}
+                >
+                  Scan Package Expiry
+                </button>
+                <button
+                  onClick={() => togglePopup('produce')}
+                  disabled={editingItem !== null}
+                >
+                  Scan Fresh Produce
+                </button>
+              </div>
+    
+              {/* Add Popup */}
+              {showAddPopup && (
+                <>
+                  <div
+                    className="modal-overlay"
+                    onClick={() => setShowAddPopup(false)}
+                  ></div>
+                  <div className="popup large-popup">
+                    {/* Add New Item Form */}
+                  </div>
+                </>
+              )}
+    
+              {/* Scan Receipt Popup */}
+              {showScanReceiptPopup && (
+                <>
+                  <div className="popup">
+                    {/* Scan Receipt Form */}
+                  </div>
+                </>
+              )}
+    
+              {/* Scan Package Popup */}
+              {showScanPackagePopup && (
+                <>
+                  <div className="popup">
+                    {/* Scan Package Form */}
+                  </div>
+                </>
+              )}
+    
+              {/* Scan Fresh Produce Popup */}
+              {showScanProducePopup && (
+                <>
+                  <div className="popup">
+                    {/* Scan Produce Form */}
+                  </div>
+                </>
+              )}
             </div>
-
-            {inventory.length > 0 && (
-                <div className="generate-button">
-                    <Link to="/recipes">
-                        <button className={hasOneItemInInventory && !hasBlinked ? 'blink' : ''}>Generate recipes!</button>
-                    </Link>
-                </div>
-            )}
-
+    
+            {/* Generate Recipes Button */}
+            {/* {inventory.length > 0 && (
+              <div className="generate-button">
+                <Link to="/recipes">
+                  <button className={hasOneItemInInventory && !hasBlinked ? 'blink' : ''}>
+                    Generate recipes!
+                  </button>
+                </Link>
+              </div>
+            )} */}
+    
+            {/* Congratulations Popup */}
             {showCongratsPopup && (
-                <div className="congrats-popup">
-                    <p>Congratulations on starting your inventory! Check out some recipes now.</p>
-                </div>
+              <div className="congrats-popup">
+                <p>Congratulations on starting your inventory! Check out some recipes now.</p>
+              </div>
             )}
-        </div>
-    </div>
+          </div>
+      </div>
     </div>
   );
+  
 }
 
 
@@ -676,5 +614,4 @@ useEffect(() => {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////
-
 

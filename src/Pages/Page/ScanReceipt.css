@@ -3,10 +3,13 @@
     background-color: #fff;
     border-radius: 8px;
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-    margin: 200px auto 20px auto; /* Added margin-top */
+    margin-top: 100px; /* Increase margin-top to push the section lower */
     text-align: center;
     max-width: 600px;
+    width: calc(100% - 250px); /* Adjust width to take sidebar into account */
+    margin-left: 250px; /* Align with the main content */
 }
+
 
 .scan-receipt-section h2 {
     margin-bottom: 10px;
@@ -32,4 +35,26 @@
 
 .loading-animation {
     margin-top: 20px;
+}
+
+
+.app-container {
+    display: flex;
+    flex-direction: column; /* Stack vertically */
+}
+
+.main-content {
+    padding-top: 20px; /* Add padding to separate from the scan section */
+    display: flex; /* Use flexbox to center */
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically */
+}
+
+.scan-receipt-section {
+    width: calc(100% - 250px); /* Adjust width to take sidebar into account */
+    max-width: 600px; /* Limit the width */
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
 }
