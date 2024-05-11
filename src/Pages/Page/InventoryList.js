@@ -121,7 +121,7 @@ const InventoryList = ({ inventory, onEdit, onDelete, togglePopup, onEditingItem
           <tr>
             <th>Name</th>
             <th>Quantity</th>
-            <th>Price</th>
+            <th>Price $</th>
             <th>Expiry Date</th>
             {/* <th>Status</th> */}
 
