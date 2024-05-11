@@ -192,6 +192,7 @@ tr:hover {
 .popup input[type="number"],
 .popup input[type="file"] {
   width: 100%;
+  color: #333;
   padding: 10px; /* Increased padding for input fields */
   border: 1px solid #ccc;
   border-radius: 4px;
