@@ -218,6 +218,7 @@ tr:hover {
 }
 
 .popup label {
+color: #333;
   display: block;
   margin-bottom: 10px; /* Add spacing between lines */
   font-weight: bold;
