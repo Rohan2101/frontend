@@ -1,17 +1,8 @@
-// SearchBar Component:
-// Description: This component provides a search bar for users to input ingredients,
-// add them to a search list, remove selected items, and trigger a search for recipes.
-// Props:
-// - onSearch: Function to trigger a search for recipes.
-// - onInputChange: Function to handle input change in the search bar.
-// - selectedItems: Array of selected items in the search list.
-// - onRemoveSelected: Function to remove selected items from the search list.
-// - onAddToSearch: Function to add input value to the search list.
-
 import React, { useState } from 'react';
 
 export const SearchBar = ({ onSearch, onInputChange, selectedItems, onRemoveSelected, onAddToSearch }) => {
   const [input, setInput] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
 
   const handleInputChange = (value) => {
     setInput(value);
@@ -20,16 +11,26 @@ export const SearchBar = ({ onSearch, onInputChange, selectedItems, onRemoveSele
 
   const handleKeyPress = (e) => {
     if (e.key === 'Enter' && input.trim() !== '') {
-      // Add the typed item to the selected items
-      onAddToSearch(input.trim());
-      // Clear the input field
-      setInput('');
+      if (!isValidIngredient(input.trim())) {
+        alert('Please add a valid ingredient.');
+      } else {
+        // Add the typed item to the selected items
+        onAddToSearch(input.trim());
+        // Clear the input field and error message
+        setInput('');
+        setErrorMessage('');
+      }
     }
+  };
+
+  const isValidIngredient = (ingredient) => {
+    // Add your validation logic here
+    // For example, check if the ingredient contains only letters and spaces
+    return /^[a-zA-Z\s]+$/.test(ingredient);
   };
 
   return (
     <div>
-        <div>
       <div className="search-container">
         <div className="selected-items-box">
           {selectedItems.map((item, index) => (
@@ -47,13 +48,9 @@ export const SearchBar = ({ onSearch, onInputChange, selectedItems, onRemoveSele
             onChange={(e) => handleInputChange(e.target.value)}
             onKeyPress={handleKeyPress}
           />
+          {errorMessage && <div className="error-message">{errorMessage}</div>}
         </div>
-                <button className="search-button" onClick={onSearch}>Generate Recipes</button>
-
-      </div>
-
-    </div>
-          <div>
+        <button className="search-button" onClick={onSearch}>Generate Recipes</button>
       </div>
     </div>
   );

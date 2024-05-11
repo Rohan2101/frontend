@@ -487,7 +487,7 @@ useEffect(() => {
       }
     } catch (error) {
       console.error('Error uploading image:', error);
-      setMsg('Failed to upload image');
+      alert('Failed to upload image');
     }
   };
 
