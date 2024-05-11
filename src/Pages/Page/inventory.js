@@ -62,6 +62,7 @@ export function Maininventory() {
     status: ''
   });
   const [msg, setMsg] = useState('');
+  const [nextItemId, setNextItemId] = useState(inventory.length + 1); 
   const [name, setName] = useState('');
   const [file, setFile] = useState(null);
   const [imgSrc, setImgSrc] = useState('');
@@ -349,7 +350,7 @@ useEffect(() => {
     formData.append('file', file);
 
     try {
-      const response = await fetch('https://rohan2121.pythonanywhere.com/', {
+      const response = await fetch('https://rohan222.pythonanywhere.com/rc', {
         method: 'POST',
         body: formData
       });
@@ -358,7 +359,6 @@ useEffect(() => {
       setName(data.name);
       setImgSrc(data.imgSrc);
       setExtractedText(data.extracted_text);
-      setMsg(data.msg);
       setNewItem(prevItem => ({
         ...prevItem,
         name: data.name,
@@ -366,10 +366,29 @@ useEffect(() => {
         spent: data.msg,
         expiryDate: '',
         status: ''
-      }));
-      if (extractedText !== '' || msg !== '') {
-        populateItems(data.name, data.extracted_text, data.msg, '', '');
-      }
+      }));  
+      const startingId = inventory.length + 1;
+      data.extracted_text.forEach((item, index) => {
+        const newItem = {
+          id: startingId + index,
+          name: item.name,
+          amount: item.amount,
+          spent: item.spent,
+          expiryDate: '',
+          status: ''
+        };
+        setInventory(prevInventory => [...prevInventory, newItem]);
+      });
+      setNextItemId(startingId + data.extracted_text.length);
+      // Resetting form fields and other relevant states
+      setNewItem({
+        name: '',
+        amount: 0,
+        spent: '',
+        expiryDate: '',
+        status: ''
+      });
+      setShowAddPopup(false);  
     } catch (error) {
       console.error('Error uploading image:', error);
       setMsg('Failed to upload image');
