@@ -374,7 +374,7 @@ useEffect(() => {
           name: item.name,
           amount: item.amount,
           spent: item.spent,
-          expiryDate: '',
+          expiryDate: '21/06/2024',
           status: ''
         };
         setInventory(prevInventory => [...prevInventory, newItem]);
