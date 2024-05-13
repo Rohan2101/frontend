@@ -230,9 +230,6 @@ const handleScanExpiry = (id, item) => {
 </th>
             <th>Expiry Date</th>
             <th>Price $</th>
-
-
-
             <th>Actions</th>
           </tr>
         </thead>
@@ -283,7 +280,7 @@ const handleScanExpiry = (id, item) => {
 
 
               <td>
-                <div className="action-icons">
+                <div className="inventory-action-button">
                   {editingItem === item.id ? (
                     <React.Fragment>
                       <button className="save-button" onClick={() => handleSave(item.id)}>Save</button>
@@ -303,7 +300,7 @@ const handleScanExpiry = (id, item) => {
                       </button>
 
    {/* Button to trigger scan expiry popup */}
-<button onClick={() => handleScanExpiry(item.id, item)}>Scan Expiry</button>
+<button className= "scan-button" onClick={() => handleScanExpiry(item.id, item)}>Scan Expiry</button>
 
 
       {/* Scan expiry popup */}

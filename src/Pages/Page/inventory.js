@@ -484,6 +484,9 @@ if (extractedText2 !== '' || msg2 !== '') {
       <div className="App">
 
         <header></header>
+        <div className="table-and-buttons">
+        <div className="inventory-table-container">
+
         <InventoryList
           inventory={inventory}
           onEdit={handleEditItem}
@@ -492,29 +495,26 @@ if (extractedText2 !== '' || msg2 !== '') {
 
           onEditingItemChange={handleEditingItemChange}
         />
+        </div>
+
 
         <div className="actions">
+                    <button
+              onClick={() => togglePopup('receipt')}
+                          className="add-button"
+              disabled={editingItem !== null}>
+              Scan Receipt
+            </button>
         <button
             className="add-button"
             onClick={() => togglePopup('add')}
             disabled={editingItem !== null}>
             Add Additional Items
           </button>
-          <div className="scan-buttons">
-            <button
-              onClick={() => togglePopup('receipt')}
-              disabled={editingItem !== null}>
-              Scan Receipt
-            </button>
-<button
-  onClick={() => togglePopup('package')}
-  disabled={editingItem !== null}
->
-  Scan Package Expiry
-</button>
+
                <button onClick={() => togglePopup('produce')}  disabled={editingItem !== null}
+                           className="add-button"
   >Scan Fresh Produce</button>
-          </div>
 
           {showAddPopup && (
             <div
@@ -627,6 +627,7 @@ if (extractedText2 !== '' || msg2 !== '') {
           )}
 
         </div>
+      </div>
       </div>
 {inventory.length > 0 && (
 <div className="generate-button">

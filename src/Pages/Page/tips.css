@@ -29,7 +29,7 @@ input[type="text"] {
     border-radius: 5px;
 }
 
-button {
+.tips-button {
     padding: 10px 20px;
     /* 增大按钮的填充使其更高更宽 */
     font-size: 1.2rem;
