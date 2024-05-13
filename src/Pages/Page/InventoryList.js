@@ -113,7 +113,7 @@ const InventoryList = ({ inventory, onEdit, onDelete, togglePopup, onEditingItem
     if (editingItem !== null && editingItem !== id) return;
 
     const parts = item.expiryDate.split('/');
-    const formattedExpiryDate = new Date(`${parts[2]}-${parts[1]}-${parts[0]}`);
+    const formattedExpiryDate = new Date(`${parts[2]}-${parts[0]}-${parts[1]}`);
     setOriginalValues(item);
     setEditingItem(id);
     onEditingItemChange(id); // pass edit status changes to Inventory.js
