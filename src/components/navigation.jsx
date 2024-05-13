@@ -206,7 +206,9 @@ const handleUpload2 = async (e) => {
   <button onClick={capturePhoto} style={{display: 'block', margin: '0 auto'}}>Capture Photo</button>
   <h3> </h3>
   {imgSrc1 && <img src={imgSrc1} alt="Uploaded" />}
+  <form id="uploadForm" onSubmit={handleUpload2} encType="multipart/form-data">
   <input type="submit" value="Upload" />
+  </form>
   <h3 style={{textAlign: 'center', fontFamily: 'Arial, sans-serif'}}>Or Choose a Picture</h3>
   <form id="uploadForm" onSubmit={handleUpload2} encType="multipart/form-data">
     <input type="file" name="file1" onChange={handleFileChange1} />
