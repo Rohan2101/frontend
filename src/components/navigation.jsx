@@ -10,6 +10,7 @@ export const Navigation = (props) => {
   const [file1, setFile1] = useState(null);
   const [imgSrc1, setImgSrc1] = useState('');
   const [extractedText1, setExtractedText1] = useState('');
+  
   const togglePopup = (popupType) => {
     setShowScanProducePopup(false);
 
@@ -101,6 +102,7 @@ const handleUpload2 = async (e) => {
     setMsg1('Failed to upload image');
   }
 };
+const msg1Int = parseInt(msg1);
 
 
   return (
@@ -227,8 +229,12 @@ const handleUpload2 = async (e) => {
             {/* Upload Info Popup */}
             {showUploadInfoPopup && (
               <div className="popup">
-                <h2 style={{textAlign: 'center', fontFamily: 'Arial, sans-serif'}}>Estimated Shelf life(in days)</h2>
-                <h2 style={{textAlign: 'center', fontFamily: 'Arial, sans-serif'}}>{msg1}</h2>
+                <h2 style={{textAlign: 'center', fontFamily: 'Arial, sans-serif'}}>Estimated Shelf life(in days):</h2>
+                {!isNaN(msg1Int) && msg1Int > 0 ? (
+  <h2 style={{textAlign: 'center', fontFamily: 'Arial, sans-serif'}}>{msg1Int}</h2>
+) : (
+  <h4 style={{textAlign: 'center', fontFamily: 'Arial, sans-serif'}}>Rotten or incorrect image uploaded</h4>
+)}
                 <div>
                   {/* <p>Fruit Name: {extractedText1}</p> */}
                   {/* <p>Estimated Shelf life(in days): {msg1}</p> */}

@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import InventoryList from './InventoryList';
+import Webcam from "react-webcam";
 import './inventory.css';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
@@ -89,7 +90,26 @@ const [uploadingImage, setUploadingImage] = useState(false);
     setEditingItem(itemId);
   };
 
+  const capturePhoto = () => {
+    const imageSrc = webcamRef.current.getScreenshot();
+    
+    // Convert data URI to Blob
+    const byteString = atob(imageSrc.split(',')[1]);
+    const mimeType = imageSrc.split(',')[0].split(':')[1].split(';')[0];
+    const ab = new ArrayBuffer(byteString.length);
+    const ia = new Uint8Array(ab);
+    
+    for (let i = 0; i < byteString.length; i++) {
+      ia[i] = byteString.charCodeAt(i);
+    }
 
+    const blob = new Blob([ab], { type: mimeType });
+    const file = new File([blob], 'photo.jpg', { type: mimeType });
+
+    setFile1(file);
+    setImgSrc1(imageSrc);
+  };
+  const webcamRef = useRef(null);
 // Use useEffect to automatically close the congratulations popup after 3 seconds
 useEffect(() => {
   const timeout = setTimeout(() => {
@@ -658,6 +678,22 @@ if (extractedText2 !== '' || msg2 !== '') {
   <div className="popup">
     <h2>Scan Receipt</h2>
     {setUploadingImage && <div className="loading-overlay">Loading...</div>}
+    <h3 style={{textAlign: 'center', fontFamily: 'Arial, sans-serif'}}>Capture a Picture</h3>
+  <Webcam
+    audio={false}
+    ref={webcamRef}
+    screenshotFormat="image/jpeg"
+    width={320}
+    height={240}
+  />
+  <h3> </h3>
+  <button onClick={capturePhoto} style={{display: 'block', margin: '0 auto'}}>Capture Photo</button>
+  <h3> </h3>
+  {imgSrc && <img src={imgSrc} alt="Uploaded" />}
+  <form id="uploadForm" onSubmit={handleUpload2} encType="multipart/form-data">
+  <input type="submit" value="Upload" />
+  </form>
+  <h3 style={{textAlign: 'center', fontFamily: 'Arial, sans-serif'}}>Or Choose a Picture</h3>
     <div className="scan-options">
       <form onSubmit={handleUpload} encType="multipart/form-data">
         <input type="file" name="file" onChange={handleFileChange} />
