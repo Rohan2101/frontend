@@ -348,13 +348,13 @@ const handleUpload = async (e) => {
     });
     const data = await response.json();
     console.log(data);
-    if (!data.extracted_text) {
-      // Image was uploaded but not read
-      alert('Error reading image data, try another image.');
-      setUploadingImage(false); // Set uploadingImage to false after uploading
-      setShowScanReceiptPopup(false); // Close the popup in case of error
-      return;
-    }
+    // if (!data.extracted_text) {
+    //   // Image was uploaded but not read
+    //   alert('Error reading image data, try another image.');
+    //   setUploadingImage(false); // Set uploadingImage to false after uploading
+    //   setShowScanReceiptPopup(false); // Close the popup in case of error
+    //   return;
+    // }
     setName(data.name);
     setImgSrc(data.imgSrc);
     setExtractedText(data.extracted_text);
@@ -422,12 +422,12 @@ const handleUpload2 = async (e) => {
       body: formData
     });
 
-    if (!response.ok) {
-      // If response status is not OK, throw an error
-      throw new Error('Error reading image data, try another image.');
-        setUploadingImage(false); // Set uploadingImage to true while uploading
+    // if (!response.ok) {
+    //   // If response status is not OK, throw an error
+    //   throw new Error('Error reading image data, try another image.');
+    //     setUploadingImage(false); // Set uploadingImage to true while uploading
 
-    }
+    // }
 
     const data = await response.json();
     console.log(data);
@@ -457,13 +457,13 @@ const handleUpload2 = async (e) => {
     if (extractedText1 !== '' || msg1 !== '') {
       populateItems(data.extracted_text1, '', '', formattedDate, '');
     }
-    else
-    {
-        alert('Something went wrong. Please try again.');
-        setUploadingImage(false); // Set uploadingImage to true while uploading
+    // else
+    // {
+    //     alert('Something went wrong. Please try again.');
+    //     setUploadingImage(false); // Set uploadingImage to true while uploading
 
 
-    }
+    // }
   } catch (error) {
     console.error('Error uploading image:', error);
     alert('Error reading image data, try another image.');
