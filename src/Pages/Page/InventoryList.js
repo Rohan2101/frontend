@@ -14,7 +14,7 @@ const InventoryList = ({ inventory, onEdit, onDelete, togglePopup, onEditingItem
   const [itemToDelete, setItemToDelete] = useState(null);
   const [imgSrc, setImgSrc] = useState('');
   const [extractedText, setExtractedText] = useState('');
-    const [file2, setFile2] = useState(null);
+    const [file, setFile] = useState(null);
   const [showScanExpiryPopup, setShowScanExpiryPopup] = useState(false);
   const [scanningItemId, setScanningItemId] = useState(null); // Store the ID of the item being scanned
   const [sortingOrder, setSortingOrder] = useState('asc'); // State to track sorting order
@@ -38,14 +38,14 @@ const InventoryList = ({ inventory, onEdit, onDelete, togglePopup, onEditingItem
 
 // Function to handle file input change
   const handleFileChange = (e) => {
-    setFile2(e.target.files[0]);
+    setFile(e.target.files[0]);
   };
 
 
  const handleUpload = async (e) => {
     e.preventDefault();
     const formData = new FormData();
-    formData.append('file2', file2);
+    formData.append('file', file);
 
     try {
       console.log('Uploading image...');
@@ -56,9 +56,7 @@ const InventoryList = ({ inventory, onEdit, onDelete, togglePopup, onEditingItem
       console.log('Image uploaded successfully.');
       const data = await response.json();
       console.log('Extracted Text:', data);
-      setImgSrc2(data.imgSrc2);
-      setExtractedText2(data.extracted_text2);
-      setMsg2('Image uploaded successfully!');
+
       let newExpiryDate;
 
       // Check if extracted_text2 is available
@@ -83,7 +81,7 @@ const InventoryList = ({ inventory, onEdit, onDelete, togglePopup, onEditingItem
         onEdit(scanningItemId, updatedInventory[index]);
       }
 
-      
+      setExtractedText(data.extracted_text);
     } catch (error) {
       console.error('Error uploading image:', error);
     }
