@@ -4,8 +4,7 @@
   margin: 0;
   padding: 0;
   font-family: 'Arial', sans-serif;
-  background-color: #f4f4f4;
-  background-image: url('../images/orange1.jpg') !important;
+  background-color: ##eadec9;
   background-size: cover;
   background-repeat: repeat;
   background-position: center;
@@ -336,12 +335,13 @@ margin-top: 3px;
     font-weight: bold;
     color: #5c7a77;
     text-transform: uppercase; /* Transform text to uppercase */
-    max-width: 300px; /* Adjust the maximum width as needed */
+    max-width: 350px; /* Adjust the maximum width as needed */
     margin: 0 auto; /* Center the div horizontally */
 }
 
 .header-text {
-    margin-top: 60px;
+    margin-top: 40px;
+        margin-bottom: 0px;
     font-size: 40px;
     text-transform: uppercase; /* Transform text to uppercase */
 }
@@ -498,19 +498,19 @@ ul.ingredients-list li {
 
 .srecipes-container {
   display: flex;
-  flex-wrap: wrap;
+  flex-wrap: fit;
   justify-content: center; /* Center the cards horizontally */
   align-items: flex-start; /* Align the cards to the top */
 
-  padding: 20px; /* Add some padding */
+  padding: 5px; /* Add some padding */
 }
 
 .srecipe-card {
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 100px; /* Adjust the width as needed */
-  height: 100px; /* Adjust the height to match the width for a perfect circle */
+  width: 90px; /* Adjust the width as needed */
+  height: 90px; /* Adjust the height to match the width for a perfect circle */
   background-color: #fff;
   border-radius: 50%; /* Set border-radius to 50% for a circle */
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
@@ -725,5 +725,13 @@ display: flex;
   margin-top: 10px;
 }
 
+
+.header-text {
+  text-align: center;
+}
+
+.ingredients-text {
+  text-align: center;
+}
 /* Rest of your CSS */
 

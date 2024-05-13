@@ -399,10 +399,14 @@ const fetchRecipesFromInventory = async () => {
   return (
     <div className="recipe-page">
 <div className="suggestion-box">
-      <div className="recipe-header">  <div className="header-text">Here are some recipe suggestions for you! </div></div>
+      <div className="recipe-header">  <div className="header-text">Explore Recipes with EcoPallete </div><div> Suugested recipes don't suit your palette? Generate Recipes from your ingredients</div><button> Generate now</button></div>
 
   <div>
-Based on these ingredients which are expiring soon: srecipes.searchedIngredients
+<div>
+  <hr className="header-line" />
+  <p className="header-text">Whip Up Magic with These Soon-to-Expire Ingredients!</p>
+  <p className="ingredients-text">{srecipes.length > 0 && srecipes[0].searchedIngredients}</p>
+</div>
       <div className="srecipes-container">
 
 <button className="previous-next" onClick={handlePrevPage} disabled={currentPage === 1}>
