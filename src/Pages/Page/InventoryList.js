@@ -23,19 +23,24 @@ const InventoryList = ({ inventory, onEdit, onDelete, togglePopup, onEditingItem
   const [sortingOrder, setSortingOrder] = useState('asc'); // State to track sorting order
 
 
- // Function to toggle sorting order
-  const toggleSortingOrder = () => {
-    setSortingOrder(sortingOrder === 'asc' ? 'desc' : 'asc');
-  };
+const toggleSortingOrder = () => {
+  console.log("Current sorting order:", sortingOrder);
+  setSortingOrder(sortingOrder === 'asc' ? 'desc' : 'asc');
+  console.log("New sorting order:", sortingOrder === 'asc' ? 'desc' : 'asc');
+};
 
- // Sort inventory based on expiry date
-  const sortedInventory = useMemo(() => {
-    return [...inventory].sort((a, b) => {
-      const dateA = new Date(a.expiryDate);
-      const dateB = new Date(b.expiryDate);
-      return sortingOrder === 'asc' ? dateA - dateB : dateB - dateA;
-    });
-  }, [inventory, sortingOrder]);
+
+const sortedInventory = useMemo(() => {
+  console.log("Sorting inventory...");
+  const sorted = [...inventory].sort((a, b) => {
+    const dateA = new Date(a.expiryDate);
+    const dateB = new Date(b.expiryDate);
+    return sortingOrder === 'asc' ? dateA - dateB : dateB - dateA;
+  });
+  console.log("Sorted inventory:", sorted);
+  return sorted;
+}, [inventory, sortingOrder]);
+
 
 
 
@@ -111,9 +116,8 @@ const InventoryList = ({ inventory, onEdit, onDelete, togglePopup, onEditingItem
   const handleEdit = (id, item) => {
     // Prevent editing if another item is currently being edited
     if (editingItem !== null && editingItem !== id) return;
-
     const parts = item.expiryDate.split('/');
-    const formattedExpiryDate = new Date(`${parts[2]}-${parts[0]}-${parts[1]}`);
+    const formattedExpiryDate = new Date(`${parts[2]}-${parts[1]}-${parts[0]}`);
     setOriginalValues(item);
     setEditingItem(id);
     onEditingItemChange(id); // pass edit status changes to Inventory.js

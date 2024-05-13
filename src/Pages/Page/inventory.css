@@ -156,6 +156,11 @@ tr:hover {
   color: red;
 }
 
+inv-header-container{
+  display: flex;
+
+}
+
 .actions {
   flex-grow: 3; /* Takes up 30% of the available space */
     display: flex;
@@ -667,17 +672,64 @@ color: #333;
   background-color: f9f9f7;
 }
 
+.inv-header-container {
+  display: flex;
+  align-items: center; /* Align items vertically */
+  margin-top: 40px;
+  margin-bottom: 20px; /* Adjusted margin for better spacing */
+}
+
 .inv-header-text {
-    margin-top: 40px;
-    margin-bottom: 0px;
-    font-size: 40px;
-    text-align: left;
-    margin-left: 30px;
-    color: #23527c; /* Adjusted color value */
-    font-family: 'Pacifico', cursive; /* Applying Pacifico font */
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2); /* Added text shadow for depth */
-    letter-spacing: 1px; /* Added letter spacing for better readability */
-    border-bottom: 2px solid #23527c; /* Added a subtle border bottom for decoration */
+  flex: 1; /* Allow header text to grow to take available space */
+  font-size: 30px; /* Adjusted font size */
+  color: #23527c;
+  font-family: 'Pacifico', cursive;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+  letter-spacing: 1px;
+  border-bottom: 2px solid #23527c;
+  margin: 0; /* Remove default margin */
+}
+.personalized-button {
+  margin-left: 20px; /* Adjusted margin for spacing */
+  margin-right: 40px;
+}
+.personalized-button button {
+  font-size: 16px; /* Adjusted font size */
+  padding: 8px 16px; /* Adjusted padding */
+  background-color: transparent; /* Make background transparent */
+  color: #23527c; /* Text color */
+  border: 2px solid #23527c; /* Border color */
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease; /* Smooth transition for color change */
+}
+
+.personalized-button button:hover {
+  background-color: #1a436d; /* Darker shade on hover */
+  color: white; /* Text color on hover */
+}
+
+/* Styling for the delete confirmation popup */
+.delete-confirmation-popup {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  z-index: 999; /* Ensure it appears above other elements */
+  color: #333;
+}
+
+.delete-confirmation-popup p {
+  margin-bottom: 10px;
+}
+
+.delete-confirmation-popup button {
+  margin-right: 10px;
 }
 
 

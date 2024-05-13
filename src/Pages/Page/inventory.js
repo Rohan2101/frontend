@@ -232,74 +232,80 @@ useEffect(() => {
   };
 
 const handleAddItem = () => {
-    // Regular expression to check for special characters
-    const specialCharsRegex = /[!@#$%^&*(),.?":{}|<>]/;
+  // Regular expression to check for special characters
+  const specialCharsRegex = /[!@#$%^&*(),.?":{}|<>]/;
 
-    // Check if any of the required fields are empty
-    if (!newItem.name || !newItem.amount || !newItem.spent) {
-      // Display an error message or perform any other action
-      alert('Please fill in all the fields');
-      return; // Exit the function early if validation fails
-    }
+  // Check if any of the required fields are empty
+  if (!newItem.name || !newItem.amount || !newItem.spent) {
+    // Display an error message or perform any other action
+    alert('Please fill in all the fields');
+    return; // Exit the function early if validation fails
+  }
 
-    // Check if any field contains special characters
-    if (specialCharsRegex.test(newItem.name)) {
-      alert('Please do not use special characters in the name or status field');
-      return;
-    }
+  // Check if any field contains special characters
+  if (specialCharsRegex.test(newItem.name)) {
+    alert('Please do not use special characters in the name or status field');
+    return;
+  }
 
-    // Check if the amount is a valid number
-    const amount = parseFloat(newItem.amount);
-    if (isNaN(amount) || amount <= 0) {
-      alert('Please enter a valid amount');
-      return;
-    }
+  // Check if the amount is a valid number
+  const amount = parseFloat(newItem.amount);
+  if (isNaN(amount) || amount <= 0) {
+    alert('Please enter a valid amount');
+    return;
+  }
 
-    // Check if the spent is a valid number
-    const spent = parseFloat(newItem.spent);
-    if (isNaN(spent) || spent <= 0) {
-      alert('Please enter a valid spent amount');
-      return;
-    }
+  // Check if the spent is a valid number
+  const spent = parseFloat(newItem.spent);
+  if (isNaN(spent) || spent <= 0) {
+    alert('Please enter a valid spent amount');
+    return;
+  }
 
-    // If expiry date is not provided, use the current date
-    let expiryDate = newItem.expiryDate;
-    if (!expiryDate) {
-      const currentDate = new Date();
-      expiryDate = currentDate.toLocaleDateString('en-GB');
-    }
+  // If expiry date is not provided, use the current date
+  let expiryDate = newItem.expiryDate;
+  if (!expiryDate) {
+    const currentDate = new Date();
+    expiryDate = currentDate.toLocaleDateString('en-GB');
+  }
 
-    // Format the spent amount with Australian dollar symbol
-    const formattedSpent = `${parseFloat(newItem.spent).toFixed(2)}`;
+  // Format the spent amount with Australian dollar symbol
+  const formattedSpent = `${parseFloat(newItem.spent).toFixed(2)}`;
 
-    // Calculate the status based on the expiry date
-    const status = calculateStatus(expiryDate);
+  // Calculate the status based on the expiry date
+  const status = calculateStatus(expiryDate);
 
-    // Create a new item object
-    const newInventoryItem = {
-      id: inventory.length + 1,
-      name: newItem.name,
-      amount: parseFloat(newItem.amount),
-      spent: formattedSpent,
-      expiryDate: expiryDate,
-      status: status
-    };
+  // Find all items with the same name in the inventory
+  const itemsWithSameName = inventory.filter(item => item.name === newItem.name);
 
-    // Add the new item to the inventory
-    const updatedInventory = [...inventory, newInventoryItem];
-    setInventory(updatedInventory);
-    localStorage.setItem('inventory', JSON.stringify(updatedInventory));
+  // Determine the batch number for the new item
+  const batchNumber = itemsWithSameName.length + 1;
 
-    // Reset the form fields and hide the add popup
-    setNewItem({
-      name: '',
-      amount: '',
-      spent: '',
-      expiryDate: '',
-      status: ''
-    });
-    setShowAddPopup(false);
+  // Create a new item object with the appropriate name
+  const newInventoryItem = {
+    id: inventory.length + 1,
+    name: batchNumber > 1 ? `${newItem.name} - Batch ${batchNumber}` : newItem.name,
+    amount: parseFloat(newItem.amount),
+    spent: formattedSpent,
+    expiryDate: expiryDate,
+    status: status
   };
+
+  // Add the new item to the inventory
+  const updatedInventory = [...inventory, newInventoryItem];
+  setInventory(updatedInventory);
+  localStorage.setItem('inventory', JSON.stringify(updatedInventory));
+
+  // Reset the form fields and hide the add popup
+  setNewItem({
+    name: '',
+    amount: '',
+    spent: '',
+    expiryDate: '',
+    status: ''
+  });
+  setShowAddPopup(false);
+};
 
   const populateItems = (name, amount, spent, expiryDate, status) => {
     const newInventoryItem = {
@@ -516,8 +522,11 @@ if (extractedText2 !== '' || msg2 !== '') {
       <div className="App">
 
 
+  <div className="inv-header-container">
   <p className="inv-header-text">Begin Your Flavorful Journey Here!
 </p>
+<div className="personalized-button"><button> See my personalized analysis</button>
+</div></div>
         <header></header>
         <div className="table-and-buttons">
         <div className="inventory-table-container">
