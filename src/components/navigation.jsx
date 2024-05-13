@@ -204,6 +204,7 @@ const handleUpload2 = async (e) => {
     width={320}
     height={240}
   />
+  <h3> </h3>
   <button onClick={capturePhoto} style={{display: 'block', margin: '0 auto'}}>Capture Photo</button>
   <h3> </h3>
   {imgSrc1 && <img src={imgSrc1} alt="Uploaded" />}
