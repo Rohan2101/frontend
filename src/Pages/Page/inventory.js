@@ -715,7 +715,7 @@ if (extractedText2 !== '' || msg2 !== '') {
   >
     Next
   </button>
-<Dashboard />
+
 </div>
 
  {showCongratsPopup && (
@@ -724,7 +724,7 @@ if (extractedText2 !== '' || msg2 !== '') {
         </div>
       )}
 
-
+<Dashboard />
     </div>
 
 

@@ -688,6 +688,8 @@ color: #333;
   letter-spacing: 1px;
   border-bottom: 2px solid #23527c;
   margin: 0; /* Remove default margin */
+  text-align: left;
+  margin-left:40px;
 }
 .personalized-button {
   margin-left: 20px; /* Adjusted margin for spacing */
