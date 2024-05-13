@@ -28,8 +28,8 @@ export const Landing = () => {
             <h1>Save Money</h1>
           </div>
           <div className="button-container">
-            <button  href="/inventory" className="get-started-button">Get Started</button>
-          </div>
+            <a href="/inventory" className="get-started-button">Get Started</a>
+        </div>
         </div>
       </div>
     </div>
