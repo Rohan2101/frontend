@@ -377,7 +377,9 @@ const handleUpload = async (e) => {
         status: ''
       };
       setInventory(prevInventory => [...prevInventory, newItem]);
+      setShowScanReceiptPopup(false);
     });
+    setUploadingImage(false); // Set uploadingImage to false after uploading
     setNextItemId(startingId + data.extracted_text.length);
     // Resetting form fields and other relevant states
     setNewItem({
@@ -387,8 +389,7 @@ const handleUpload = async (e) => {
       expiryDate: '',
       status: ''
     });
-    setUploadingImage(false); // Set uploadingImage to false after uploading
-    setShowAddPopup(false); // Close the popup after successful upload
+// Close the popup after successful upload
   } catch (error) {
     console.error('Error uploading image:', error);
     alert('Something went wrong, please try again.'); // Image was not read
@@ -414,14 +415,13 @@ const handleUpload2 = async (e) => {
   const formData = new FormData();
   formData.append('file1', file1);
 
-  setShowScanProducePopup(false); // Close the popup
-
+  // setShowScanProducePopup(false); // Close the popup
   try {
     const response = await fetch('https://rohan2101new.pythonanywhere.com/pred', {
       method: 'POST',
       body: formData
     });
-
+    setUploadingImage(true);
     // if (!response.ok) {
     //   // If response status is not OK, throw an error
     //   throw new Error('Error reading image data, try another image.');
@@ -456,6 +456,8 @@ const handleUpload2 = async (e) => {
     }));
     if (extractedText1 !== '' || msg1 !== '') {
       populateItems(data.extracted_text1, '', '', formattedDate, '');
+      setShowScanProducePopup(false);
+      setUploadingImage(false);
     }
     // else
     // {
