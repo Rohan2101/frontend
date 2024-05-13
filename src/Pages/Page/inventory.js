@@ -372,41 +372,73 @@ const handleAddItem = () => {
     setFile1(e.target.files[0]);
   };
 
-  const handleUpload2 = async (e) => {
-    e.preventDefault();
-    const formData = new FormData();
-    formData.append('file1', file1);
-    setShowScanReceiptPopup(false); // Close the popup
-    try {
-      const response = await fetch('https://rohan2101new.pythonanywhere.com/pred', {
-        method: 'POST',
-        body: formData
-      });
-      const data = await response.json();
-      console.log(data);
-      setImgSrc1(data.imgSrc1);
-      setExtractedText1(data.extracted_text1);
-      setMsg1(data.msg1);
-      const daysToAdd = parseInt(data.msg1, 10);
-      const currentDate = new Date();
-      currentDate.setDate(currentDate.getDate() + daysToAdd);
-      const formattedDate = `${currentDate.getDate()}/${currentDate.getMonth() + 1}/${currentDate.getFullYear()}`;
-      setNewItem(prevItem => ({
-        ...prevItem,
-        name: '',
-        amount: '',
-        spent: '',
-        expiryDate: data.extracted_text2,
-        status: ''
-      }));
-      if (extractedText1 !== '' || msg1 !== '') {
-        populateItems(data.extracted_text1, '', '', formattedDate, '');
-      }
-    } catch (error) {
-      console.error('Error uploading image:', error);
-      setMsg1('Failed to upload image');
+const handleUpload2 = async (e) => {
+  e.preventDefault(); // Prevent default form submission behavior
+
+  // Check if a file has been selected
+  if (!file1) {
+    alert('Please select a file.');
+    return;
+  }
+
+  const formData = new FormData();
+  formData.append('file1', file1);
+
+  setShowScanProducePopup(false); // Close the popup
+
+  try {
+    const response = await fetch('https://rohan2101new.pythonanywhere.com/pred', {
+      method: 'POST',
+      body: formData
+    });
+
+    if (!response.ok) {
+      // If response status is not OK, throw an error
+      throw new Error('Error reading image data, try another image.');
     }
-  };
+
+    const data = await response.json();
+    console.log(data);
+
+    // Handle response data as needed
+    // Update state variables accordingly
+    setImgSrc1(data.imgSrc1);
+    setExtractedText1(data.extracted_text1);
+    setMsg1(data.msg1);
+    const daysToAdd = parseInt(data.msg1, 10);
+    const currentDate = new Date();
+
+    currentDate.setDate(currentDate.getDate() + daysToAdd);
+    const day = currentDate.getDate();
+    const month = new Intl.DateTimeFormat('en', { month: 'long' }).format(currentDate);
+    const year = currentDate.getFullYear();
+    const formattedDate = `${day} ${month} ${year}`;
+    console.log(formattedDate); // Output: "13 May 2024"
+    setNewItem(prevItem => ({
+      ...prevItem,
+      name: '',
+      amount: '',
+      spent: '',
+      expiryDate: data.extracted_text2,
+      status: ''
+    }));
+    if (extractedText1 !== '' || msg1 !== '') {
+      populateItems(data.extracted_text1, '', '', formattedDate, '');
+    }
+    else
+    {
+        alert('Something went wrong. Please try again.');
+
+    }
+  } catch (error) {
+    console.error('Error uploading image:', error);
+    alert('Error reading image data, try another image.');
+    setMsg1('Failed to upload image');
+  }
+};
+
+
+
 
   const handleFileChange2 = (e) => {
     setFile2(e.target.files[0]);
@@ -628,10 +660,6 @@ if (extractedText2 !== '' || msg2 !== '') {
                 {imgSrc1 && <img src={imgSrc1} alt="Uploaded" />}
                 {/* populateItems(extractedText1, '', '', msg1, ''); */}
               </div>
-              {/* <button onClick={() => {
-              document.getElementById("uploadForm").submit();
-              populateItems(extractedText1, '', '', msg1, '');
-              }}>Upload</button> */}
               <button onClick={() => togglePopup('produce')}>Cancel</button>
             </div>
           )}
