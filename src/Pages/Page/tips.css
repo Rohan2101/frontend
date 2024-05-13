@@ -1,4 +1,4 @@
-.tips-page {
+.tips-whole-page {
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
@@ -6,7 +6,7 @@
   margin-top: 100px;
 }
 
-.search-area {
+.tips-search-area {
   width: 100%;
   display: flex;
   justify-content: center;
@@ -22,7 +22,20 @@ input[type="text"] {
   border-radius: 5px;
 }
 
-button {
+/* button {
+  padding: 10px 20px;
+  font-size: 1.2rem;
+  cursor: pointer;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 5px;
+} */
+
+.tips-search-button,
+.modal-button,
+.page-number-button,
+.inventory-item-button {
   padding: 10px 20px;
   font-size: 1.2rem;
   cursor: pointer;
@@ -32,13 +45,13 @@ button {
   border-radius: 5px;
 }
 
-.results-area {
+.tips-results-area {
   flex: 2;
   margin-right: 20px;
 
 }
 
-.result-item {
+.tips-result-item {
   padding: 10px;
   cursor: pointer;
   border: 1px solid #ddd;
@@ -47,11 +60,11 @@ button {
   width: 450px;
 }
 
-.result-item.selected {
+.tips-result-item.selected {
   background-color: #ccffcc;
 }
 
-.tips-content {
+.tips-final-content {
   flex: 5;
   padding: 15px;
   background-color: #f9f9f9;
@@ -61,7 +74,7 @@ button {
   width: 800px;
 }
 
-.tips-placeholder {
+.tips-initial-placeholder {
   flex: 5;
   padding: 15px;
   background-color: #f9f9f9;
@@ -69,11 +82,11 @@ button {
   border-radius: 5px;
   width: 800px;
 
-  display: flex; /* 使用 Flexbox 布局 */
-  justify-content: center; /* 水平居中 */
-  align-items: center; /* 垂直居中 */
-  margin: 0 auto; /* 居中 */
-  text-align: center; /* 水平居中文本 */
+  display: flex; 
+  justify-content: center; 
+  align-items: center; 
+  margin: 0 auto; 
+  text-align: center; 
 }
 
 .result-tips-container {
@@ -81,13 +94,13 @@ button {
   justify-content: space-between;
 }
 
-.initial-content {
+.initial-content-footer {
   max-width: 100%;
   margin: 20px auto; 
   text-align: center;
 }
 
-.initial-content img {
+.initial-content-footer img {
   width: 100%;
   max-width: 100%;
   height: auto;
@@ -126,19 +139,8 @@ button {
   margin-bottom: 20px;
 }
 
-.modal-footer button {
-  background-color: #4CAF50;
-  color: white;
-  padding: 8px 16px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-}
 
-
-
-
-.centered-message {
+.centered-message-inventory {
   margin: auto;
   width: 80%;
 }
@@ -154,7 +156,7 @@ button {
   border: 1px solid #ccc;
 }
 
-.inventory-item {
+.inventory-item-button {
   width: 250px;
   height: 40px;
   padding: 8px 10px;
@@ -176,20 +178,20 @@ button {
   font-size: 15px;
 }
 
-.inventory-item.selected {
+.inventory-item-button.selected {
   background-color: #ccffcc;
   color: black;
 }
 
 
-.pagination-controls {
+.tips-pagination-controls {
   display: flex;
   justify-content: center;
   margin-top: -10px;
   margin-bottom: 10px
 }
 
-.pagination-controls button {
+.tips-pagination-controls button {
   padding: 5px 10px;
   margin-right: 5px;
   cursor: pointer;
@@ -198,13 +200,13 @@ button {
   color: black;
 }
 
-.pagination-controls button.active {
+.tips-pagination-controls button.active {
   background-color: white;
   color: black;
   border: 2px solid #4CAF50;
 }
 
-.pagination-controls button:hover {
+.tips-pagination-controls button:hover {
   background-color: #f0f0f0;
 }
 

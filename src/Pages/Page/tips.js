@@ -15,7 +15,6 @@ import footer from '../images/tips-footer.png';
 
 const ErrorModal = ({ isOpen, onClose }) => {
   if (!isOpen) return null;
-
   return (
     <div className="modal-overlay">
       <div className="modal-content">
@@ -23,7 +22,7 @@ const ErrorModal = ({ isOpen, onClose }) => {
           <p>The keyword you searched for is not in our database, please search again.</p>
         </div>
         <div className="modal-footer">
-          <button onClick={onClose}>OK</button>
+          <button className="modal-button" onClick={onClose}>OK</button>
         </div>
       </div>
     </div>
@@ -39,7 +38,7 @@ const TipsContent = ({ selectedResult }) => {
   const sections = selectedResult.Tips.split(/\n/);
 
   return (
-    <div className="tips-content">
+    <div className="tips-final-content">
       {sections.map((section, index) => {
         // Cutting titles and content
         const splitIndex = section.indexOf(':');
@@ -62,35 +61,35 @@ export const Tips = () => {
   const [showInitialContent, setShowInitialContent] = useState(true);
   const [showErrorModal, setShowErrorModal] = useState(false);
 
-// get not-expiry items name 
-const [validInventoryNames, setValidInventoryNames] = useState([]);
-useEffect(() => {
-  try {
-    console.log('Attempting to read inventory from localStorage...');
-    const storedInventory = localStorage.getItem('inventory');
-    if (storedInventory) {
-      console.log('Stored inventory:', storedInventory);
-      const parsedInventory = JSON.parse(storedInventory);
-      // get unexpired items
-      const validItems = parsedInventory.filter(item => {
-        const status = calculateStatus(item.expiryDate);
-        console.log(`Item: ${item.name}, ExpiryDate: ${item.expiryDate}, Status:`, status);
-        // unexpired items 
-        return status.color === 'green' || status.color === '#DAA520';
-      });
-      
-      // Convert names to lowercase before getting unique names
-      const uniqueNames = [...new Set(validItems.map(item => item.name.toLowerCase()))];
-      
-      console.log('Valid inventory names:', uniqueNames);
-      setValidInventoryNames(uniqueNames);
-    } else {
-      console.log('No inventory found in localStorage.');
+  // get not-expiry items name 
+  const [validInventoryNames, setValidInventoryNames] = useState([]);
+  useEffect(() => {
+    try {
+      console.log('Attempting to read inventory from localStorage...');
+      const storedInventory = localStorage.getItem('inventory');
+      if (storedInventory) {
+        console.log('Stored inventory:', storedInventory);
+        const parsedInventory = JSON.parse(storedInventory);
+        // get unexpired items
+        const validItems = parsedInventory.filter(item => {
+          const status = calculateStatus(item.expiryDate);
+          console.log(`Item: ${item.name}, ExpiryDate: ${item.expiryDate}, Status:`, status);
+          // unexpired items 
+          return status.color === 'green' || status.color === '#DAA520';
+        });
+
+        // Convert names to lowercase before getting unique names
+        const uniqueNames = [...new Set(validItems.map(item => item.name.toLowerCase()))];
+
+        console.log('Valid inventory names:', uniqueNames);
+        setValidInventoryNames(uniqueNames);
+      } else {
+        console.log('No inventory found in localStorage.');
+      }
+    } catch (error) {
+      console.error('Error parsing inventory:', error);
     }
-  } catch (error) {
-    console.error('Error parsing inventory:', error);
-  }
-}, []);
+  }, []);
 
   //  search keywords
   const [searchValue, setSearchValue] = useState('');
@@ -100,7 +99,7 @@ useEffect(() => {
   const handleSearch = (name) => {
     // Preprocessing user input
     let processedName = name.trim();
-  
+
     // Check if the input is a number
     if (/^\d+$/.test(processedName)) {
       setSearchResults([]);
@@ -110,19 +109,19 @@ useEffect(() => {
       setSearchValue(name);
       return;
     }
-  
+
     // Convert to lowercase
     processedName = processedName.toLowerCase();
-  
+
     // Segment user input keywords
     const inputKeywords = processedName.split(' ');
-  
+
     // Generate all combinations of keywords
     const keywordCombinations = generateCombinations(inputKeywords);
-  
+
     // Sort keyword combinations in descending order of length
     keywordCombinations.sort((a, b) => b.length - a.length);
-  
+
     // Try to match keyword combinations one by one
     for (const combination of keywordCombinations) {
       const combinationString = combination.join(' ');
@@ -130,7 +129,7 @@ useEffect(() => {
         const itemKeywords = item.Keywords.toLowerCase().split(', ');
         return itemKeywords.includes(combinationString);
       });
-  
+
       if (results.length > 0) {
         setSearchResults(results);
         setSelectedResult(null);
@@ -146,7 +145,7 @@ useEffect(() => {
         return;
       }
     }
-  
+
     // If there are no matches, show the error modal directly
     setSearchResults([]);
     setSelectedResult(null);
@@ -208,7 +207,7 @@ useEffect(() => {
       pageNumbers.push(
         <button
           key={i}
-          className={currentPage === i ? 'active' : ''}
+          className={`page-number-button ${currentPage === i ? 'active' : ''}`}
           onClick={() => goToPage(i)}
         >
           {i}
@@ -259,7 +258,7 @@ useEffect(() => {
 
 
   return (
-    <div className="tips-page">
+    <div className="tips-whole-page">
 
       <div className="quick-category-tips">
         <h2 className="section-title">Quick Category Tips</h2>
@@ -284,39 +283,46 @@ useEffect(() => {
           validInventoryNames
             .slice((currentPage - 1) * 10, currentPage * 10)  // Only show 10 items per page
             .map((name, index) => (
-              <button key={index}
-                className={`inventory-item ${searchValue === name ? 'selected' : ''}`}
-                onClick={() => handleSearch(name)}>
+              <button
+                key={index}
+                className={`inventory-item-button ${searchValue === name ? 'selected' : ''}`}
+                onClick={() => handleSearch(name)}
+              >
                 <span className="item-text">{name}</span>
               </button>
             ))
         ) : (
-          <p className="centered-message">
+          <p className="centered-message-inventory">
             Sorry, There are NO items in your inventory or all items have EXPIRED. Click here to {' '}
             <Link to="/inventory" className="link-style">ADD FRESH ONES</Link> to inventory or use the Search Bar below to manually search for storage tips.
           </p>
 
         )}
       </div>
-      <div className="pagination-controls">
+      <div className="tips-pagination-controls">
         {renderPageNumbers()}
       </div>
 
 
       <h2 className="centered-title">Search By Keywords</h2>
       <p className="explanatory-text">We may handle keywords Incorrectly above,or you wanna Find Out More, so try entering more explicit keywords manually below!</p>
-      <div className="search-area">
+      <div className="tips-search-area">
         <input
           type="text"
           value={searchValue}
           onChange={e => setSearchValue(e.target.value)}
           placeholder="Enter some keywords like oil, cheese ..."
         />
-        <button onClick={() => handleSearch(searchValue)}>Search</button>
+        <button
+          className="tips-search-button"
+          onClick={() => handleSearch(searchValue)}
+        >
+          Search
+        </button>
       </div>
 
       {searchResults.length === 0 && showInitialContent && (
-        <div className="initial-content">
+        <div className="initial-content-footer">
 
           <img src={footer} alt="Footer Image" />
         </div>
@@ -324,11 +330,11 @@ useEffect(() => {
 
       {searchResults.length > 0 && (
         <div className="result-tips-container">
-          <div className="results-area">
+          <div className="tips-results-area">
             {searchResults.map((result, index) => (
               <div
                 key={index}
-                className={`result-item ${selectedResult === result ? 'selected' : ''}`}
+                className={`tips-result-item ${selectedResult === result ? 'selected' : ''}`}
                 onClick={() => handleResultSelection(result)}
               >
                 {result.Category_Name} — {result.Name}
@@ -337,7 +343,7 @@ useEffect(() => {
           </div>
 
           {!selectedResult && (
-            <div className="tips-placeholder">
+            <div className="tips-initial-placeholder">
               <p>Click on any of the results on the left to view the relevant storage tips.</p>
             </div>
           )}
