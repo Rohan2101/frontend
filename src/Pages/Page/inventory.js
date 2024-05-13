@@ -5,6 +5,9 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { Link } from 'react-router-dom';
 import Dashboard from './Dashboard';
+import samimg1 from "./1.jpeg"; // Import the image
+import samimg2 from "./2.jpeg"; // Import the image
+import samimg3 from "./3.jpeg"; // Import the image
 
 
 // Function to calculate the status based on the expiry date
@@ -79,12 +82,6 @@ const currentInventory = inventory.slice(startIndex, endIndex);
 const totalPages = Math.ceil(inventory.length / itemsPerPage);
 const [uploadingImage, setUploadingImage] = useState(false);
 
-  const dashboardRef = useRef(null); // Ref for the dashboard section
-
-
-const scrollToDashboard = () => {
-    dashboardRef.current.scrollIntoView({ behavior: 'smooth' });
-  };
 
   // handle  "Add Manually" "Scan Receipt"  status while editing
   const [editingItem, setEditingItem] = useState(null);
@@ -120,22 +117,6 @@ useEffect(() => {
   }
 }, [hasOneItemInInventory, showCongratsTimer]);
 
-
-useEffect(() => {
-  const expiredItems = inventory.filter(item => calculateStatus(item.expiryDate).color === 'red');
-  if (expiredItems.length > 0) {
-    const confirmation = window.confirm('Some items in your inventory have expired. Do you want to delete them?');
-    if (confirmation) {
-      handleDeleteExpiredItems();
-    }
-  }
-}, []);
-
-const handleDeleteExpiredItems = () => {
-  const updatedInventory = inventory.filter(item => calculateStatus(item.expiryDate).color !== 'red');
-  setInventory(updatedInventory);
-  localStorage.setItem('inventory', JSON.stringify(updatedInventory));
-};
 
   // for status indicator popup
   const [showStatusModal, setShowStatusModal] = useState(false);
@@ -367,7 +348,7 @@ const handleUpload = async (e) => {
     });
     const data = await response.json();
     console.log(data);
-    if (!data.name || !data.extracted_text) {
+    if (!data.extracted_text) {
       // Image was uploaded but not read
       alert('Error reading image data, try another image.');
       setUploadingImage(false); // Set uploadingImage to false after uploading
@@ -574,7 +555,7 @@ if (extractedText2 !== '' || msg2 !== '') {
   <div className="inv-header-container">
   <p className="inv-header-text">Begin Your Flavorful Journey Here!
 </p>
-<div className="personalized-button" ><button onClick={scrollToDashboard}> Personalized spending analysis</button>
+<div className="personalized-button"><button> See my personalized analysis</button>
 </div></div>
         <header></header>
         <div className="table-and-buttons">
@@ -681,6 +662,8 @@ if (extractedText2 !== '' || msg2 !== '') {
         <input type="submit" value="Upload" />
       </form>
       {imgSrc && <img src={imgSrc} alt="Uploaded" />}
+      <img src={samimg1} alt="Sample Image" width="25" height="25" />
+      <a href={samimg1} download>  Download Sample Image</a>
     </div>
     <button onClick={() => togglePopup('receipt')}>Cancel</button>
   </div>
@@ -714,6 +697,8 @@ if (extractedText2 !== '' || msg2 !== '') {
         <input type="submit" value="Upload" />
       </form>
       {imgSrc1 && <img src={imgSrc1} alt="Uploaded" />}
+      <img src={samimg2} alt="Sample Image" width="25" height="25" />
+      <a href={samimg2} download>  Download Sample Image</a>
       {/* populateItems(extractedText1, '', '', msg1, ''); */}
     </div>
     <button onClick={() => togglePopup('produce')}>Cancel</button>
@@ -746,10 +731,8 @@ if (extractedText2 !== '' || msg2 !== '') {
         </div>
       )}
 
-<div ref={dashboardRef}>
 <Dashboard />
     </div>
-       </div>
 
 
   );

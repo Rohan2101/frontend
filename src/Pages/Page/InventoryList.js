@@ -4,6 +4,7 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { calculateStatus } from './inventory';
 import './inventory.css';
+import samimg3 from "./3.jpeg"; // Import the image
 
 
 const InventoryList = ({ inventory, onEdit, onDelete, togglePopup, onEditingItemChange}) => {
@@ -321,8 +322,7 @@ const handleScanExpiry = (id, item) => {
       {/* Scan expiry popup */}
       {showScanExpiryPopup && (
   <div className="popup">
-  <h2 style={{ fontSize: '2.5rem' }}>Scan your package to log Expiry Date</h2>
-
+    <h2>Scan Expiry</h2>
     {uploadingImage && <div className="loading-overlay">Loading...</div>}
     <div className="scan-options">
       <form onSubmit={handleUpload} encType="multipart/form-data">
@@ -330,6 +330,8 @@ const handleScanExpiry = (id, item) => {
         <input type="submit" value="Upload" />
       </form>
       {imgSrc && <img src={imgSrc} alt="Uploaded" />}
+      <img src={samimg3} alt="Sample Image" width="25" height="25" />
+      <a href={samimg3} download>  Download Sample Image</a>
     </div>
     <button onClick={() => setShowScanExpiryPopup(false)}>Cancel</button>
   </div>

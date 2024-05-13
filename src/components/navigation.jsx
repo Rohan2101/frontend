@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import Webcam from "react-webcam";
 import logo from "../ProjectLogo.png"; // Import the image
+import samimg2 from "./2.jpeg"; // Import the image
 
 export const Navigation = (props) => {
   const [showScanProducePopup, setShowScanProducePopup] = useState(false);
@@ -167,7 +168,7 @@ const handleUpload2 = async (e) => {
         top: '10px',
         right: '10px', // Adjusted position to the top right corner
         zIndex: '9999',
-        padding: '10px 20px',
+        padding: '5px 20px',
         backgroundColor: 'black',
         color: 'red',
         border: 'black',
@@ -189,7 +190,7 @@ const handleUpload2 = async (e) => {
           {showScanProducePopup && (
 
 <div className="popup">
-<h2 style={{textAlign: 'center', fontFamily: 'Arial, sans-serif'}}>Scan Your fresh Produce to get an estimated self life</h2>
+<h2 style={{textAlign: 'center', fontFamily: 'Arial, sans-serif'}}>Scan Your fresh Produce to get an estimated shelf life</h2>
 <div className="scan-options">
   {/* <form id="uploadForm" onSubmit={handleUpload2} encType="multipart/form-data">
     <input type="file" name="file1" onChange={handleFileChange1} />
@@ -213,6 +214,8 @@ const handleUpload2 = async (e) => {
   <form id="uploadForm" onSubmit={handleUpload2} encType="multipart/form-data">
     <input type="file" name="file1" onChange={handleFileChange1} />
     <input type="submit" value="Upload" />
+    <img src={samimg2} alt="Sample Image" width="25" height="25" />
+      <a href={samimg2} download>  Download Sample Image</a>
     </form>
   {/* populateItems(extractedText1, '', '', msg1, ''); */}
 </div>
