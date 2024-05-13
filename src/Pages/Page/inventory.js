@@ -6,6 +6,19 @@ import 'react-datepicker/dist/react-datepicker.css';
 import { Link } from 'react-router-dom';
 import Dashboard from './Dashboard';
 
+import sampleZip from '../images/sample.zip';
+const downloadSampleZip = () => {
+  const link = document.createElement('a');
+  link.style.display = 'none';
+  document.body.appendChild(link);
+
+  link.href = sampleZip;
+  link.download = 'sample_images.zip';
+  link.click();
+
+  document.body.removeChild(link);
+};
+
 
 // Function to calculate the status based on the expiry date
 export const calculateStatus = (expiryDate) => {
@@ -65,24 +78,24 @@ export function Maininventory() {
   const [file2, setFile2] = useState(null);
   const [imgSrc2, setImgSrc2] = useState('');
   const [extractedText2, setExtractedText2] = useState('');
-const [hasOneItemInInventory, setHasOneItemInInventory] = useState(inventory.length === 1);
-const [hasBlinked, setHasBlinked] = useState(false);
+  const [hasOneItemInInventory, setHasOneItemInInventory] = useState(inventory.length === 1);
+  const [hasBlinked, setHasBlinked] = useState(false);
   const [showCongratsPopup, setShowCongratsPopup] = useState(true);
-    const [showCongratsTimer, setShowCongratsTimer] = useState(true);
+  const [showCongratsTimer, setShowCongratsTimer] = useState(true);
   const [blink, setBlink] = useState(false);
-const [currentPage, setCurrentPage] = useState(1);
-const itemsPerPage = 8;
-const startIndex = (currentPage - 1) * itemsPerPage;
-const endIndex = Math.min(startIndex + itemsPerPage, inventory.length);
-const currentInventory = inventory.slice(startIndex, endIndex);
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 8;
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = Math.min(startIndex + itemsPerPage, inventory.length);
+  const currentInventory = inventory.slice(startIndex, endIndex);
 
-const totalPages = Math.ceil(inventory.length / itemsPerPage);
-const [uploadingImage, setUploadingImage] = useState(false);
+  const totalPages = Math.ceil(inventory.length / itemsPerPage);
+  const [uploadingImage, setUploadingImage] = useState(false);
 
   const dashboardRef = useRef(null); // Ref for the dashboard section
 
 
-const scrollToDashboard = () => {
+  const scrollToDashboard = () => {
     dashboardRef.current.scrollIntoView({ behavior: 'smooth' });
   };
 
@@ -93,49 +106,49 @@ const scrollToDashboard = () => {
   };
 
 
-// Use useEffect to automatically close the congratulations popup after 3 seconds
-useEffect(() => {
-  const timeout = setTimeout(() => {
-    setShowCongratsTimer(false);
-  }, 3000);
+  // Use useEffect to automatically close the congratulations popup after 3 seconds
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      setShowCongratsTimer(false);
+    }, 3000);
 
-  return () => clearTimeout(timeout);
-}, []);
+    return () => clearTimeout(timeout);
+  }, []);
 
-// Use useEffect to hide the congratulations popup when the timer is up
-useEffect(() => {
-  if (!showCongratsTimer) {
-    setShowCongratsPopup(false);
-  }
-}, [showCongratsTimer]);
-
-
-useEffect(() => {
-  // Show the congratulations popup if there's exactly one item in inventory and the timer is still active
-  if (hasOneItemInInventory && showCongratsTimer) {
-    setShowCongratsPopup(true);
-  } else {
-    // Otherwise, hide the congratulations popup
-    setShowCongratsPopup(false);
-  }
-}, [hasOneItemInInventory, showCongratsTimer]);
-
-
-useEffect(() => {
-  const expiredItems = inventory.filter(item => calculateStatus(item.expiryDate).color === 'red');
-  if (expiredItems.length > 0) {
-    const confirmation = window.confirm('Some items in your inventory have expired. Do you want to delete them?');
-    if (confirmation) {
-      handleDeleteExpiredItems();
+  // Use useEffect to hide the congratulations popup when the timer is up
+  useEffect(() => {
+    if (!showCongratsTimer) {
+      setShowCongratsPopup(false);
     }
-  }
-}, []);
+  }, [showCongratsTimer]);
 
-const handleDeleteExpiredItems = () => {
-  const updatedInventory = inventory.filter(item => calculateStatus(item.expiryDate).color !== 'red');
-  setInventory(updatedInventory);
-  localStorage.setItem('inventory', JSON.stringify(updatedInventory));
-};
+
+  useEffect(() => {
+    // Show the congratulations popup if there's exactly one item in inventory and the timer is still active
+    if (hasOneItemInInventory && showCongratsTimer) {
+      setShowCongratsPopup(true);
+    } else {
+      // Otherwise, hide the congratulations popup
+      setShowCongratsPopup(false);
+    }
+  }, [hasOneItemInInventory, showCongratsTimer]);
+
+
+  useEffect(() => {
+    const expiredItems = inventory.filter(item => calculateStatus(item.expiryDate).color === 'red');
+    if (expiredItems.length > 0) {
+      const confirmation = window.confirm('Some items in your inventory have expired. Do you want to delete them?');
+      if (confirmation) {
+        handleDeleteExpiredItems();
+      }
+    }
+  }, []);
+
+  const handleDeleteExpiredItems = () => {
+    const updatedInventory = inventory.filter(item => calculateStatus(item.expiryDate).color !== 'red');
+    setInventory(updatedInventory);
+    localStorage.setItem('inventory', JSON.stringify(updatedInventory));
+  };
 
   // for status indicator popup
   const [showStatusModal, setShowStatusModal] = useState(false);
@@ -155,15 +168,15 @@ const handleDeleteExpiredItems = () => {
     localStorage.setItem('inventory', JSON.stringify(updatedInventory));
   };
 
-useEffect(() => {
-  // Check if the inventory has exactly one item
-  const hasOneItem = inventory.length === 1;
+  useEffect(() => {
+    // Check if the inventory has exactly one item
+    const hasOneItem = inventory.length === 1;
 
-  // Update hasOneItemInInventory state if it's different from the current state
-  if (hasOneItem !== hasOneItemInInventory) {
-    setHasOneItemInInventory(hasOneItem);
-  }
-}, [inventory]); // Run this effect whenever the inventory changes
+    // Update hasOneItemInInventory state if it's different from the current state
+    if (hasOneItem !== hasOneItemInInventory) {
+      setHasOneItemInInventory(hasOneItem);
+    }
+  }, [inventory]); // Run this effect whenever the inventory changes
 
 
   // Define handleDeleteItem function
@@ -232,6 +245,9 @@ useEffect(() => {
       case 'package':
         setShowScanPackagePopup(!showScanPackagePopup);
         break;
+      case 'sample':
+        downloadSampleZip();
+        break;
 
 
       // Status Popup
@@ -262,81 +278,81 @@ useEffect(() => {
     }
   };
 
-const handleAddItem = () => {
-  // Regular expression to check for special characters
-  const specialCharsRegex = /[!@#$%^&*(),.?":{}|<>]/;
+  const handleAddItem = () => {
+    // Regular expression to check for special characters
+    const specialCharsRegex = /[!@#$%^&*(),.?":{}|<>]/;
 
-  // Check if any of the required fields are empty
-  if (!newItem.name || !newItem.amount || !newItem.spent) {
-    // Display an error message or perform any other action
-    alert('Please fill in all the fields');
-    return; // Exit the function early if validation fails
-  }
+    // Check if any of the required fields are empty
+    if (!newItem.name || !newItem.amount || !newItem.spent) {
+      // Display an error message or perform any other action
+      alert('Please fill in all the fields');
+      return; // Exit the function early if validation fails
+    }
 
-  // Check if any field contains special characters
-  if (specialCharsRegex.test(newItem.name)) {
-    alert('Please do not use special characters in the name or status field');
-    return;
-  }
+    // Check if any field contains special characters
+    if (specialCharsRegex.test(newItem.name)) {
+      alert('Please do not use special characters in the name or status field');
+      return;
+    }
 
-  // Check if the amount is a valid number
-  const amount = parseFloat(newItem.amount);
-  if (isNaN(amount) || amount <= 0) {
-    alert('Please enter a valid amount');
-    return;
-  }
+    // Check if the amount is a valid number
+    const amount = parseFloat(newItem.amount);
+    if (isNaN(amount) || amount <= 0) {
+      alert('Please enter a valid amount');
+      return;
+    }
 
-  // Check if the spent is a valid number
-  const spent = parseFloat(newItem.spent);
-  if (isNaN(spent) || spent <= 0) {
-    alert('Please enter a valid spent amount');
-    return;
-  }
+    // Check if the spent is a valid number
+    const spent = parseFloat(newItem.spent);
+    if (isNaN(spent) || spent <= 0) {
+      alert('Please enter a valid spent amount');
+      return;
+    }
 
-  // If expiry date is not provided, use the current date
-  let expiryDate = newItem.expiryDate;
-  if (!expiryDate) {
-    const currentDate = new Date();
-    expiryDate = currentDate.toLocaleDateString('en-GB');
-  }
+    // If expiry date is not provided, use the current date
+    let expiryDate = newItem.expiryDate;
+    if (!expiryDate) {
+      const currentDate = new Date();
+      expiryDate = currentDate.toLocaleDateString('en-GB');
+    }
 
-  // Format the spent amount with Australian dollar symbol
-  const formattedSpent = `${parseFloat(newItem.spent).toFixed(2)}`;
+    // Format the spent amount with Australian dollar symbol
+    const formattedSpent = `${parseFloat(newItem.spent).toFixed(2)}`;
 
-  // Calculate the status based on the expiry date
-  const status = calculateStatus(expiryDate);
+    // Calculate the status based on the expiry date
+    const status = calculateStatus(expiryDate);
 
-  // Find all items with the same name in the inventory
-  const itemsWithSameName = inventory.filter(item => item.name === newItem.name);
+    // Find all items with the same name in the inventory
+    const itemsWithSameName = inventory.filter(item => item.name === newItem.name);
 
-  // Determine the batch number for the new item
-  const batchNumber = itemsWithSameName.length + 1;
+    // Determine the batch number for the new item
+    const batchNumber = itemsWithSameName.length + 1;
 
-  // Create a new item object with the appropriate name
-  const newInventoryItem = {
-    id: inventory.length + 1,
-    name: batchNumber > 1 ? `${newItem.name} - Batch ${batchNumber}` : newItem.name,
-    amount: parseFloat(newItem.amount),
-    spent: formattedSpent,
-    expiryDate: expiryDate,
-    status: status
+    // Create a new item object with the appropriate name
+    const newInventoryItem = {
+      id: inventory.length + 1,
+      name: batchNumber > 1 ? `${newItem.name} - Batch ${batchNumber}` : newItem.name,
+      amount: parseFloat(newItem.amount),
+      spent: formattedSpent,
+      expiryDate: expiryDate,
+      status: status
+    };
+
+    // Add the new item to the inventory
+    const updatedInventory = [...inventory, newInventoryItem];
+    setInventory(updatedInventory);
+    localStorage.setItem('inventory', JSON.stringify(updatedInventory));
+
+    // Reset the form fields and hide the add popup
+    setNewItem({
+      name: '',
+      amount: '',
+      spent: '',
+      expiryDate: '',
+      status: ''
+    });
+    setShowAddPopup(false);
   };
-
-  // Add the new item to the inventory
-  const updatedInventory = [...inventory, newInventoryItem];
-  setInventory(updatedInventory);
-  localStorage.setItem('inventory', JSON.stringify(updatedInventory));
-
-  // Reset the form fields and hide the add popup
-  setNewItem({
-    name: '',
-    amount: '',
-    spent: '',
-    expiryDate: '',
-    status: ''
-  });
-  setShowAddPopup(false);
-};
 
   const populateItems = (name, amount, spent, expiryDate, status) => {
     const newInventoryItem = {
@@ -354,143 +370,142 @@ const handleAddItem = () => {
     setFile(e.target.files[0]);
   };
 
-const handleUpload = async (e) => {
-  e.preventDefault();
-  setUploadingImage(true); // Set uploadingImage to true while uploading
-  const formData = new FormData();
-  formData.append('file', file);
+  const handleUpload = async (e) => {
+    e.preventDefault();
+    setUploadingImage(true); // Set uploadingImage to true while uploading
+    const formData = new FormData();
+    formData.append('file', file);
 
-  try {
-    const response = await fetch('https://rohan222.pythonanywhere.com/rc', {
-      method: 'POST',
-      body: formData
-    });
-    const data = await response.json();
-    console.log(data);
-    if (!data.name || !data.extracted_text) {
-      // Image was uploaded but not read
-      alert('Error reading image data, try another image.');
+    try {
+      const response = await fetch('https://rohan222.pythonanywhere.com/rc', {
+        method: 'POST',
+        body: formData
+      });
+      const data = await response.json();
+      console.log(data);
+      if (!data.name || !data.extracted_text) {
+        // Image was uploaded but not read
+        alert('Error reading image data, try another image.');
+        setUploadingImage(false); // Set uploadingImage to false after uploading
+        setShowScanReceiptPopup(false); // Close the popup in case of error
+        return;
+      }
+      setName(data.name);
+      setImgSrc(data.imgSrc);
+      setExtractedText(data.extracted_text);
+      setNewItem(prevItem => ({
+        ...prevItem,
+        name: data.name,
+        amount: data.extracted_text,
+        spent: data.msg,
+        expiryDate: '',
+        status: ''
+      }));
+      const startingId = inventory.length + 1;
+      data.extracted_text.forEach((item, index) => {
+        const newItem = {
+          id: startingId + index,
+          name: item.name,
+          amount: item.amount,
+          spent: item.spent,
+          expiryDate: "29 Apr 2024",
+          status: ''
+        };
+        setInventory(prevInventory => [...prevInventory, newItem]);
+      });
+      setNextItemId(startingId + data.extracted_text.length);
+      // Resetting form fields and other relevant states
+      setNewItem({
+        name: '',
+        amount: 0,
+        spent: '',
+        expiryDate: '',
+        status: ''
+      });
+      setUploadingImage(false); // Set uploadingImage to false after uploading
+      setShowAddPopup(false); // Close the popup after successful upload
+    } catch (error) {
+      console.error('Error uploading image:', error);
+      alert('Something went wrong, please try again.'); // Image was not read
       setUploadingImage(false); // Set uploadingImage to false after uploading
       setShowScanReceiptPopup(false); // Close the popup in case of error
-      return;
     }
-    setName(data.name);
-    setImgSrc(data.imgSrc);
-    setExtractedText(data.extracted_text);
-    setNewItem(prevItem => ({
-      ...prevItem,
-      name: data.name,
-      amount: data.extracted_text,
-      spent: data.msg,
-      expiryDate: '',
-      status: ''
-    }));
-    const startingId = inventory.length + 1;
-    data.extracted_text.forEach((item, index) => {
-      const newItem = {
-        id: startingId + index,
-        name: item.name,
-        amount: item.amount,
-        spent: item.spent,
-        expiryDate: "29 Apr 2024",
-        status: ''
-      };
-      setInventory(prevInventory => [...prevInventory, newItem]);
-    });
-    setNextItemId(startingId + data.extracted_text.length);
-    // Resetting form fields and other relevant states
-    setNewItem({
-      name: '',
-      amount: 0,
-      spent: '',
-      expiryDate: '',
-      status: ''
-    });
-    setUploadingImage(false); // Set uploadingImage to false after uploading
-    setShowAddPopup(false); // Close the popup after successful upload
-  } catch (error) {
-    console.error('Error uploading image:', error);
-    alert('Something went wrong, please try again.'); // Image was not read
-    setUploadingImage(false); // Set uploadingImage to false after uploading
-    setShowScanReceiptPopup(false); // Close the popup in case of error
-  }
-};
+  };
 
   const handleFileChange1 = (e) => {
     setFile1(e.target.files[0]);
   };
 
-const handleUpload2 = async (e) => {
-  e.preventDefault(); // Prevent default form submission behavior
-  setUploadingImage(true); // Set uploadingImage to true while uploading
+  const handleUpload2 = async (e) => {
+    e.preventDefault(); // Prevent default form submission behavior
+    setUploadingImage(true); // Set uploadingImage to true while uploading
 
-  // Check if a file has been selected
-  if (!file1) {
-    alert('Please select a file.');
-    return;
-  }
+    // Check if a file has been selected
+    if (!file1) {
+      alert('Please select a file.');
+      return;
+    }
 
-  const formData = new FormData();
-  formData.append('file1', file1);
+    const formData = new FormData();
+    formData.append('file1', file1);
 
-  setShowScanProducePopup(false); // Close the popup
+    setShowScanProducePopup(false); // Close the popup
 
-  try {
-    const response = await fetch('https://rohan2101new.pythonanywhere.com/pred', {
-      method: 'POST',
-      body: formData
-    });
+    try {
+      const response = await fetch('https://rohan2101new.pythonanywhere.com/pred', {
+        method: 'POST',
+        body: formData
+      });
 
-    if (!response.ok) {
-      // If response status is not OK, throw an error
-      throw new Error('Error reading image data, try another image.');
+      if (!response.ok) {
+        // If response status is not OK, throw an error
+        throw new Error('Error reading image data, try another image.');
         setUploadingImage(false); // Set uploadingImage to true while uploading
 
-    }
+      }
 
-    const data = await response.json();
-    console.log(data);
+      const data = await response.json();
+      console.log(data);
 
-    // Handle response data as needed
-    // Update state variables accordingly
-    setImgSrc1(data.imgSrc1);
-    setExtractedText1(data.extracted_text1);
-    setMsg1(data.msg1);
-    const daysToAdd = parseInt(data.msg1, 10);
-    const currentDate = new Date();
+      // Handle response data as needed
+      // Update state variables accordingly
+      setImgSrc1(data.imgSrc1);
+      setExtractedText1(data.extracted_text1);
+      setMsg1(data.msg1);
+      const daysToAdd = parseInt(data.msg1, 10);
+      const currentDate = new Date();
 
-    currentDate.setDate(currentDate.getDate() + daysToAdd);
-    const day = currentDate.getDate();
-    const month = new Intl.DateTimeFormat('en', { month: 'long' }).format(currentDate);
-    const year = currentDate.getFullYear();
-    const formattedDate = `${day} ${month} ${year}`;
-    console.log(formattedDate); // Output: "13 May 2024"
-    setNewItem(prevItem => ({
-      ...prevItem,
-      name: '',
-      amount: '',
-      spent: '',
-      expiryDate: data.extracted_text2,
-      status: ''
-    }));
-    if (extractedText1 !== '' || msg1 !== '') {
-      populateItems(data.extracted_text1, '', '', formattedDate, '');
-    }
-    else
-    {
+      currentDate.setDate(currentDate.getDate() + daysToAdd);
+      const day = currentDate.getDate();
+      const month = new Intl.DateTimeFormat('en', { month: 'long' }).format(currentDate);
+      const year = currentDate.getFullYear();
+      const formattedDate = `${day} ${month} ${year}`;
+      console.log(formattedDate); // Output: "13 May 2024"
+      setNewItem(prevItem => ({
+        ...prevItem,
+        name: '',
+        amount: '',
+        spent: '',
+        expiryDate: data.extracted_text2,
+        status: ''
+      }));
+      if (extractedText1 !== '' || msg1 !== '') {
+        populateItems(data.extracted_text1, '', '', formattedDate, '');
+      }
+      else {
         alert('Something went wrong. Please try again.');
         setUploadingImage(false); // Set uploadingImage to true while uploading
 
 
-    }
-  } catch (error) {
-    console.error('Error uploading image:', error);
-    alert('Error reading image data, try another image.');
-    setMsg1('Failed to upload image');
-    setUploadingImage(false); // Set uploadingImage to true while uploading
+      }
+    } catch (error) {
+      console.error('Error uploading image:', error);
+      alert('Error reading image data, try another image.');
+      setMsg1('Failed to upload image');
+      setUploadingImage(false); // Set uploadingImage to true while uploading
 
-  }
-};
+    }
+  };
 
 
 
@@ -499,22 +514,22 @@ const handleUpload2 = async (e) => {
     setFile2(e.target.files[0]);
   };
 
-// Toggle blinking effect
-useEffect(() => {
-  if (!hasBlinked) {
-    const blinkInterval = setInterval(() => {
-      setBlink(prevBlink => !prevBlink);
-    }, 1000);
+  // Toggle blinking effect
+  useEffect(() => {
+    if (!hasBlinked) {
+      const blinkInterval = setInterval(() => {
+        setBlink(prevBlink => !prevBlink);
+      }, 1000);
 
-    // Clear interval after one blink
-    setTimeout(() => {
-      clearInterval(blinkInterval);
-      setHasBlinked(true);
-    }, 1000);
+      // Clear interval after one blink
+      setTimeout(() => {
+        clearInterval(blinkInterval);
+        setHasBlinked(true);
+      }, 1000);
 
-    return () => clearInterval(blinkInterval); // Clear interval when unmounting or button has blinked
-  }
-}, [hasBlinked]);
+      return () => clearInterval(blinkInterval); // Clear interval when unmounting or button has blinked
+    }
+  }, [hasBlinked]);
 
   const handleUpload3 = async (e) => {
     e.preventDefault();
@@ -539,21 +554,21 @@ useEffect(() => {
         expiryDate: "20 Apr 2023",
         status: ''
       }));
-if (extractedText2 !== '' || msg2 !== '') {
-    const dateString = data.extracted_text2; // Assuming data.extracted_text2 is a string representing a date
-    const date = new Date(dateString); // Parse the date string into a Date object
-    if (isNaN(date.getTime())) {
-        // Handle case where data.extracted_text2 is not a valid date string
-        console.error("Invalid date format");
-        // Optionally, you can provide a default date or exit the function
-        return;
-    }
-    const formattedDate = date.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' });
-    console.log(formattedDate);
-    populateItems('', '', '', formattedDate, '');
-    alert("Successfully scanned the image!");
-    togglePopup('package');
-}
+      if (extractedText2 !== '' || msg2 !== '') {
+        const dateString = data.extracted_text2; // Assuming data.extracted_text2 is a string representing a date
+        const date = new Date(dateString); // Parse the date string into a Date object
+        if (isNaN(date.getTime())) {
+          // Handle case where data.extracted_text2 is not a valid date string
+          console.error("Invalid date format");
+          // Optionally, you can provide a default date or exit the function
+          return;
+        }
+        const formattedDate = date.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' });
+        console.log(formattedDate);
+        populateItems('', '', '', formattedDate, '');
+        alert("Successfully scanned the image!");
+        togglePopup('package');
+      }
 
     } catch (error) {
       console.error('Error uploading image:', error);
@@ -571,185 +586,193 @@ if (extractedText2 !== '' || msg2 !== '') {
       <div className="App">
 
 
-  <div className="inv-header-container">
-  <p className="inv-header-text">Begin Your Flavorful Journey Here!
-</p>
-<div className="personalized-button" ><button onClick={scrollToDashboard}> Personalized spending analysis</button>
-</div></div>
+        <div className="inv-header-container">
+          <p className="inv-header-text">Begin Your Flavorful Journey Here!
+          </p>
+          <div className="personalized-button" ><button onClick={scrollToDashboard}> Personalized spending analysis</button>
+          </div></div>
         <header></header>
         <div className="table-and-buttons">
-        <div className="inventory-table-container">
+          <div className="inventory-table-container">
 
 
-        <InventoryList
-  inventory={currentInventory}
-  onEdit={handleEditItem}
-  onDelete={handleDeleteItem}
-  togglePopup={togglePopup}
-  onEditingItemChange={handleEditingItemChange}
-/>
-        </div>
+            <InventoryList
+              inventory={currentInventory}
+              onEdit={handleEditItem}
+              onDelete={handleDeleteItem}
+              togglePopup={togglePopup}
+              onEditingItemChange={handleEditingItemChange}
+            />
+          </div>
 
 
-        <div className="actions">
-                    <button
+          <div className="actions">
+            <button
+              onClick={() => togglePopup('sample')}
+              className="sample-button"
+              disabled={editingItem !== null}
+            >
+              Download Samples
+            </button>
+            {/* Existing buttons */}
+            <button
               onClick={() => togglePopup('receipt')}
-                          className="add-button"
+              className="add-button"
               disabled={editingItem !== null}>
               Scan Receipt
             </button>
-        <button
-            className="add-button"
-            onClick={() => togglePopup('add')}
-            disabled={editingItem !== null}>
-            Add Additional Items
-          </button>
+            <button
+              className="add-button"
+              onClick={() => togglePopup('add')}
+              disabled={editingItem !== null}>
+              Add Additional Items
+            </button>
 
-               <button onClick={() => togglePopup('produce')}  disabled={editingItem !== null}
-                           className="add-button"
-  >Scan Fresh Produce</button>
+            <button onClick={() => togglePopup('produce')} disabled={editingItem !== null}
+              className="add-button"
+            >Scan Fresh Produce</button>
 
-          {showAddPopup && (
-            <div
-              className="modal-overlay"
-              onClick={() => setShowAddPopup(false)}
-            ></div>
-          )}
-          {inventory.length > 0 && (
+            {showAddPopup && (
+              <div
+                className="modal-overlay"
+                onClick={() => setShowAddPopup(false)}
+              ></div>
+            )}
+            {inventory.length > 0 && (
 
-<Link to="/recipes">
-  <button className={`generate-button ${hasOneItemInInventory && !hasBlinked ? 'blink' : ''}`}>Generate recipes!</button>
-</Link>
+              <Link to="/recipes">
+                <button className={`generate-button ${hasOneItemInInventory && !hasBlinked ? 'blink' : ''}`}>Generate recipes!</button>
+              </Link>
 
-)}
+            )}
 
 
-          {/* Add Popup */}
-          {showAddPopup && (
-            <div className="popup large-popup">
-              <h2>Add New Item</h2>
-              <div className="form-group">
-                <label>Name:</label>
-                <input type="text" name="name" value={newItem.name} onChange={handleInputChange} />
-              </div>
-              <div className="form-group">
-                <label>Quantity:</label>
-                <input type="text" name="amount" value={newItem.amount} onChange={handleInputChange} />
-              </div>
-              <div className="form-group">
+            {/* Add Popup */}
+            {showAddPopup && (
+              <div className="popup large-popup">
+                <h2>Add New Item</h2>
                 <div className="form-group">
-                  <label>Price:</label>
-                  <input type="text" name="spent" value={newItem.spent} onChange={handleInputChange} />
+                  <label>Name:</label>
+                  <input type="text" name="name" value={newItem.name} onChange={handleInputChange} />
+                </div>
+                <div className="form-group">
+                  <label>Quantity:</label>
+                  <input type="text" name="amount" value={newItem.amount} onChange={handleInputChange} />
+                </div>
+                <div className="form-group">
+                  <div className="form-group">
+                    <label>Price:</label>
+                    <input type="text" name="spent" value={newItem.spent} onChange={handleInputChange} />
+                  </div>
+                </div>
+
+                <div className="form-group">
+                  <label>Expiry Date:</label>
+                  <DatePicker
+                    selected={expiryPlaceholder}
+                    onChange={(date) => {
+                      // Format the selected date
+                      const formattedDate = date.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' });
+                      // Set the formatted date to the expiryPlaceholder
+                      setExpiryPlaceholder(date);
+                      // Update the expiry date in newItem
+                      setNewItem(prevItem => ({ ...prevItem, expiryDate: formattedDate }));
+                    }}
+                    dateFormat="dd MMM yyyy"
+
+                    // Add a specific class name for date picker in adding item mode
+                    className="date-picker add-date-picker"
+                  />
+                </div>
+
+                <div className="form-actions">
+                  <button onClick={handleAddItem}>Save</button>
+                  <button onClick={() => togglePopup('add')}>Cancel</button>
                 </div>
               </div>
 
-              <div className="form-group">
-                <label>Expiry Date:</label>
-                <DatePicker
-                  selected={expiryPlaceholder}
-                  onChange={(date) => {
-                    // Format the selected date
-                    const formattedDate = date.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' });
-                    // Set the formatted date to the expiryPlaceholder
-                    setExpiryPlaceholder(date);
-                    // Update the expiry date in newItem
-                    setNewItem(prevItem => ({ ...prevItem, expiryDate: formattedDate }));
-                  }}
-                  dateFormat="dd MMM yyyy"
+            )}
 
-                  // Add a specific class name for date picker in adding item mode
-                  className="date-picker add-date-picker"
-                />
+            {/* Scan Receipt Popup */}
+            {showScanReceiptPopup && (
+              <div className="popup">
+                <h2>Scan Receipt</h2>
+                {setUploadingImage && <div className="loading-overlay">Loading...</div>}
+                <div className="scan-options">
+                  <form onSubmit={handleUpload} encType="multipart/form-data">
+                    <input type="file" name="file" onChange={handleFileChange} />
+                    <input type="submit" value="Upload" />
+                  </form>
+                  {imgSrc && <img src={imgSrc} alt="Uploaded" />}
+                </div>
+                <button onClick={() => togglePopup('receipt')}>Cancel</button>
+              </div>
+            )}
+
+
+            {/* Scan Package Popup */}
+            {showScanPackagePopup && (
+
+              <div className="popup">
+                <h2>Scan Package</h2>
+                <div className="scan-options">
+                  <form onSubmit={handleUpload3} encType="multipart/form-data">
+                    <input type="file" name="file2" onChange={handleFileChange2} />
+                    <input type="submit" value="Upload" />
+                  </form>
+                  {imgSrc2 && <img src={imgSrc2} alt="Uploaded" />}
+                </div>
+                <button onClick={() => togglePopup('package')}>Cancel</button>
               </div>
 
-              <div className="form-actions">
-                <button onClick={handleAddItem}>Save</button>
-                <button onClick={() => togglePopup('add')}>Cancel</button>
+            )}
+
+            {showScanProducePopup && (
+              <div className="popup">
+                <h2>Scan Produce</h2>
+                {setUploadingImage && <div className="loading-overlay">Loading...</div>}
+                <div className="scan-options">
+                  <form id="uploadForm" onSubmit={handleUpload2} encType="multipart/form-data">
+                    <input type="file" name="file1" onChange={handleFileChange1} />
+                    <input type="submit" value="Upload" />
+                  </form>
+                  {imgSrc1 && <img src={imgSrc1} alt="Uploaded" />}
+                  {/* populateItems(extractedText1, '', '', msg1, ''); */}
+                </div>
+                <button onClick={() => togglePopup('produce')}>Cancel</button>
               </div>
-            </div>
+            )}
 
-          )}
-
-          {/* Scan Receipt Popup */}
-     {showScanReceiptPopup && (
-  <div className="popup">
-    <h2>Scan Receipt</h2>
-    {setUploadingImage && <div className="loading-overlay">Loading...</div>}
-    <div className="scan-options">
-      <form onSubmit={handleUpload} encType="multipart/form-data">
-        <input type="file" name="file" onChange={handleFileChange} />
-        <input type="submit" value="Upload" />
-      </form>
-      {imgSrc && <img src={imgSrc} alt="Uploaded" />}
-    </div>
-    <button onClick={() => togglePopup('receipt')}>Cancel</button>
-  </div>
-)}
-
-
-          {/* Scan Package Popup */}
-          {showScanPackagePopup && (
-
-            <div className="popup">
-              <h2>Scan Package</h2>
-              <div className="scan-options">
-                <form onSubmit={handleUpload3} encType="multipart/form-data">
-                  <input type="file" name="file2" onChange={handleFileChange2} />
-                  <input type="submit" value="Upload" />
-                </form>
-                {imgSrc2 && <img src={imgSrc2} alt="Uploaded" />}
-              </div>
-              <button onClick={() => togglePopup('package')}>Cancel</button>
-            </div>
-
-          )}
-
-{showScanProducePopup && (
-  <div className="popup">
-    <h2>Scan Produce</h2>
-    {setUploadingImage && <div className="loading-overlay">Loading...</div>}
-    <div className="scan-options">
-      <form id="uploadForm" onSubmit={handleUpload2} encType="multipart/form-data">
-        <input type="file" name="file1" onChange={handleFileChange1} />
-        <input type="submit" value="Upload" />
-      </form>
-      {imgSrc1 && <img src={imgSrc1} alt="Uploaded" />}
-      {/* populateItems(extractedText1, '', '', msg1, ''); */}
-    </div>
-    <button onClick={() => togglePopup('produce')}>Cancel</button>
-  </div>
-)}
-
+          </div>
         </div>
       </div>
+      <div className="pagination">
+        <button
+          onClick={() => setCurrentPage(prevPage => Math.max(prevPage - 1, 1))}
+          disabled={currentPage === 1}
+        >
+          Previous
+        </button>
+        <span>{`Page ${currentPage} of ${totalPages}`}</span>
+        <button
+          onClick={() => setCurrentPage(prevPage => Math.min(prevPage + 1, totalPages))}
+          disabled={currentPage === totalPages}
+        >
+          Next
+        </button>
+
       </div>
-<div className="pagination">
-  <button
-    onClick={() => setCurrentPage(prevPage => Math.max(prevPage - 1, 1))}
-    disabled={currentPage === 1}
-  >
-    Previous
-  </button>
-  <span>{`Page ${currentPage} of ${totalPages}`}</span>
-  <button
-    onClick={() => setCurrentPage(prevPage => Math.min(prevPage + 1, totalPages))}
-    disabled={currentPage === totalPages}
-  >
-    Next
-  </button>
 
-</div>
-
- {showCongratsPopup && (
+      {showCongratsPopup && (
         <div className="congrats-popup">
           <p>Congratulations on starting your inventory! Check out some recipes now.</p>
         </div>
       )}
 
-<div ref={dashboardRef}>
-<Dashboard />
+      <div ref={dashboardRef}>
+        <Dashboard />
+      </div>
     </div>
-       </div>
 
 
   );
