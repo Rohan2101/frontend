@@ -498,7 +498,7 @@ if (extractedText2 !== '' || msg2 !== '') {
             className="add-button"
             onClick={() => togglePopup('add')}
             disabled={editingItem !== null}>
-            Add an Item
+            Add Additional Items
           </button>
           <div className="scan-buttons">
             <button
