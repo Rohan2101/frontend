@@ -46,7 +46,7 @@ const Dashboard = () => {
         <h3>Most Wasted Foods this week</h3>
         <table className="dashboard-table">
           <tr>
-            <th>Item</th>
+            <th>Top 5</th>
             <th>Frequency</th>
           </tr>
           <tr>

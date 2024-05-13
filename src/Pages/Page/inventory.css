@@ -835,7 +835,7 @@ oard Styles */
     background-image: url('../images/flowerpot.jpg');
     background-size: cover; /* Cover the entire container */
     background-repeat: no-repeat; /* Do not repeat the image */
-    width: 150px;
+    width: 100px;
     height: 100px;
 
 }
