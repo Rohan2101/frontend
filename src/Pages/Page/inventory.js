@@ -483,6 +483,9 @@ if (extractedText2 !== '' || msg2 !== '') {
       {/* inventory main content */}
       <div className="App">
 
+
+  <p className="inv-header-text">Begin Your Flavorful Journey Here!
+</p>
         <header></header>
         <div className="table-and-buttons">
         <div className="inventory-table-container">
@@ -522,6 +525,13 @@ if (extractedText2 !== '' || msg2 !== '') {
               onClick={() => setShowAddPopup(false)}
             ></div>
           )}
+          {inventory.length > 0 && (
+
+<Link to="/recipes">
+  <button className={`generate-button ${hasOneItemInInventory && !hasBlinked ? 'blink' : ''}`}>Generate recipes!</button>
+</Link>
+
+)}
 
 
           {/* Add Popup */}
@@ -629,13 +639,7 @@ if (extractedText2 !== '' || msg2 !== '') {
         </div>
       </div>
       </div>
-{inventory.length > 0 && (
-<div className="generate-button">
-  <Link to="/recipes">
-    <button className={hasOneItemInInventory && !hasBlinked ? 'blink' : ''}>Generate recipes!</button>
-  </Link>
-</div>
-)}
+
 
  {showCongratsPopup && (
         <div className="congrats-popup">

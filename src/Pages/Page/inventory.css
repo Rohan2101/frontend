@@ -297,7 +297,6 @@ color: #333;
 }
 
 
-
 .add-button:hover,
 .scan-buttons button:hover {
   background-color: #2980b9; /* Darker shade when hovered */
@@ -308,6 +307,7 @@ color: #333;
   background-color: #2c3e50; /* Darker shade when pressed */
   border-color: #34495e; /* Darker shade of border when pressed */
 }
+
 
 
 .recipeheader {
@@ -329,23 +329,22 @@ color: #333;
 
 
 .generate-button {
-  display: inline-block;
-  padding: 10px 14px; /* Increased padding for better visual balance */
-  font-size: 16px; /* Slightly smaller font size for a sleeker appearance */
-  font-weight: bold;
-  text-transform: uppercase;
-  color: #fff; /* White text for better contrast */
-  background-color: #ff6f61; /* Light green color */
-  border: 2px solid #ff6f61; /* Border to match the button color */
-  border-radius: 30px; /* Slightly larger border radius for a softer look */
+  margin: 8px;
+  padding: 0; /* Reset padding */
+  color: #fff;
+  background-color: #1f496f; /* Blue color */
+  border: 2px solid #2980b9; /* Darker shade of blue */
+  border-radius: 6px; /* Slightly rounded borders */
   cursor: pointer;
-  transition: background-color 0.3s ease, color 0.3s ease; /* Smooth transitions */
-  margin-left: 770px;
-  margin-top: 90px;
-  bottom: 20px; /* Adjust vertical position as needed */
-
-  transform: translateX(-50%);
-}
+  transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+  font-weight: bold;
+  font-size: 14px;
+  text-transform: uppercase;
+  text-align: center;
+  outline: none; /* Remove the default focus outline */
+  width: 200px; /* Adjust the width as needed */
+  height: 50px; /* Adjust the height as needed */
+  line-height: 50px; /* Center text vertically */}
 
 .generate-button:hover {
   background-color: #8dd687; /* Lighter shade of green on hover */
@@ -666,6 +665,19 @@ color: #333;
   margin-top: 30px;
   margin-left: 30px;
   background-color: f9f9f7;
+}
+
+.inv-header-text {
+    margin-top: 40px;
+    margin-bottom: 0px;
+    font-size: 40px;
+    text-align: left;
+    margin-left: 30px;
+    color: #23527c; /* Adjusted color value */
+    font-family: 'Pacifico', cursive; /* Applying Pacifico font */
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2); /* Added text shadow for depth */
+    letter-spacing: 1px; /* Added letter spacing for better readability */
+    border-bottom: 2px solid #23527c; /* Added a subtle border bottom for decoration */
 }
 
 
