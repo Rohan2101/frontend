@@ -5,6 +5,9 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { Link } from 'react-router-dom';
 import Dashboard from './Dashboard';
+import samimg1 from "./1.jpeg"; // Import the image
+import samimg2 from "./2.jpeg"; // Import the image
+import samimg3 from "./3.jpeg"; // Import the image
 
 import sampleZip from '../images/sample.zip';
 const downloadSampleZip = () => {
@@ -376,6 +379,7 @@ export function Maininventory() {
     const formData = new FormData();
     formData.append('file', file);
 
+<<<<<<< Updated upstream
     try {
       const response = await fetch('https://rohan222.pythonanywhere.com/rc', {
         method: 'POST',
@@ -427,6 +431,18 @@ export function Maininventory() {
     } catch (error) {
       console.error('Error uploading image:', error);
       alert('Something went wrong, please try again.'); // Image was not read
+=======
+  try {
+    const response = await fetch('https://rohan222.pythonanywhere.com/rc', {
+      method: 'POST',
+      body: formData
+    });
+    const data = await response.json();
+    console.log(data);
+    if (!data.extracted_text) {
+      // Image was uploaded but not read
+      alert('Error reading image data, try another image.');
+>>>>>>> Stashed changes
       setUploadingImage(false); // Set uploadingImage to false after uploading
       setShowScanReceiptPopup(false); // Close the popup in case of error
     }
@@ -741,7 +757,67 @@ export function Maininventory() {
                 </div>
                 <button onClick={() => togglePopup('produce')}>Cancel</button>
               </div>
+<<<<<<< Updated upstream
             )}
+=======
+            </div>
+
+          )}
+
+          {/* Scan Receipt Popup */}
+     {showScanReceiptPopup && (
+  <div className="popup">
+    <h2>Scan Receipt</h2>
+    {setUploadingImage && <div className="loading-overlay">Loading...</div>}
+    <div className="scan-options">
+      <form onSubmit={handleUpload} encType="multipart/form-data">
+        <input type="file" name="file" onChange={handleFileChange} />
+        <input type="submit" value="Upload" />
+      </form>
+      {imgSrc && <img src={imgSrc} alt="Uploaded" />}
+      <img src={samimg1} alt="Sample Image" width="25" height="25" />
+      <a href={samimg1} download>  Download Sample Image</a>
+    </div>
+    <button onClick={() => togglePopup('receipt')}>Cancel</button>
+  </div>
+)}
+
+
+          {/* Scan Package Popup */}
+          {showScanPackagePopup && (
+
+            <div className="popup">
+              <h2>Scan Package</h2>
+              <div className="scan-options">
+                <form onSubmit={handleUpload3} encType="multipart/form-data">
+                  <input type="file" name="file2" onChange={handleFileChange2} />
+                  <input type="submit" value="Upload" />
+                </form>
+                {imgSrc2 && <img src={imgSrc2} alt="Uploaded" />}
+              </div>
+              <button onClick={() => togglePopup('package')}>Cancel</button>
+            </div>
+
+          )}
+
+{showScanProducePopup && (
+  <div className="popup">
+    <h2>Scan Produce</h2>
+    {setUploadingImage && <div className="loading-overlay">Loading...</div>}
+    <div className="scan-options">
+      <form id="uploadForm" onSubmit={handleUpload2} encType="multipart/form-data">
+        <input type="file" name="file1" onChange={handleFileChange1} />
+        <input type="submit" value="Upload" />
+      </form>
+      {imgSrc1 && <img src={imgSrc1} alt="Uploaded" />}
+      <img src={samimg2} alt="Sample Image" width="25" height="25" />
+      <a href={samimg2} download>  Download Sample Image</a>
+      {/* populateItems(extractedText1, '', '', msg1, ''); */}
+    </div>
+    <button onClick={() => togglePopup('produce')}>Cancel</button>
+  </div>
+)}
+>>>>>>> Stashed changes
 
           </div>
         </div>

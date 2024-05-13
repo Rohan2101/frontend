@@ -189,7 +189,7 @@ const handleUpload2 = async (e) => {
           {showScanProducePopup && (
 
 <div className="popup">
-<h2 style={{textAlign: 'center', fontFamily: 'Arial, sans-serif'}}>Scan Your fresh Produce to get an estimated self life</h2>
+<h2 style={{textAlign: 'center', fontFamily: 'Arial, sans-serif'}}>Scan Your fresh Produce to get an estimated shelf life</h2>
 <div className="scan-options">
   {/* <form id="uploadForm" onSubmit={handleUpload2} encType="multipart/form-data">
     <input type="file" name="file1" onChange={handleFileChange1} />
