@@ -750,3 +750,70 @@ color: #333;
   margin: 2px auto;
   background-repeat: no-repeat;
 }
+
+
+
+
+/* Dashboard Styles */
+.dashboard-container {
+  display: flex;
+  width: 90%;
+  margin: 20px auto;
+  gap: 20px; /* Space between sections */
+  height: 20vh; /* Adjusts to 80% of the viewport height */
+}
+
+.dashboard-left-side {
+  display: flex;
+  flex-direction: column;
+  flex: 2; /* Takes 2 parts of the available space */
+  gap: 10px;
+  background: #fff;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.dashboard-header {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  padding: 20px;
+  background: #f4f4f4;
+}
+
+.dashboard-header img {
+  height: 80px; /* Adjust size accordingly */
+  margin-right: 10px;
+}
+
+.dashboard-chart-container {
+  flex: 2;
+  padding: 20px;
+  background: #f4f4f4;
+}
+
+.dashboard-table-container {
+  flex: 1;
+  background: #fff;
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.dashboard-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+
+.dashboard-table th, .dashboard-table td {
+  padding: 12px;
+  text-align: left;
+  border-bottom: 1px solid #ccc;
+}
+
+.dashboard-table th {
+  background-color: #4CAF50;
+  color: white;
+}

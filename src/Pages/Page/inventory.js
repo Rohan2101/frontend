@@ -4,6 +4,7 @@ import './inventory.css';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { Link } from 'react-router-dom';
+import Dashboard from './Dashboard';
 
 
 // Function to calculate the status based on the expiry date
@@ -714,6 +715,7 @@ if (extractedText2 !== '' || msg2 !== '') {
   >
     Next
   </button>
+<Dashboard />
 </div>
 
  {showCongratsPopup && (
@@ -721,7 +723,11 @@ if (extractedText2 !== '' || msg2 !== '') {
           <p>Congratulations on starting your inventory! Check out some recipes now.</p>
         </div>
       )}
+
+
     </div>
+
+
   );
 }
 
