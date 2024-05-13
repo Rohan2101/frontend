@@ -287,22 +287,21 @@ margin-top:-35px;
 .scan-buttons button {
 
   margin: 8px;
-  padding: 0;
+  padding: 0; /* Reset padding */
   color: #fff;
-  border-radius: 6px;
+  background-color: #3498db; /* Blue color */
+  border: 2px solid #2980b9; /* Darker shade of blue */
+  border-radius: 6px; /* Slightly rounded borders */
   cursor: pointer;
   transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
   font-weight: bold;
   font-size: 14px;
   text-transform: uppercase;
   text-align: center;
-  outline: none;
-  width: 180px;
-  height: 40px;
-  line-height: 40px;
-  background-color: #3498db; /* Blue color */
-  border: 2px solid #2980b9; /* Darker shade of blue */
-  
+  outline: none; /* Remove the default focus outline */
+  width: 180px; /* Adjust the width as needed */
+  height: 40px; /* Adjust the height as needed */
+  line-height: 50px; /* Center text vertically */
 }
 
 
@@ -318,33 +317,6 @@ margin-top:-35px;
 }
 
 
-
-.sample-button {
-  background-color: #ff9800; /* Orange color for sample button */
-  margin: 8px;
-  padding: 0;
-  color: #fff;
-  border-radius: 6px;
-  cursor: pointer;
-  transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
-  font-weight: bold;
-  font-size: 14px;
-  text-transform: uppercase;
-  text-align: center;
-  outline: none;
-  width: 180px;
-  height: 40px;
-  line-height: 40px;
-  border-color: #e67e00;
-}
-
-.sample-button:hover {
-  background-color: #e67e00; /* Darker shade of orange on hover */
-}
-.sample-button:active {
-  background-color: #cc7000; /* Even darker shade of orange when active */
-  border-color: #b35c00; /* Darker shade of border when active */
-}
 
 .recipeheader {
   color: #333;
