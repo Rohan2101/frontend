@@ -1,7 +1,7 @@
 import React from 'react';
 import './about.css';
 
-const features = [
+export const features = [
   {
     title: "Welcome!",
     description: "Join us in reducing food waste and saving resources.",

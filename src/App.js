@@ -5,7 +5,6 @@ import { Landing } from "./landing";
 import { LoginPage } from "./LoginPage";
 import SmoothScroll from "smooth-scroll";
 import { Maininventory } from "./Pages/Page/inventory";
-import { AboutPage } from "./Pages/Page/about";
 import { Recipes } from "./Pages/Page/recipes";
 import { Tips } from "./Pages/Page/tips";
 
@@ -88,10 +87,10 @@ function App() {
             />
             <Route
               exact
-              path="/About"
+              path="/recycling"
               element={
                 <div style={{ width: "100%", height: "100%" }}>
-                  <AboutPage />
+                  <Recycling />
                 </div>
               }
             />
