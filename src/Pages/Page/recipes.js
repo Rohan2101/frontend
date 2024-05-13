@@ -247,7 +247,7 @@ const recipesWithIngredients = recipeDetails.map((recipeDetail, index) => ({
     // Optionally, you can also save the updated inventory to localStorage
     try {
       localStorage.setItem('inventory', JSON.stringify(displayedInventory));
-      alert("Your inventory state is updated!")
+      alert("Yay! Glad you liked the recipe. Your inventory state is updated!")
     } catch (error) {
       console.error('Error saving inventory to localStorage:', error);
     }
@@ -487,7 +487,7 @@ const fetchRecipesFromInventory = async () => {
   {recipes.map((recipe, index) => (
   // Check if the image and analyzed instructions exist
   recipe.image && recipe.analyzedInstructions && recipe.analyzedInstructions.length > 0 && (
-    <RecipeCard key={index} recipe={recipe} />
+<RecipeCard key={index} recipe={recipe} finalizeInventory={finalizeInventory} />
   )
 ))}
 

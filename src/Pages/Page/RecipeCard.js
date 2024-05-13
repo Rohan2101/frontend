@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 
-export const RecipeCard = ({ recipe, flipStates, setFlipStates }) => {
+export const RecipeCard = ({ recipe, flipStates, setFlipStates, finalizeInventory }) => {
   const [isFlipped, setIsFlipped] = useState(false);
+  const [showPopup, setShowPopup] = useState(false);
 
   const handleCardFlip = () => {
     // Toggle the flip state of the clicked card
@@ -14,15 +15,35 @@ export const RecipeCard = ({ recipe, flipStates, setFlipStates }) => {
 
   const handleCookingClick = (event) => {
     event.stopPropagation(); // Prevent card flip when button is clicked
+
+    // Show the custom popup
+    setShowPopup(true);
+  };
+
+  const handleConfirm = () => {
+    // Close the popup
+    setShowPopup(false);
+
+    // Call finalizeInventory if user confirms
+    finalizeInventory();
+
     // Implement your logic here for when the user clicks "I'm cooking this"
     console.log(`Cooking ${recipe.title}`);
+  };
+
+  const handleCancel = () => {
+    // Close the popup
+    setShowPopup(false);
+
+    // Implement logic for when the user cancels the update
+    console.log("User canceled inventory update");
   };
 
   return (
     <div className={`recipe-card ${isFlipped ? 'is-flipped' : ''}`} onClick={handleCardFlip}>
       {/* Front side of the card */}
       <div className="card-front">
-             {/* Preparation time */}
+        {/* Preparation time */}
         <div className="recipe-minutes">
           <p style={{ textAlign: "right" }}>
             Preparation Time (minutes):{" "}
@@ -73,6 +94,19 @@ export const RecipeCard = ({ recipe, flipStates, setFlipStates }) => {
           I'm cooking this
         </button>
       </div>
+
+      {/* Popup */}
+      {showPopup && (
+        <div className="rec-popup">
+          <div className="rec-popup-content">
+            <p>Do you want to update your inventory to remove the used ingredients?</p>
+            <div className="rec-popup-buttons">
+              <button onClick={handleConfirm}>Yes</button>
+              <button onClick={handleCancel}>No</button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
