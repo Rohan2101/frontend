@@ -6,17 +6,6 @@ import 'react-datepicker/dist/react-datepicker.css';
 import { Link } from 'react-router-dom';
 
 
-
-
-// import statusGreen from './images/status-green.png';
-// import statusYellow from './images/status-yellow.png';
-// import statusRed from './images/status-red.png';
-
-
-// import statusIndicator from './images/status-indicator.png';
-
-
-
 // Function to calculate the status based on the expiry date
 export const calculateStatus = (expiryDate) => {
   const parts = expiryDate.split('/');
@@ -62,7 +51,7 @@ export function Maininventory() {
     status: ''
   });
   const [msg, setMsg] = useState('');
-  const [nextItemId, setNextItemId] = useState(inventory.length + 1); 
+  const [nextItemId, setNextItemId] = useState(inventory.length + 1);
   const [name, setName] = useState('');
   const [file, setFile] = useState(null);
   const [imgSrc, setImgSrc] = useState('');
@@ -79,9 +68,7 @@ const [hasOneItemInInventory, setHasOneItemInInventory] = useState(inventory.len
 const [hasBlinked, setHasBlinked] = useState(false);
   const [showCongratsPopup, setShowCongratsPopup] = useState(true);
     const [showCongratsTimer, setShowCongratsTimer] = useState(true);
-
-
-
+  const [blink, setBlink] = useState(false);
 
 
   // handle  "Add Manually" "Scan Receipt"  status while editing
@@ -91,13 +78,11 @@ const [hasBlinked, setHasBlinked] = useState(false);
   };
 
 
-  const [blink, setBlink] = useState(false);
-
-// Use useEffect to automatically close the congratulations popup after 4 seconds
+// Use useEffect to automatically close the congratulations popup after 3 seconds
 useEffect(() => {
   const timeout = setTimeout(() => {
     setShowCongratsTimer(false);
-  }, 4000);
+  }, 3000);
 
   return () => clearTimeout(timeout);
 }, []);
@@ -137,7 +122,6 @@ useEffect(() => {
 
     setInventory(updatedInventory);
     localStorage.setItem('inventory', JSON.stringify(updatedInventory));
-
   };
 
 useEffect(() => {
@@ -158,9 +142,6 @@ useEffect(() => {
     setInventory(updatedInventory);
   };
 
-
-
-
   // Determine if any popup is active
   const isPopupActive = showAddPopup || showScanReceiptPopup || showScanProducePopup || showScanPackagePopup;
   const closeAllPopups = () => {
@@ -169,7 +150,6 @@ useEffect(() => {
     setShowScanProducePopup(false);
     setShowScanPackagePopup(false);
   };
-
 
 
   useEffect(() => {
@@ -192,8 +172,6 @@ useEffect(() => {
     setShowScanReceiptPopup(false);
     setShowScanProducePopup(false);
     setShowScanPackagePopup(false);
-
-
     setShowStatusModal(false);
 
     switch (popupType) {
@@ -237,8 +215,6 @@ useEffect(() => {
   };
 
 
-
-
   const handleInputChange = (event) => {
     const { name, value } = event.target;
 
@@ -255,8 +231,7 @@ useEffect(() => {
     }
   };
 
-
-  const handleAddItem = () => {
+const handleAddItem = () => {
     // Regular expression to check for special characters
     const specialCharsRegex = /[!@#$%^&*(),.?":{}|<>]/;
 
@@ -296,8 +271,6 @@ useEffect(() => {
 
     // Format the spent amount with Australian dollar symbol
     const formattedSpent = `${parseFloat(newItem.spent).toFixed(2)}`;
-
-
 
     // Calculate the status based on the expiry date
     const status = calculateStatus(expiryDate);
@@ -366,7 +339,7 @@ useEffect(() => {
         spent: data.msg,
         expiryDate: '',
         status: ''
-      }));  
+      }));
       const startingId = inventory.length + 1;
       data.extracted_text.forEach((item, index) => {
         const newItem = {
@@ -388,7 +361,7 @@ useEffect(() => {
         expiryDate: '',
         status: ''
       });
-      setShowAddPopup(false);  
+      setShowAddPopup(false);
     } catch (error) {
       console.error('Error uploading image:', error);
       setMsg('Failed to upload image');
@@ -476,41 +449,36 @@ useEffect(() => {
         name: '',
         amount: '',
         spent: '',
-        expiryDate: "10 Apr 2023",
+        expiryDate: "20 Apr 2023",
         status: ''
       }));
-      if (extractedText2 !== '' || msg2 !== '') {
-        populateItems('', '', '', data.extracted_text2, '');
-        alert("Successfully scanned the image!");
-        togglePopup('package');
+if (extractedText2 !== '' || msg2 !== '') {
+    const dateString = data.extracted_text2; // Assuming data.extracted_text2 is a string representing a date
+    const date = new Date(dateString); // Parse the date string into a Date object
+    if (isNaN(date.getTime())) {
+        // Handle case where data.extracted_text2 is not a valid date string
+        console.error("Invalid date format");
+        // Optionally, you can provide a default date or exit the function
+        return;
+    }
+    const formattedDate = date.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' });
+    console.log(formattedDate);
+    populateItems('', '', '', formattedDate, '');
+    alert("Successfully scanned the image!");
+    togglePopup('package');
+}
 
-      }
     } catch (error) {
       console.error('Error uploading image:', error);
       alert('Failed to upload image');
     }
   };
 
+
   return (
     <div>
-
       {isPopupActive && <div className="modal-overlay" onClick={closeAllPopups}></div>}
       <div className="main-content"></div>
-
-      {/* toolbar for every page */}
-      <div className="toolbar">
-        <div style={{ display: 'flex', alignItems: 'center' }}>
-          <img src="ProjectLogo.png" alt="App Logo" style={{ width: '40px', height: '40px', marginRight: '10px' }} />
-          <span style={{ color: 'green', fontWeight: 'bold' }}>EcoEats</span>
-        </div>
-        <div className="toolbardiv">
-          <button onClick={() => console.log("Recipes clicked")}>Recipes</button>
-          <button onClick={() => console.log("Information clicked")}>Information</button>
-          <button onClick={() => console.log("Recycling Agencies Clicked")}>Recycling Agencies</button>
-          <button onClick={() => console.log("Check My Knowledge Clicked")}>Check My Knowledge</button>
-        </div>
-        <div></div>
-      </div>
 
       {/* inventory main content */}
       <div className="App">
@@ -522,7 +490,6 @@ useEffect(() => {
           onDelete={handleDeleteItem}
           togglePopup={togglePopup} // Add this line to pass the function as a prop
 
-
           onEditingItemChange={handleEditingItemChange}
         />
 
@@ -530,15 +497,13 @@ useEffect(() => {
         <button
             className="add-button"
             onClick={() => togglePopup('add')}
-            disabled={editingItem !== null}
-          >
+            disabled={editingItem !== null}>
             Add an Item
           </button>
           <div className="scan-buttons">
             <button
               onClick={() => togglePopup('receipt')}
-              disabled={editingItem !== null}
-            >
+              disabled={editingItem !== null}>
               Scan Receipt
             </button>
 <button
@@ -551,7 +516,6 @@ useEffect(() => {
   >Scan Fresh Produce</button>
           </div>
 
-
           {showAddPopup && (
             <div
               className="modal-overlay"
@@ -560,10 +524,8 @@ useEffect(() => {
           )}
 
 
-
           {/* Add Popup */}
           {showAddPopup && (
-
             <div className="popup large-popup">
               <h2>Add New Item</h2>
               <div className="form-group">
@@ -599,14 +561,6 @@ useEffect(() => {
                   className="date-picker add-date-picker"
                 />
               </div>
-
-              {/* scan  bottons to get expiry date directly
-              <div className="scan-buttons">
-                <button onClick={() => togglePopup('package')}>Scan Package</button>
-                <button onClick={() => togglePopup('produce')}>Scan Fresh Produce</button>
-              </div>
-              */}
-
 
               <div className="form-actions">
                 <button onClick={handleAddItem}>Save</button>
@@ -672,15 +626,6 @@ useEffect(() => {
             </div>
           )}
 
-          {/* Show Status Indicator Popup */}
-          {/* {showStatusModal && (
-            <div className="popup status-popup">
-              <div className="content">
-                <img src={statusIndicator} alt="Status Indicator"  />
-              </div>
-              <button className="center-button" onClick={() => togglePopup('statusInfo')}>Close</button>
-            </div>
-          )} */}
         </div>
       </div>
 {inventory.length > 0 && (
@@ -696,9 +641,6 @@ useEffect(() => {
           <p>Congratulations on starting your inventory! Check out some recipes now.</p>
         </div>
       )}
-
-
-
     </div>
   );
 }

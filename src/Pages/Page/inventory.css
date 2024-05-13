@@ -179,6 +179,26 @@ tr:hover {
   margin-top: 0;
 }
 
+.sort-button {
+  background-color: transparent;
+  border: none;
+  font-size: 18px;
+    font-weight: bold;
+
+  cursor: pointer;
+  padding:10px;
+  color: #333;
+}
+
+.sort-button:focus {
+  outline: none;
+}
+
+.sort-button:hover {
+  color: #007bff; /* Change color on hover if desired */
+}
+
+
 .popup .form-group {
   margin-bottom: 20px; /* Increased space between form groups */
 }

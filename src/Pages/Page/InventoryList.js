@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react'; // Import useMemo
+
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { calculateStatus } from './inventory';
@@ -11,6 +12,82 @@ const InventoryList = ({ inventory, onEdit, onDelete, togglePopup, onEditingItem
   const [originalValues, setOriginalValues] = useState({});
   const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
   const [itemToDelete, setItemToDelete] = useState(null);
+  const [imgSrc, setImgSrc] = useState('');
+  const [extractedText, setExtractedText] = useState('');
+    const [file, setFile] = useState(null);
+  const [showScanExpiryPopup, setShowScanExpiryPopup] = useState(false);
+  const [scanningItemId, setScanningItemId] = useState(null); // Store the ID of the item being scanned
+  const [sortingOrder, setSortingOrder] = useState('asc'); // State to track sorting order
+
+
+ // Function to toggle sorting order
+  const toggleSortingOrder = () => {
+    setSortingOrder(sortingOrder === 'asc' ? 'desc' : 'asc');
+  };
+
+ // Sort inventory based on expiry date
+  const sortedInventory = useMemo(() => {
+    return [...inventory].sort((a, b) => {
+      const dateA = new Date(a.expiryDate);
+      const dateB = new Date(b.expiryDate);
+      return sortingOrder === 'asc' ? dateA - dateB : dateB - dateA;
+    });
+  }, [inventory, sortingOrder]);
+
+
+
+// Function to handle file input change
+  const handleFileChange = (e) => {
+    setFile(e.target.files[0]);
+  };
+
+
+ const handleUpload = async (e) => {
+    e.preventDefault();
+    const formData = new FormData();
+    formData.append('file', file);
+
+    try {
+      console.log('Uploading image...');
+      const response = await fetch('https://rohan22.pythonanywhere.com/recpt', {
+        method: 'POST',
+        body: formData
+      });
+      console.log('Image uploaded successfully.');
+      const data = await response.json();
+      console.log('Extracted Text:', data);
+
+      let newExpiryDate;
+
+      // Check if extracted_text2 is available
+      if (data.extracted_text2) {
+        // Use the extracted date
+        newExpiryDate = data.extracted_text2;
+      } else {
+        // Use a default date (1 Jan 2025)
+        newExpiryDate = '1 Jan 2025';
+      }
+
+      // Find the index of the item in the inventory array
+      const index = inventory.findIndex(item => item.id === scanningItemId);
+      if (index !== -1) {
+        // Update the expiry date of the item
+        const updatedInventory = [...inventory];
+        updatedInventory[index] = {
+          ...updatedInventory[index],
+          expiryDate: newExpiryDate
+        };
+        // Update the state with the modified inventory
+        onEdit(scanningItemId, updatedInventory[index]);
+      }
+
+      setExtractedText(data.extracted_text);
+    } catch (error) {
+      console.error('Error uploading image:', error);
+    }
+  };
+
+
 
   const handleEdit = (id, item) => {
     // Prevent editing if another item is currently being edited
@@ -26,6 +103,15 @@ const InventoryList = ({ inventory, onEdit, onDelete, togglePopup, onEditingItem
       expiryDate: formattedExpiryDate,
     });
   };
+
+const handleScanExpiry = (id, item) => {
+  console.log("Scanning Item ID:", id); // Check if the correct ID is logged
+  if (editingItem !== null) return;
+  setScanningItemId(id); // Store the ID of the item being scanned
+  setShowScanExpiryPopup(true);
+};
+
+
 
   const handleCancel = () => {
     setUpdatedValues(originalValues);
@@ -84,11 +170,6 @@ const InventoryList = ({ inventory, onEdit, onDelete, togglePopup, onEditingItem
     setUpdatedValues({});
   };
 
-  const handlescanExpiry = () => {
-    // Prevent scanning if another item is currently being edited
-    if (editingItem !== null) return;
-    togglePopup('package');
-  };
 
   const getMonthName = (month) => {
     const monthNames = [
@@ -116,6 +197,8 @@ const InventoryList = ({ inventory, onEdit, onDelete, togglePopup, onEditingItem
 
   return (
     <div>
+    {/* Sorting button */}
+
       <table>
         <thead>
           <tr>
@@ -126,8 +209,11 @@ const InventoryList = ({ inventory, onEdit, onDelete, togglePopup, onEditingItem
             {/* <th>Status</th> */}
 
             {/* <th>Expiry Status <FontAwesomeIcon icon={faInfoCircle} className="info-icon" onClick={() => togglePopup('statusInfo')} /></th> */}
-            <th>Expiry Status</th>
-
+       <th>Expiry Status
+  <button onClick={toggleSortingOrder} className="sort-button">
+     {sortingOrder === 'asc' ? '↑' : '↓'}
+  </button>
+</th>
 
 
             <th>Actions</th>
@@ -135,7 +221,7 @@ const InventoryList = ({ inventory, onEdit, onDelete, togglePopup, onEditingItem
         </thead>
 
         <tbody>
-          {inventory.map((item) => (
+          {sortedInventory.map((item) => (
             <tr key={item.id}>
               <td>
                 {editingItem === item.id ? (
@@ -206,6 +292,25 @@ const InventoryList = ({ inventory, onEdit, onDelete, togglePopup, onEditingItem
                         Edit
                       </button>
 
+   {/* Button to trigger scan expiry popup */}
+<button onClick={() => handleScanExpiry(item.id, item)}>Scan Expiry</button>
+
+
+      {/* Scan expiry popup */}
+      {showScanExpiryPopup && (
+        <div className="popup">
+          <h2>Scan Expiry</h2>
+          <div className="scan-options">
+            <form onSubmit={handleUpload} encType="multipart/form-data">
+              <input type="file" name="file" onChange={handleFileChange} />
+              <input type="submit" value="Upload" />
+            </form>
+            {imgSrc && <img src={imgSrc} alt="Uploaded" />}
+          </div>
+          <button onClick={() => setShowScanExpiryPopup(false)}>Cancel</button>
+        </div>
+      )}
+
                       <button
                         className="delete-button action-buttons"
                         onClick={() => confirmDelete(item.id)}
@@ -231,7 +336,7 @@ const InventoryList = ({ inventory, onEdit, onDelete, togglePopup, onEditingItem
   <React.Fragment>
     <div className="empty-cart-image"></div>
     <div className="empty-inventory-message">
-      <p>Uh, oh! So empty. Time for some grocery shopping :)</p>
+      <p>Uh, oh! So empty. Did some shopping? Scan your woolies receipt now -></p>
     </div>
   </React.Fragment>
 ) : (

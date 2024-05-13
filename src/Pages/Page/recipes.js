@@ -334,13 +334,21 @@ useEffect(() => {
 
 
 // Fetch Recipes from Inventory:
+// Fetch Recipes from Inventory:
+// Fetch Recipes from Inventory:
+// Fetch Recipes from Inventory:
 const fetchRecipesFromInventory = async () => {
   try {
-    // Filter out the expired items from the inventory
-    const validItems = inventory.filter(item => calculateStatus(item.expiryDate).status !== 'Expired');
+    // Get the current date
+    const currentDate = new Date();
+    currentDate.setDate(currentDate.getDate() - 1);
 
-    // Sort the valid items based on their expiry date, in ascending order
-    validItems.sort((a, b) => new Date(a.expiryDate) - new Date(b.expiryDate));
+
+    // Sort all items based on their expiry date, in ascending order
+    inventory.sort((a, b) => new Date(a.expiryDate) - new Date(b.expiryDate));
+
+    // Filter out the expired items and select only the items expiring in the future
+    const validItems = inventory.filter(item => new Date(item.expiryDate) > currentDate);
 
     // Take the first three items from the sorted list as the ingredients to search for recipes
     const topIngredients = validItems.slice(0, 3).map(item => item.name); // Don't convert to string yet
@@ -378,6 +386,7 @@ const fetchRecipesFromInventory = async () => {
     console.error("Error fetching recipes:", error.message);
   }
 };
+
 
 
   // Call the function to fetch recipes from inventory only when Pyodide is loaded
