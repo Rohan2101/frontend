@@ -353,7 +353,7 @@ const handleAddItem = () => {
           name: item.name,
           amount: item.amount,
           spent: item.spent,
-          expiryDate: '21/06/2024',
+          expiryDate: "29 Apr 2024",
           status: ''
         };
         setInventory(prevInventory => [...prevInventory, newItem]);
