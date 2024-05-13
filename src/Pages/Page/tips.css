@@ -1,137 +1,325 @@
 .tips-page {
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    padding: 20px;
-    margin-top: 100px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  padding: 20px;
+  margin-top: 100px;
 }
 
 .search-area {
-    width: 100%;
-    /* 确保搜索区域使用可用空间 */
-    display: flex;
-    justify-content: center;
-    /* 水平居中搜索区域内的元素 */
-    padding: 20px;
-    /* 添加一些内边距 */
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  padding: 20px;
 }
 
 input[type="text"] {
-    width: 50%;
-    /* 增大输入框宽度 */
-    padding: 10px;
-    /* 增大填充以使输入框更高更易于点击 */
-    margin-right: 10px;
-    /* 输入框和按钮之间的间隔 */
-    font-size: 1.2rem;
-    /* 增大字体大小，改善可读性 */
-    border: 2px solid #ccc;
-    border-radius: 5px;
+  width: 70%;
+  padding: 12px;
+  margin-right: 10px;
+  font-size: 1.2rem;
+  border: 2px solid #ccc;
+  border-radius: 5px;
 }
 
-.tips-button {
-    padding: 10px 20px;
-    /* 增大按钮的填充使其更高更宽 */
-    font-size: 1.2rem;
-    /* 与输入框的字体大小相匹配 */
-    cursor: pointer;
-    background-color: #4CAF50;
-    color: white;
-    border: none;
-    border-radius: 5px;
+button {
+  padding: 10px 20px;
+  font-size: 1.2rem;
+  cursor: pointer;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 5px;
 }
 
 .results-area {
-    flex: 2;
-    margin-right: 20px;
+  flex: 2;
+  margin-right: 20px;
 
 }
 
 .result-item {
-    padding: 10px;
-    cursor: pointer;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    margin-top: 5px;
-    width: 600px;
+  padding: 10px;
+  cursor: pointer;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  margin-top: 5px;
+  width: 450px;
 }
 
 .result-item.selected {
-    background-color: #e6f7e6;
+  background-color: #ccffcc;
 }
 
-.tips-content,
-.tips-placeholder {
-    flex: 3;
-    padding: 15px;
-    background-color: #f9f9f9;
-    border: 1px solid #ddd;
-    border-radius: 5px;
+.tips-content {
+  flex: 5;
+  padding: 15px;
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 5px;
 
-    width: 600px;
+  width: 800px;
+}
+
+.tips-placeholder {
+  flex: 5;
+  padding: 15px;
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  width: 800px;
+
+  display: flex; /* 使用 Flexbox 布局 */
+  justify-content: center; /* 水平居中 */
+  align-items: center; /* 垂直居中 */
+  margin: 0 auto; /* 居中 */
+  text-align: center; /* 水平居中文本 */
 }
 
 .result-tips-container {
-    display: flex;
-    justify-content: space-between;
+  display: flex;
+  justify-content: space-between;
 }
-
-
-.inventory-tips-container {
-    padding: 20px;
-    background-color: #f9f9f9;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    margin-bottom: 20px;
-}
-
-
 
 .initial-content {
-    flex: 3;
-    padding: 15px;
-    background-color: #f9f9f9;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    width: 100%;
-    max-width: 600px;
-    margin: 0 auto;
+  max-width: 100%;
+  margin: 20px auto; 
+  text-align: center;
+}
 
+.initial-content img {
+  width: 100%;
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin: 0 auto;
+  border-radius: 5px;
+  max-height: 150px; 
+  margin-top: 20px; 
 }
 
 
 
 .modal-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background-color: #fff;
+  padding: 15px;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  max-width: 300px;
+  text-align: center;
+}
+
+.modal-body {
+  margin-bottom: 20px;
+}
+
+.modal-footer button {
+  background-color: #4CAF50;
+  color: white;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+
+
+
+.centered-message {
+  margin: auto;
+  width: 80%;
+}
+
+.inventory-tips-container {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  width: 1400px;
+  height: 150px;
+  margin: 20px auto;
+  padding: 10px;
+  border: 1px solid #ccc;
+}
+
+.inventory-item {
+  width: 250px;
+  height: 40px;
+  padding: 8px 10px;
+  margin: 5px;
+  border: 1px solid #ccc;
+  background-color: #f0f0f0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.item-text {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 100%;
+  color: black;
+  font-size: 15px;
+}
+
+.inventory-item.selected {
+  background-color: #ccffcc;
+  color: black;
+}
+
+
+.pagination-controls {
+  display: flex;
+  justify-content: center;
+  margin-top: -10px;
+  margin-bottom: 10px
+}
+
+.pagination-controls button {
+  padding: 5px 10px;
+  margin-right: 5px;
+  cursor: pointer;
+  background-color: white;
+  border: 1px solid #ccc;
+  color: black;
+}
+
+.pagination-controls button.active {
+  background-color: white;
+  color: black;
+  border: 2px solid #4CAF50;
+}
+
+.pagination-controls button:hover {
+  background-color: #f0f0f0;
+}
+
+
+.section-title {
+  display: flex;
+  align-items: center;
+  font-size: 3rem;
+  margin-bottom: 1rem;
+}
+
+.section-title::before {
+  content: "";
+  display: inline-block;
+  width: 5px;
+  height: 1.2em;
+  background-color: black;
+  margin-right: 0.8rem;
+}
+
+
+.category-tips-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.category-tip-item {
+  display: flex;
+  align-items: center;
+  width: calc(30% - 0.5rem);
+  padding: 1rem;
+  background-color: #f0f0f0;
+  border-radius: 5px;
+  cursor: pointer;
+  margin: 0 0.5rem;
+  margin-bottom: 10px;
+}
+
+.category-name {
+  flex: 1;
+  font-size: 2.5 rem;
+  font-weight: bold;
+}
+
+.category-logo-tip {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 80px;
+  background-color: white;
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+.category-logo-tip img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+.tip-content {
+  padding: 1rem;
+  text-align: center;
+}
+
+@media screen and (max-width: 768px) {
+  .category-tip-item {
     width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1000;
   }
-  
-  .modal-content {
-    background-color: #fff;
-    padding: 15px;
-    border-radius: 5px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-    max-width: 300px; /* 调整模态框的最大宽度 */
-    text-align: center; /* 居中文本 */
-  }
-  
-  .modal-body {
-    margin-bottom: 20px;
-  }
-  
-  .modal-footer button {
-    background-color: #4CAF50;
-    color: white;
-    padding: 8px 16px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-  }
+}
+
+.guidance-paragraph {
+  text-align: left;
+  margin-bottom: 1rem;
+}
+
+
+
+
+.centered-title {
+  text-align: center;
+  margin-top: 10px;
+  margin-bottom: 5px;
+  font-size: 24px;
+  text-transform: lowercase;
+}
+
+.centered-title::first-letter {
+  text-transform: capitalize;
+}
+
+.explanatory-text {
+  text-align: center;
+  margin-top: 0px;
+  margin-bottom: 0px;
+  font-size: 14px;
+}
+
+
+
+.tips-content {
+  margin: 10px;
+}
+
+.tips-section h4 {
+  font-weight: bold;
+  margin-top: 10px;
+  color: #3a3a3a;
+}
+
+.tips-section p {
+  margin-left: 10px;
+  text-align: justify;
+  line-height: 1.5;
+}
