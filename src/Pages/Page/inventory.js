@@ -76,6 +76,7 @@ const endIndex = Math.min(startIndex + itemsPerPage, inventory.length);
 const currentInventory = inventory.slice(startIndex, endIndex);
 
 const totalPages = Math.ceil(inventory.length / itemsPerPage);
+const [uploadingImage, setUploadingImage] = useState(false);
 
 
   // handle  "Add Manually" "Scan Receipt"  status while editing
@@ -330,56 +331,67 @@ const handleAddItem = () => {
     setFile(e.target.files[0]);
   };
 
-  const handleUpload = async (e) => {
-    e.preventDefault();
-    const formData = new FormData();
-    formData.append('file', file);
+const handleUpload = async (e) => {
+  e.preventDefault();
+  setUploadingImage(true); // Set uploadingImage to true while uploading
+  const formData = new FormData();
+  formData.append('file', file);
 
-    try {
-      const response = await fetch('https://rohan222.pythonanywhere.com/rc', {
-        method: 'POST',
-        body: formData
-      });
-      const data = await response.json();
-      console.log(data);
-      setName(data.name);
-      setImgSrc(data.imgSrc);
-      setExtractedText(data.extracted_text);
-      setNewItem(prevItem => ({
-        ...prevItem,
-        name: data.name,
-        amount: data.extracted_text,
-        spent: data.msg,
-        expiryDate: '',
-        status: ''
-      }));
-      const startingId = inventory.length + 1;
-      data.extracted_text.forEach((item, index) => {
-        const newItem = {
-          id: startingId + index,
-          name: item.name,
-          amount: item.amount,
-          spent: item.spent,
-          expiryDate: "29 Apr 2024",
-          status: ''
-        };
-        setInventory(prevInventory => [...prevInventory, newItem]);
-      });
-      setNextItemId(startingId + data.extracted_text.length);
-      // Resetting form fields and other relevant states
-      setNewItem({
-        name: '',
-        amount: 0,
-        spent: '',
-        expiryDate: '',
-        status: ''
-      });
-      setShowAddPopup(false);
-    } catch (error) {
-      console.error('Error uploading image:', error);
-      setMsg('Failed to upload image');
+  try {
+    const response = await fetch('https://rohan222.pythonanywhere.com/rc', {
+      method: 'POST',
+      body: formData
+    });
+    const data = await response.json();
+    console.log(data);
+    if (!data.name || !data.extracted_text) {
+      // Image was uploaded but not read
+      alert('Error reading image data, try another image.');
+      setUploadingImage(false); // Set uploadingImage to false after uploading
+      setShowScanReceiptPopup(false); // Close the popup in case of error
+      return;
     }
-  };
+    setName(data.name);
+    setImgSrc(data.imgSrc);
+    setExtractedText(data.extracted_text);
+    setNewItem(prevItem => ({
+      ...prevItem,
+      name: data.name,
+      amount: data.extracted_text,
+      spent: data.msg,
+      expiryDate: '',
+      status: ''
+    }));
+    const startingId = inventory.length + 1;
+    data.extracted_text.forEach((item, index) => {
+      const newItem = {
+        id: startingId + index,
+        name: item.name,
+        amount: item.amount,
+        spent: item.spent,
+        expiryDate: "29 Apr 2024",
+        status: ''
+      };
+      setInventory(prevInventory => [...prevInventory, newItem]);
+    });
+    setNextItemId(startingId + data.extracted_text.length);
+    // Resetting form fields and other relevant states
+    setNewItem({
+      name: '',
+      amount: 0,
+      spent: '',
+      expiryDate: '',
+      status: ''
+    });
+    setUploadingImage(false); // Set uploadingImage to false after uploading
+    setShowAddPopup(false); // Close the popup after successful upload
+  } catch (error) {
+    console.error('Error uploading image:', error);
+    alert('Something went wrong, please try again.'); // Image was not read
+    setUploadingImage(false); // Set uploadingImage to false after uploading
+    setShowScanReceiptPopup(false); // Close the popup in case of error
+  }
+};
 
   const handleFileChange1 = (e) => {
     setFile1(e.target.files[0]);
@@ -387,6 +399,7 @@ const handleAddItem = () => {
 
 const handleUpload2 = async (e) => {
   e.preventDefault(); // Prevent default form submission behavior
+  setUploadingImage(true); // Set uploadingImage to true while uploading
 
   // Check if a file has been selected
   if (!file1) {
@@ -408,6 +421,8 @@ const handleUpload2 = async (e) => {
     if (!response.ok) {
       // If response status is not OK, throw an error
       throw new Error('Error reading image data, try another image.');
+        setUploadingImage(false); // Set uploadingImage to true while uploading
+
     }
 
     const data = await response.json();
@@ -441,12 +456,16 @@ const handleUpload2 = async (e) => {
     else
     {
         alert('Something went wrong. Please try again.');
+        setUploadingImage(false); // Set uploadingImage to true while uploading
+
 
     }
   } catch (error) {
     console.error('Error uploading image:', error);
     alert('Error reading image data, try another image.');
     setMsg1('Failed to upload image');
+    setUploadingImage(false); // Set uploadingImage to true while uploading
+
   }
 };
 
@@ -629,21 +648,21 @@ if (extractedText2 !== '' || msg2 !== '') {
           )}
 
           {/* Scan Receipt Popup */}
-          {showScanReceiptPopup && (
+     {showScanReceiptPopup && (
+  <div className="popup">
+    <h2>Scan Receipt</h2>
+    {setUploadingImage && <div className="loading-overlay">Loading...</div>}
+    <div className="scan-options">
+      <form onSubmit={handleUpload} encType="multipart/form-data">
+        <input type="file" name="file" onChange={handleFileChange} />
+        <input type="submit" value="Upload" />
+      </form>
+      {imgSrc && <img src={imgSrc} alt="Uploaded" />}
+    </div>
+    <button onClick={() => togglePopup('receipt')}>Cancel</button>
+  </div>
+)}
 
-            <div className="popup">
-              <h2>Scan Receipt</h2>
-              <div className="scan-options">
-                <form onSubmit={handleUpload} encType="multipart/form-data">
-                  <input type="file" name="file" onChange={handleFileChange} />
-                  <input type="submit" value="Upload" />
-                </form>
-                {imgSrc && <img src={imgSrc} alt="Uploaded" />}
-              </div>
-              <button onClick={() => togglePopup('receipt')}>Cancel</button>
-            </div>
-
-          )}
 
           {/* Scan Package Popup */}
           {showScanPackagePopup && (
@@ -662,23 +681,21 @@ if (extractedText2 !== '' || msg2 !== '') {
 
           )}
 
-          {/* Scan Fresh Produce Popup */}
-          {showScanProducePopup && (
-
-            <div className="popup">
-              <h2>Scan Produce</h2>
-
-              <div className="scan-options">
-                <form id="uploadForm" onSubmit={handleUpload2} encType="multipart/form-data">
-                  <input type="file" name="file1" onChange={handleFileChange1} />
-                  <input type="submit" value="Upload" />
-                </form>
-                {imgSrc1 && <img src={imgSrc1} alt="Uploaded" />}
-                {/* populateItems(extractedText1, '', '', msg1, ''); */}
-              </div>
-              <button onClick={() => togglePopup('produce')}>Cancel</button>
-            </div>
-          )}
+{showScanProducePopup && (
+  <div className="popup">
+    <h2>Scan Produce</h2>
+    {setUploadingImage && <div className="loading-overlay">Loading...</div>}
+    <div className="scan-options">
+      <form id="uploadForm" onSubmit={handleUpload2} encType="multipart/form-data">
+        <input type="file" name="file1" onChange={handleFileChange1} />
+        <input type="submit" value="Upload" />
+      </form>
+      {imgSrc1 && <img src={imgSrc1} alt="Uploaded" />}
+      {/* populateItems(extractedText1, '', '', msg1, ''); */}
+    </div>
+    <button onClick={() => togglePopup('produce')}>Cancel</button>
+  </div>
+)}
 
         </div>
       </div>

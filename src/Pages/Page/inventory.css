@@ -141,11 +141,11 @@ td{
 }
 
 th {
-  background-color: #c7d4cc;  /* Solid gray green color */
+  background-color: #dff0ff;  /* Solid gray green color */
 }
 
 tr:hover {
-  background-color: #C1E1C1;
+  background-color: #dff0ff;
 }
 
 .status-not-expired {

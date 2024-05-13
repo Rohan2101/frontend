@@ -21,6 +21,7 @@ const InventoryList = ({ inventory, onEdit, onDelete, togglePopup, onEditingItem
   const [showScanExpiryPopup, setShowScanExpiryPopup] = useState(false);
   const [scanningItemId, setScanningItemId] = useState(null); // Store the ID of the item being scanned
   const [sortingOrder, setSortingOrder] = useState('asc'); // State to track sorting order
+const [uploadingImage, setUploadingImage] = useState(false);
 
 
 const toggleSortingOrder = () => {
@@ -50,66 +51,76 @@ const sortedInventory = useMemo(() => {
   };
 
 
- const handleUpload = async (e) => {
-    e.preventDefault();
-    const formData = new FormData();
-    formData.append('file2', file2);
+const handleUpload = async (e) => {
+  e.preventDefault();
+    setUploadingImage(true); // Set uploadingImage to true while uploading
 
-    try {
-      console.log('Uploading image...');
-      const response = await fetch('https://rohan22.pythonanywhere.com/recpt', {
-        method: 'POST',
-        body: formData
-      });
-      console.log('Image uploaded successfully.');
-      const data = await response.json();
-      console.log('Extracted Text:', data);
-      setImgSrc2(data.imgSrc2);
-      setExtractedText2(data.extracted_text2);
-      setMsg2('Image uploaded successfully!');
+  const formData = new FormData();
+  formData.append('file2', file2);
 
-      let newExpiryDate;
+  try {
+    console.log('Uploading image...');
+    const response = await fetch('https://rohan22.pythonanywhere.com/recpt', {
+      method: 'POST',
+      body: formData
+    });
+    console.log('Image uploaded successfully.');
+    const data = await response.json();
+    console.log('Extracted Text:', data);
+    setImgSrc2(data.imgSrc2);
+    setExtractedText2(data.extracted_text2);
+    setMsg2('Image uploaded successfully!');
 
-      // Check if extracted_text2 is available
-      if (data.extracted_text2) {
+    let newExpiryDate;
 
-
+    // Check if extracted_text2 is available
+    if (data.extracted_text2) {
       const dateString = data.extracted_text2; // Assuming data.extracted_text2 is a string representing a date
       const date = new Date(dateString); // Parse the date string into a Date object
-       if (isNaN(date.getTime())) {
+      if (isNaN(date.getTime())) {
         // Handle case where data.extracted_text2 is not a valid date string
-       console.error("Invalid date format");
+        console.error("Invalid date format");
         // Optionally, you can provide a default date or exit the function
         return;
-    }
-    const formattedDate = date.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' });
-    console.log(formattedDate);
-
-        // Use the extracted date
-        newExpiryDate = formattedDate;
-      } else {
-        // Use a default date (1 Jan 2025)
-        newExpiryDate = '1 Jan 2025';
       }
+      const formattedDate = date.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' });
+      console.log(formattedDate);
 
-      // Find the index of the item in the inventory array
-      const index = inventory.findIndex(item => item.id === scanningItemId);
-      if (index !== -1) {
-        // Update the expiry date of the item
-        const updatedInventory = [...inventory];
-        updatedInventory[index] = {
-          ...updatedInventory[index],
-          expiryDate: newExpiryDate
-        };
-        // Update the state with the modified inventory
-        onEdit(scanningItemId, updatedInventory[index]);
-      }
-
-      setExtractedText(data.extracted_text);
-    } catch (error) {
-      console.error('Error uploading image:', error);
+      // Use the extracted date
+      newExpiryDate = formattedDate;
+    } else {
+      // Use a default date (1 Jan 2025)
+      newExpiryDate = '1 Jan 2025';
     }
-  };
+
+    // Find the index of the item in the inventory array
+    const index = inventory.findIndex(item => item.id === scanningItemId);
+    if (index !== -1) {
+      // Update the expiry date of the item
+      const updatedInventory = [...inventory];
+      updatedInventory[index] = {
+        ...updatedInventory[index],
+        expiryDate: newExpiryDate
+      };
+      // Update the state with the modified inventory
+      onEdit(scanningItemId, updatedInventory[index]);
+    }
+
+    setExtractedText(data.extracted_text);
+  } catch (error) {
+    console.error('Error uploading image:', error);
+    // Display appropriate feedback based on the error
+    if (error instanceof TypeError) {
+      setMsg2('Could not read image, please try another image');
+    } else {
+      setMsg2('Something went wrong, please try again');
+    }
+  } finally {
+    // Close the popup regardless of success or failure
+        setUploadingImage(false); // Set uploadingImage to false after uploading
+    setShowScanExpiryPopup(false);
+  }
+};
 
 
 
@@ -309,18 +320,20 @@ const handleScanExpiry = (id, item) => {
 
       {/* Scan expiry popup */}
       {showScanExpiryPopup && (
-        <div className="popup">
-          <h2>Scan Expiry</h2>
-          <div className="scan-options">
-            <form onSubmit={handleUpload} encType="multipart/form-data">
-              <input type="file" name="file" onChange={handleFileChange} />
-              <input type="submit" value="Upload" />
-            </form>
-            {imgSrc && <img src={imgSrc} alt="Uploaded" />}
-          </div>
-          <button onClick={() => setShowScanExpiryPopup(false)}>Cancel</button>
-        </div>
-      )}
+  <div className="popup">
+    <h2>Scan Expiry</h2>
+    {uploadingImage && <div className="loading-overlay">Loading...</div>}
+    <div className="scan-options">
+      <form onSubmit={handleUpload} encType="multipart/form-data">
+        <input type="file" name="file" onChange={handleFileChange} />
+        <input type="submit" value="Upload" />
+      </form>
+      {imgSrc && <img src={imgSrc} alt="Uploaded" />}
+    </div>
+    <button onClick={() => setShowScanExpiryPopup(false)}>Cancel</button>
+  </div>
+)}
+
 
                       <button
                         className="delete-button action-buttons"
