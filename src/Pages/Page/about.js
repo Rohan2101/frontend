@@ -1,5 +1,4 @@
 import React from 'react';
-import FeatureCard from './FeatureCard';
 import './styles.css';
 
 const features = [
