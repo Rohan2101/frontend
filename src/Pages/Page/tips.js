@@ -10,7 +10,7 @@ import grainsLogo from '../images/grains-logo.png';
 import meatLogo from '../images/meat-logo.png';
 import vegeLogo from '../images/vegie-logo.png';
 import footer from '../images/tips-footer.png';
-
+import Fuse from 'fuse.js';
 
 
 const ErrorModal = ({ isOpen, onClose }) => {
@@ -142,6 +142,40 @@ export const Tips = () => {
         } else {
           setSelectedResult(null);
         }
+        return;
+      }
+    }
+
+    // If you don't get an exact match, try a fuzzy match.
+    if (searchResults.length === 0) {
+      const threshold = 0.3;
+      const fuse = new Fuse(tipsdata, {
+        keys: ['Keywords'],
+        threshold: threshold,
+        includeScore: true,
+      });
+
+      const fuzzyResults = fuse.search(processedName);
+
+      if (fuzzyResults.length > 0) {
+        // Extract matches
+        const matchedItems = fuzzyResults.map(result => result.item);
+
+        setSearchResults(matchedItems);
+        setSelectedResult(null);
+        setShowInitialContent(false);
+        setShowErrorModal(false);
+        setSearchValue(name);
+
+        // If there is only one fuzzy match, it is automatically selected and displayed.
+        if (matchedItems.length === 1) {
+          setSelectedResult(matchedItems[0]);
+        }
+
+        // Show highest match score
+        const highestScore = fuzzyResults[0].score;
+        alert(`Found ${matchedItems.length} result(s) with ${(1 - highestScore).toFixed(2)} match score.`);
+
         return;
       }
     }
