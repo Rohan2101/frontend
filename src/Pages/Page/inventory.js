@@ -69,6 +69,13 @@ const [hasBlinked, setHasBlinked] = useState(false);
   const [showCongratsPopup, setShowCongratsPopup] = useState(true);
     const [showCongratsTimer, setShowCongratsTimer] = useState(true);
   const [blink, setBlink] = useState(false);
+const [currentPage, setCurrentPage] = useState(1);
+const itemsPerPage = 8;
+const startIndex = (currentPage - 1) * itemsPerPage;
+const endIndex = Math.min(startIndex + itemsPerPage, inventory.length);
+const currentInventory = inventory.slice(startIndex, endIndex);
+
+const totalPages = Math.ceil(inventory.length / itemsPerPage);
 
 
   // handle  "Add Manually" "Scan Receipt"  status while editing
@@ -531,14 +538,14 @@ if (extractedText2 !== '' || msg2 !== '') {
         <div className="table-and-buttons">
         <div className="inventory-table-container">
 
-        <InventoryList
-          inventory={inventory}
-          onEdit={handleEditItem}
-          onDelete={handleDeleteItem}
-          togglePopup={togglePopup} // Add this line to pass the function as a prop
 
-          onEditingItemChange={handleEditingItemChange}
-        />
+        <InventoryList
+  inventory={currentInventory}
+  onEdit={handleEditItem}
+  onDelete={handleDeleteItem}
+  togglePopup={togglePopup}
+  onEditingItemChange={handleEditingItemChange}
+/>
         </div>
 
 
@@ -676,7 +683,21 @@ if (extractedText2 !== '' || msg2 !== '') {
         </div>
       </div>
       </div>
-
+<div className="pagination">
+  <button
+    onClick={() => setCurrentPage(prevPage => Math.max(prevPage - 1, 1))}
+    disabled={currentPage === 1}
+  >
+    Previous
+  </button>
+  <span>{`Page ${currentPage} of ${totalPages}`}</span>
+  <button
+    onClick={() => setCurrentPage(prevPage => Math.min(prevPage + 1, totalPages))}
+    disabled={currentPage === totalPages}
+  >
+    Next
+  </button>
+</div>
 
  {showCongratsPopup && (
         <div className="congrats-popup">

@@ -709,6 +709,10 @@ color: #333;
   color: white; /* Text color on hover */
 }
 
+.pagination
+{margin-left:500px;
+}
+
 /* Styling for the delete confirmation popup */
 .delete-confirmation-popup {
   position: fixed;
