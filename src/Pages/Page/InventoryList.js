@@ -14,7 +14,7 @@ const InventoryList = ({ inventory, onEdit, onDelete, togglePopup, onEditingItem
   const [itemToDelete, setItemToDelete] = useState(null);
   const [imgSrc, setImgSrc] = useState('');
   const [extractedText, setExtractedText] = useState('');
-    const [file, setFile] = useState(null);
+    const [file2, setFile2] = useState(null);
   const [showScanExpiryPopup, setShowScanExpiryPopup] = useState(false);
   const [scanningItemId, setScanningItemId] = useState(null); // Store the ID of the item being scanned
   const [sortingOrder, setSortingOrder] = useState('asc'); // State to track sorting order
@@ -38,7 +38,7 @@ const InventoryList = ({ inventory, onEdit, onDelete, togglePopup, onEditingItem
 
 // Function to handle file input change
   const handleFileChange = (e) => {
-    setFile(e.target.files[0]);
+    setFile2(e.target.files[0]);
   };
 
 
