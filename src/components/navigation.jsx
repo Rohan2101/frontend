@@ -154,11 +154,11 @@ const handleUpload2 = async (e) => {
             </li>
 
 
-            <li>
+            {/* <li>
               <a href="/About" className="page-scroll">
                 About
               </a>
-            </li>
+            </li> */}
             <li>
             <button 
     onClick={() => togglePopup('produce')}  
