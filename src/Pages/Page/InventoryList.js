@@ -45,7 +45,7 @@ const InventoryList = ({ inventory, onEdit, onDelete, togglePopup, onEditingItem
  const handleUpload = async (e) => {
     e.preventDefault();
     const formData = new FormData();
-    formData.append('file', file);
+    formData.append('file2', file2);
 
     try {
       console.log('Uploading image...');
@@ -56,7 +56,7 @@ const InventoryList = ({ inventory, onEdit, onDelete, togglePopup, onEditingItem
       console.log('Image uploaded successfully.');
       const data = await response.json();
       console.log('Extracted Text:', data);
-
+      setExtractedText(data.extracted_text);
       let newExpiryDate;
 
       // Check if extracted_text2 is available
@@ -81,7 +81,7 @@ const InventoryList = ({ inventory, onEdit, onDelete, togglePopup, onEditingItem
         onEdit(scanningItemId, updatedInventory[index]);
       }
 
-      setExtractedText(data.extracted_text);
+      
     } catch (error) {
       console.error('Error uploading image:', error);
     }
