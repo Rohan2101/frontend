@@ -321,7 +321,8 @@ const handleScanExpiry = (id, item) => {
       {/* Scan expiry popup */}
       {showScanExpiryPopup && (
   <div className="popup">
-    <h2>Scan Expiry</h2>
+  <h2 style={{ fontSize: '2.5rem' }}>Scan your package to log Expiry Date</h2>
+
     {uploadingImage && <div className="loading-overlay">Loading...</div>}
     <div className="scan-options">
       <form onSubmit={handleUpload} encType="multipart/form-data">

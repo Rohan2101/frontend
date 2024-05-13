@@ -29,7 +29,7 @@
 
   margin-top: 40px;
   padding: 20px;
-  background-color: rgba(255, 255, 255, 0.1); /* Adjust alpha value to make it half transparent */
+  background-color: rgba(255, 255, 255, 0.1);
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
 /*} */
 
@@ -49,17 +49,18 @@
 }
 
 .inventory-action-button {
-  background: none;
+  background: none !important;
   border: none;
   outline: none;
   cursor: pointer;
-  padding: 5px 10px; /* Adjust padding as needed */
-  margin-right: 10px; /* Adjust margins as needed */
+  padding: 0; /* Remove padding */
+  margin: 0; /* Remove margin */
   font-weight: bold;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  font-size: 14px; /* Adjust font size as needed */
+  font-size: 13px; /* Adjust font size as needed */
   transition: color 0.2s ease;
 }
+
 
 .action-button:hover {
   color: #333; /* Darken the text color on hover */
@@ -75,7 +76,7 @@
 }
 
 .scan-button {
-  color: blue; /* Blue color for scan button */
+  color: 3b74a7; /* Blue color for scan button */
     margin-right: 10px;
 }
 
@@ -85,7 +86,7 @@
 }
 
 .delete-button {
-  color: red; /* Red color for delete button */
+  color: cc0000; /* Red color for delete button */
 }
 
 .action-button.disabled {
@@ -275,6 +276,7 @@ color: #333;
 
 /* Button styling */
 .actions {
+margin-top:-35px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -283,6 +285,7 @@ color: #333;
 
 .add-button,
 .scan-buttons button {
+
   margin: 8px;
   padding: 0; /* Reset padding */
   color: #fff;
@@ -756,13 +759,16 @@ color: #333;
 
 
 
-/* Dashboard Styles */
+/*
+oard Styles */
 .dashboard-container {
+  background: #f4f4f4;
   display: flex;
   width: 90%;
-  margin: 20px auto;
-  gap: 20px; /* Space between sections */
-  height: 20vh; /* Adjusts to 80% of the viewport height */
+  margin: 100px;
+  padding: 10px;
+  gap: 10px; /* Space between sections */
+  height: 80vh; /* Adjusts to 80% of the viewport height */
 }
 
 .dashboard-left-side {
@@ -770,34 +776,51 @@ color: #333;
   flex-direction: column;
   flex: 2; /* Takes 2 parts of the available space */
   gap: 10px;
-  background: #fff;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  background: #ffffff;
+
 }
 
 .dashboard-header {
+
   flex: 1;
   display: flex;
   align-items: center;
   padding: 20px;
-  background: #f4f4f4;
 }
 
-.dashboard-header img {
-  height: 80px; /* Adjust size accordingly */
-  margin-right: 10px;
+.dashboard-header h2{
+ align-text: center;
+ padding: 20px;
+ margin: 20px;
+
+}
+
+.dashboard-image {
+
+    background-image: url('../images/flowerpot.jpg');
+    background-size: cover; /* Cover the entire container */
+    background-repeat: no-repeat; /* Do not repeat the image */
+    width: 100px;
+    height: 100px;
+
 }
 
 .dashboard-chart-container {
   flex: 2;
   padding: 20px;
-  background: #f4f4f4;
+  background: #ffffff;
 }
 
+.justline{
+    background: #f4f4f4;
+    height: 10px;
+
+}
 .dashboard-table-container {
   flex: 1;
   background: #fff;
   padding: 20px;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+
   display: flex;
   flex-direction: column;
   justify-content: center;

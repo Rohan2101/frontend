@@ -32,18 +32,18 @@ const Dashboard = () => {
     <div className="dashboard-container">
       <div className="dashboard-left-side">
         <div className="dashboard-header">
-          <img src="flowerpot.png" alt="Flower Pot" />
+          <div className="dashboard-image"></div>
           <div>
-            <h1>Img and Heading</h1>
-            <h2>Congratulations! You have saved $110.</h2>
+            <h2>Congratulations! You have spent $110 less than last week.</h2>
           </div>
         </div>
+        <div className="justline"></div>
         <div className="dashboard-chart-container">
           <Doughnut data={data} options={options} />
         </div>
       </div>
       <div className="dashboard-table-container">
-        <h3>Most Wasted Foods</h3>
+        <h3>Most Wasted Foods this week</h3>
         <table className="dashboard-table">
           <tr>
             <th>Top 5</th>

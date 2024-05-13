@@ -79,6 +79,12 @@ const currentInventory = inventory.slice(startIndex, endIndex);
 const totalPages = Math.ceil(inventory.length / itemsPerPage);
 const [uploadingImage, setUploadingImage] = useState(false);
 
+  const dashboardRef = useRef(null); // Ref for the dashboard section
+
+
+const scrollToDashboard = () => {
+    dashboardRef.current.scrollIntoView({ behavior: 'smooth' });
+  };
 
   // handle  "Add Manually" "Scan Receipt"  status while editing
   const [editingItem, setEditingItem] = useState(null);
@@ -114,6 +120,22 @@ useEffect(() => {
   }
 }, [hasOneItemInInventory, showCongratsTimer]);
 
+
+useEffect(() => {
+  const expiredItems = inventory.filter(item => calculateStatus(item.expiryDate).color === 'red');
+  if (expiredItems.length > 0) {
+    const confirmation = window.confirm('Some items in your inventory have expired. Do you want to delete them?');
+    if (confirmation) {
+      handleDeleteExpiredItems();
+    }
+  }
+}, []);
+
+const handleDeleteExpiredItems = () => {
+  const updatedInventory = inventory.filter(item => calculateStatus(item.expiryDate).color !== 'red');
+  setInventory(updatedInventory);
+  localStorage.setItem('inventory', JSON.stringify(updatedInventory));
+};
 
   // for status indicator popup
   const [showStatusModal, setShowStatusModal] = useState(false);
@@ -552,7 +574,7 @@ if (extractedText2 !== '' || msg2 !== '') {
   <div className="inv-header-container">
   <p className="inv-header-text">Begin Your Flavorful Journey Here!
 </p>
-<div className="personalized-button"><button> See my personalized analysis</button>
+<div className="personalized-button" ><button onClick={scrollToDashboard}> Personalized spending analysis</button>
 </div></div>
         <header></header>
         <div className="table-and-buttons">
@@ -724,8 +746,10 @@ if (extractedText2 !== '' || msg2 !== '') {
         </div>
       )}
 
+<div ref={dashboardRef}>
 <Dashboard />
     </div>
+       </div>
 
 
   );
