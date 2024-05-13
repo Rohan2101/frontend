@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import Webcam from "react-webcam";
 import logo from "../ProjectLogo.png"; // Import the image
 
 export const Navigation = (props) => {
@@ -22,6 +23,27 @@ export const Navigation = (props) => {
         break;
     }
   };
+
+  const capturePhoto = () => {
+    const imageSrc = webcamRef.current.getScreenshot();
+    
+    // Convert data URI to Blob
+    const byteString = atob(imageSrc.split(',')[1]);
+    const mimeType = imageSrc.split(',')[0].split(':')[1].split(';')[0];
+    const ab = new ArrayBuffer(byteString.length);
+    const ia = new Uint8Array(ab);
+    
+    for (let i = 0; i < byteString.length; i++) {
+      ia[i] = byteString.charCodeAt(i);
+    }
+
+    const blob = new Blob([ab], { type: mimeType });
+    const file = new File([blob], 'photo.jpg', { type: mimeType });
+
+    setFile1(file);
+    setImgSrc1(imageSrc);
+  };
+  const webcamRef = useRef(null);
 
 
   const handleFileChange1 = (e) => {
@@ -168,19 +190,31 @@ const handleUpload2 = async (e) => {
 
 <div className="popup">
 <h2 style={{textAlign: 'center', fontFamily: 'Arial, sans-serif'}}>Scan Your fresh Produce to get an estimated self life</h2>
-
-  <div className="scan-options">
-    <form id="uploadForm" onSubmit={handleUpload2} encType="multipart/form-data">
-      <input type="file" name="file1" onChange={handleFileChange1} />
-      <input type="submit" value="Upload" />
+<div className="scan-options">
+  {/* <form id="uploadForm" onSubmit={handleUpload2} encType="multipart/form-data">
+    <input type="file" name="file1" onChange={handleFileChange1} />
+    <input type="submit" value="Upload" />
+  </form> */}
+  <h3 style={{textAlign: 'center', fontFamily: 'Arial, sans-serif'}}>Capture a Picture</h3>
+  <Webcam
+    audio={false}
+    ref={webcamRef}
+    screenshotFormat="image/jpeg"
+    width={320}
+    height={240}
+  />
+  <button onClick={capturePhoto} style={{display: 'block', margin: '0 auto'}}>Capture Photo</button>
+  <h3> </h3>
+  {imgSrc1 && <img src={imgSrc1} alt="Uploaded" />}
+  <input type="submit" value="Upload" />
+  <h3 style={{textAlign: 'center', fontFamily: 'Arial, sans-serif'}}>Or Choose a Picture</h3>
+  <form id="uploadForm" onSubmit={handleUpload2} encType="multipart/form-data">
+    <input type="file" name="file1" onChange={handleFileChange1} />
+    <input type="submit" value="Upload" />
     </form>
-    {imgSrc1 && <img src={imgSrc1} alt="Uploaded" />}
-    {/* populateItems(extractedText1, '', '', msg1, ''); */}
-  </div>
-  <button onClick={() => togglePopup('produce')}     style={{
-        display: 'block',
-        margin: '0 auto',
-    }}>Cancel</button>
+  {/* populateItems(extractedText1, '', '', msg1, ''); */}
+</div>
+<button onClick={() => togglePopup('produce')} style={{display: 'block', margin: '0 auto'}}>Cancel</button>
 </div>
 
 )}
