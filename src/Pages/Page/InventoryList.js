@@ -56,7 +56,9 @@ const InventoryList = ({ inventory, onEdit, onDelete, togglePopup, onEditingItem
       console.log('Image uploaded successfully.');
       const data = await response.json();
       console.log('Extracted Text:', data);
-      setExtractedText(data.extracted_text);
+      setImgSrc2(data.imgSrc2);
+      setExtractedText2(data.extracted_text2);
+      setMsg2('Image uploaded successfully!');
       let newExpiryDate;
 
       // Check if extracted_text2 is available
