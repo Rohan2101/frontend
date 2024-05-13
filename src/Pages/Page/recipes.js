@@ -84,13 +84,16 @@ export const Recipes = () => {
     };
   }, []);
 
- useEffect(() => {
-    // Scroll to the recipe container when recipes are loaded
+useEffect(() => {
+  // Scroll to the recipe container when recipes are loaded
+  if (recipes.length > 0) {
     window.scrollTo({
       top: document.getElementById('recipes-container').offsetTop,
       behavior: 'smooth', // Optional: Smooth scrolling animation
     });
-  }, [recipes]); // Run every time recipes state changes
+  }
+}, [recipes]); // Run every time recipes state changes
+
 
   // Function to Fetch with Exponential Backoff:
   const fetchWithBackoff = async (url, options, delay) => {
@@ -328,6 +331,14 @@ const recipesWithIngredients = recipeDetails.map((recipeDetail, index) => ({
     setInput(prevInput => prevInput.replace(itemName, '').trim()); // Remove the item name from the search bar input
   };
 
+  // Scroll to inventory container when generate button is clicked
+  const scrollToInventory = () => {
+    const inventoryContainer = document.getElementById('inventory-container');
+    if (inventoryContainer) {
+      inventoryContainer.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
 
 useEffect(() => {
   // Function to get the first 3 ingredients from inventory
@@ -351,8 +362,11 @@ const fetchRecipesFromInventory = async () => {
     const validItems = inventory.filter(item => new Date(item.expiryDate) > currentDate);
 
     // Take the first three items from the sorted list as the ingredients to search for recipes
-    const topIngredients = validItems.slice(0, 3).map(item => item.name); // Don't convert to string yet
-    console.log("Top ingredients:", topIngredients); // Log top ingredients
+     const topIngredients = validItems.slice(0, 3).map(item => {
+      // Remove batch number if present
+      const nameParts = item.name.split(' - ');
+      return nameParts[0]; // Take only the first part before ' - ' (batch number)
+    }); console.log("Top ingredients:", topIngredients); // Log top ingredients
 
     if (topIngredients.length === 0) {
       console.log("No non-expired ingredients available. No recipes to fetch.");
@@ -399,10 +413,14 @@ const fetchRecipesFromInventory = async () => {
   return (
     <div className="recipe-page">
 <div className="suggestion-box">
-      <div className="recipe-header">  <div className="header-text">Explore Recipes with EcoPallete </div><div> Suugested recipes don't suit your palette? Generate Recipes from your ingredients</div><button> Generate now</button></div>
+      <div className="left-box">
+      <div className="cursive-text">Explore Recipes with EcoPallete </div>
+      <div className="sub-text"> Suggested recipes don't suit your palette? Generate Recipes from your ingredients</div>
+      <button className="gen-button" onClick={scrollToInventory}>Generate manually</button>
+</div>
 
   <div>
-<div>
+<div classname>
   <hr className="header-line" />
   <p className="header-text">Whip Up Magic with These Soon-to-Expire Ingredients!</p>
   <p className="ingredients-text">{srecipes.length > 0 && srecipes[0].searchedIngredients}</p>
@@ -427,13 +445,8 @@ const fetchRecipesFromInventory = async () => {
 
 
     </div>
-      <div className="inventory-container">
+      <div id="inventory-container" className="inventory-container">
 
-
-        <div className="top-buttons">
-          <button className="finalize-button" onClick={finalizeInventory}>Finalize</button>
-          <button className="finalize-button" onClick={handleResetInventory}>Reset</button>
-        </div>
         <div className="inventory-search-container">
         <table className="inventory-table">
           <thead>

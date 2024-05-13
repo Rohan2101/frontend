@@ -345,6 +345,51 @@ margin-top: 3px;
     font-size: 40px;
     text-transform: uppercase; /* Transform text to uppercase */
 }
+
+.cursive-text {
+
+    color: orange;
+    margin-top: 80px;
+    margin-left:25px;
+    margin-bottom: 0px;
+    font-size: 25px;
+    font-family: 'Apple Chancery', cursive; /* Use Fairwater Script font */
+    font-weight: bold; /* Make the font bold */
+}
+
+.sub-text {
+    font-size: 14px; /* Adjust the font size as needed */
+    margin-left:25px;
+    color: black; /* Set the text color to black */
+    font-family: Arial, sans-serif; /* Use a standard sans-serif font for a professional look */
+    margin-top: 10px; /* Adjust the top margin as needed */
+}
+
+.gen-button {
+    display: inline-block;
+    margin-top:20px;
+    margin-left:50px;
+    padding: 10px 20px; /* Adjust padding for width and height */
+    border-radius: 20px; /* Adjust border-radius for roundness */
+    background-color: #FF5733; /* Orange-red color */
+    color: white; /* Text color */
+    font-size: 16px; /* Font size */
+    text-align: center; /* Center text horizontally */
+    text-decoration: none; /* Remove underline for links */
+    border: none; /* Remove default button border */
+    cursor: pointer; /* Cursor style */
+}
+
+/* Hover effect */
+.gen-button:hover {
+    background-color: #FF704D; /* Darker shade of orange-red */
+}
+
+.left-box{
+background-color: ffe9a3;
+width: 320px;
+margin-right: 50px;}
+
 .generation-header {
 background-color: rgba(255, 192, 203, 0.08); /* Light pink color with transparency */
   padding: 15px;
@@ -456,11 +501,30 @@ ul.ingredients-list li {
   perspective: 1000px;
   position: relative;
 }
+.cooking-button {
+  background-color: #ffa213; /* Reddish-orange background */
+  color: #fff; /* White text */
+  border: none; /* Remove button border */
+  padding: 10px 20px; /* Add padding to make button larger */
+  font-size: 16px; /* Increase font size */
+  border-radius: 5px; /* Add rounded corners */
+  cursor: pointer; /* Show pointer cursor on hover */
+  transition: background-color 0.3s ease; /* Smooth transition for background color */
+}
+
+.cooking-button:hover {
+  background-color: #ff4f3a; /* Darker shade of reddish-orange on hover */
+}
+
+/* Optional: Add additional styling for when button is clicked */
+.cooking-button:active {
+  transform: translateY(1px); /* Add slight downward movement when clicked */
+}
 
 
 .recipe-image-placeholder img {
-  width: 100%;
-  height: 100%;
+  width: 85%;
+  height: 85%;
   object-fit: cover; /* Ensure the image covers the entire container without distortion */
 }
 
