@@ -67,8 +67,21 @@ const InventoryList = ({ inventory, onEdit, onDelete, togglePopup, onEditingItem
 
       // Check if extracted_text2 is available
       if (data.extracted_text2) {
+
+
+      const dateString = data.extracted_text2; // Assuming data.extracted_text2 is a string representing a date
+      const date = new Date(dateString); // Parse the date string into a Date object
+       if (isNaN(date.getTime())) {
+        // Handle case where data.extracted_text2 is not a valid date string
+       console.error("Invalid date format");
+        // Optionally, you can provide a default date or exit the function
+        return;
+    }
+    const formattedDate = date.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' });
+    console.log(formattedDate);
+
         // Use the extracted date
-        newExpiryDate = data.extracted_text2;
+        newExpiryDate = formattedDate;
       } else {
         // Use a default date (1 Jan 2025)
         newExpiryDate = '1 Jan 2025';
@@ -210,16 +223,14 @@ const handleScanExpiry = (id, item) => {
           <tr>
             <th>Name</th>
             <th>Quantity</th>
-            <th>Price $</th>
-            <th>Expiry Date</th>
-            {/* <th>Status</th> */}
-
-            {/* <th>Expiry Status <FontAwesomeIcon icon={faInfoCircle} className="info-icon" onClick={() => togglePopup('statusInfo')} /></th> */}
-       <th>Expiry Status
+                   <th>Expiry Status
   <button onClick={toggleSortingOrder} className="sort-button">
      {sortingOrder === 'asc' ? '↑' : '↓'}
   </button>
 </th>
+            <th>Expiry Date</th>
+            <th>Price $</th>
+
 
 
             <th>Actions</th>
@@ -243,14 +254,13 @@ const handleScanExpiry = (id, item) => {
                   item.amount
                 )}
               </td>
-              <td>
-                {editingItem === item.id ? (
-                  <input type="text" value={updatedValues.spent} onChange={(e) => handleInputChange(e, 'spent')} />
-                ) : (
-                  item.spent
-                )}
+                     <td>
+                <span style={{ color: calculateStatus(item.expiryDate).color }}>
+                  {calculateStatus(item.expiryDate).message}
+                </span>
               </td>
-              <td>
+
+                   <td>
                 {editingItem === item.id ? (
                   <DatePicker
                     selected={updatedValues.expiryDate}
@@ -262,20 +272,14 @@ const handleScanExpiry = (id, item) => {
                   item.expiryDate
                 )}
               </td>
-              {/* <td>
-                <img
-                  src={calculateStatus(item.expiryDate)}
-                  alt="Indicator Fail"
-                  className="status-image"
-                  style={{ width: '55px', height: 'auto' }}
-                />
-              </td> */}
-
               <td>
-                <span style={{ color: calculateStatus(item.expiryDate).color }}>
-                  {calculateStatus(item.expiryDate).message}
-                </span>
+                {editingItem === item.id ? (
+                  <input type="text" value={updatedValues.spent} onChange={(e) => handleInputChange(e, 'spent')} />
+                ) : (
+                  item.spent
+                )}
               </td>
+
 
 
               <td>
