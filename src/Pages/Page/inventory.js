@@ -157,14 +157,71 @@ useEffect(() => {
   };
 
 useEffect(() => {
-  // Check if the inventory has exactly one item
-  const hasOneItem = inventory.length === 1;
+    console.log("Inventory length:", inventory.length);
+    // Check if the inventory has exactly one item
+    const hasOneItem = inventory.length === 1;
 
-  // Update hasOneItemInInventory state if it's different from the current state
-  if (hasOneItem !== hasOneItemInInventory) {
-    setHasOneItemInInventory(hasOneItem);
+    // Update hasOneItemInInventory state if it's different from the current state
+    if (hasOneItem !== hasOneItemInInventory) {
+        setHasOneItemInInventory(hasOneItem);
+    }
+}, [inventory, hasOneItemInInventory]);
+
+useEffect(() => {
+  const zeroQuantityItems = inventory.filter(item => item.amount === 0);
+
+  if (zeroQuantityItems.length > 0) {
+    const confirmDeletion = window.confirm('Do you want to delete items with quantity 0?');
+
+    if (confirmDeletion) {
+      const updatedInventory = inventory.filter(item => item.amount !== 0);
+      setInventory(updatedInventory);
+      localStorage.setItem('inventory', JSON.stringify(updatedInventory));
+      alert('Items with quantity 0 have been deleted.');
+    } else {
+      alert('Deletion canceled.');
+    }
   }
-}, [inventory]); // Run this effect whenever the inventory changes
+}, [inventory]);
+
+useEffect(() => {
+  // Define a function to handle deletion of expired items
+  const handleDeleteExpiredItems = () => {
+    // Get the current date
+    const currentDate = new Date();
+
+    // Filter out only the expired items from the inventory
+    const expiredItems = inventory.filter(item => {
+      // Parse the expiry date of the item
+      const parts = item.expiryDate.split('/');
+      const formattedDate = `${parts[2]}-${parts[1]}-${parts[0]}`;
+      const expiry = new Date(formattedDate);
+
+      // Compare the expiry date with the current date
+      return expiry < currentDate;
+    });
+
+    // If there are expired items, proceed with deletion
+    if (expiredItems.length > 0) {
+      const confirmation = window.confirm('Some items in your inventory have expired. Do you want to delete them?');
+      if (confirmation) {
+        // Filter out the expired items and update the inventory
+        const updatedInventory = inventory.filter(item => !expiredItems.includes(item));
+        setInventory(updatedInventory);
+        localStorage.setItem('inventory', JSON.stringify(updatedInventory));
+        alert('Expired items have been deleted.');
+      } else {
+        alert('Deletion canceled.');
+      }
+    } else {
+      // If no items are expired, simply inform the user
+    }
+  };
+
+  // Call the handleDeleteExpiredItems function when the component mounts and whenever the inventory changes
+  handleDeleteExpiredItems();
+
+}, [inventory]);
 
 
   // Define handleDeleteItem function
