@@ -56,7 +56,7 @@ const Dashboard = ({ top5WastedFoods }) => {
         <div className="justline"></div>
       </div>
       <div className="dashboard-table-container">
-        <h3>Most Wasted Foods</h3>
+        <h3>Most Wasted Foods this week:</h3>
         <table className="dashboard-table">
           <thead>
             <tr>
