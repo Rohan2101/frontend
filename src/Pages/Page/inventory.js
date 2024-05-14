@@ -258,37 +258,20 @@ useEffect(() => {
 
 
 useEffect(() => {
-  // Calculate wasted amount for each item in the inventory
-  const calculateWastedAmount = () => {
-    const wastedAmounts = {};
-    inventory.forEach(item => {
-      const deletedAmount = deletedItems[item.name] || 0;
-      const wasted = deletedAmount * parseFloat(item.spent);
-      wastedAmounts[item.name] = wasted;
-    });
-    return wastedAmounts;
-  };
+  // Sorting deleted items by amount in descending order
+  const sortedDeletedItems = Object.keys(deletedItems).sort((a, b) => deletedItems[b] - deletedItems[a]);
 
-  // Get the top 5 most wasted foods
-  const getTop5WastedFoods = () => {
-    const wastedAmounts = calculateWastedAmount();
+  // Getting the top 5 most wasted foods
+  const top5MostWastedFoods = sortedDeletedItems.slice(0, 5).map(name => ({
+    name,
+    wastedAmount: deletedItems[name]
+  }));
 
-    // Convert object to array of objects for easier sorting
-    const wastedItems = Object.keys(wastedAmounts).map(name => ({
-      name,
-      wastedAmount: wastedAmounts[name]
-    }));
+  setTop5WastedFoods(top5MostWastedFoods);
+  console.log("Top wasted foods:", top5MostWastedFoods);
+}, [deletedItems]);
 
-    // Sort items based on wasted amount in descending order
-    wastedItems.sort((a, b) => b.wastedAmount - a.wastedAmount);
 
-    // Return top 5 items
-    return wastedItems.slice(0, 5);
-  };
-
-  // Update the state variable with the top 5 most wasted foods
-  setTop5WastedFoods(getTop5WastedFoods());
-}, [inventory, deletedItems]);
 
   // Determine if any popup is active
   const isPopupActive = showAddPopup || showScanReceiptPopup || showScanProducePopup || showScanPackagePopup;
