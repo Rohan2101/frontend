@@ -82,6 +82,7 @@ const currentInventory = inventory.slice(startIndex, endIndex);
 
 const totalPages = Math.ceil(inventory.length / itemsPerPage);
 const [uploadingImage, setUploadingImage] = useState(false);
+const [confirmationShown, setConfirmationShown] = useState(false);
 
 
   // handle  "Add Manually" "Scan Receipt"  status while editing
@@ -201,8 +202,8 @@ useEffect(() => {
       return expiry < currentDate;
     });
 
-    // If there are expired items, proceed with deletion
-    if (expiredItems.length > 0) {
+    // If there are expired items and confirmation prompt hasn't been shown yet, proceed with deletion
+    if (expiredItems.length > 0 && !confirmationShown) {
       const confirmation = window.confirm('Some items in your inventory have expired. Do you want to delete them?');
       if (confirmation) {
         // Filter out the expired items and update the inventory
@@ -213,16 +214,15 @@ useEffect(() => {
       } else {
         alert('Deletion canceled.');
       }
-    } else {
-      // If no items are expired, simply inform the user
+
+      // Update the state variable to indicate that the confirmation prompt has been shown
+      setConfirmationShown(true);
     }
   };
 
   // Call the handleDeleteExpiredItems function when the component mounts and whenever the inventory changes
   handleDeleteExpiredItems();
-
-}, [inventory]);
-
+}, [inventory, confirmationShown]);
 
   // Define handleDeleteItem function
   const handleDeleteItem = (id) => {
