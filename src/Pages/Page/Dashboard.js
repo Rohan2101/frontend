@@ -1,11 +1,16 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Doughnut } from 'react-chartjs-2';
-import {Chart, ArcElement} from 'chart.js'
-
+import { Chart, ArcElement } from 'chart.js';
 
 Chart.register(ArcElement);
 
-const Dashboard = () => {
+const Dashboard = ({ top5WastedFoods }) => {
+  const [wastedFoods, setWastedFoods] = useState(top5WastedFoods);
+
+  useEffect(() => {
+    setWastedFoods(top5WastedFoods);
+  }, [top5WastedFoods]);
+
   const data = {
     labels: ['Saved', 'Wasted', 'Waiting to be consumed'],
     datasets: [{
@@ -43,32 +48,22 @@ const Dashboard = () => {
         </div>
       </div>
       <div className="dashboard-table-container">
-        <h3>Most Wasted Foods this week</h3>
+        <h3>Most Wasted Foods</h3>
         <table className="dashboard-table">
-          <tr>
-            <th>Item</th>
-            <th>Frequency</th>
-          </tr>
-          <tr>
-            <td>Apple</td>
-            <td>6</td>
-          </tr>
-          <tr>
-            <td>Egg</td>
-            <td>5</td>
-          </tr>
-          <tr>
-            <td>Orange</td>
-            <td>3</td>
-          </tr>
-          <tr>
-            <td>Garlic</td>
-            <td>2</td>
-          </tr>
-          <tr>
-            <td>Onion</td>
-            <td>1</td>
-          </tr>
+          <thead>
+            <tr>
+              <th>Item</th>
+              <th>Frequency</th>
+            </tr>
+          </thead>
+          <tbody>
+            {wastedFoods.map((food, index) => (
+              <tr key={index}>
+                <td>{food.name}</td>
+                <td>{food.wastedAmount}</td>
+              </tr>
+            ))}
+          </tbody>
         </table>
       </div>
     </div>

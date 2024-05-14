@@ -83,7 +83,8 @@ const currentInventory = inventory.slice(startIndex, endIndex);
 const totalPages = Math.ceil(inventory.length / itemsPerPage);
 const [uploadingImage, setUploadingImage] = useState(false);
 const [confirmationShown, setConfirmationShown] = useState(false);
-
+const [deletedItems, setDeletedItems] = useState({});
+const [top5WastedFoods, setTop5WastedFoods] = useState([]);
 
   // handle  "Add Manually" "Scan Receipt"  status while editing
   const [editingItem, setEditingItem] = useState(null);
@@ -224,12 +225,70 @@ useEffect(() => {
   handleDeleteExpiredItems();
 }, [inventory, confirmationShown]);
 
-  // Define handleDeleteItem function
-  const handleDeleteItem = (id) => {
+const handleDeleteItem = (id) => {
+  // Find the item with the specified id in the inventory array
+  const itemToDelete = inventory.find(item => item.id === id);
+
+  // Check if the item exists
+  if (itemToDelete) {
+    const { name, amount } = itemToDelete;
+    console.log("Deleting item:", id, name, amount);
+
+    // Update deleted items dictionary
+    setDeletedItems(prevDeletedItems => {
+      const updatedDeletedItems = { ...prevDeletedItems };
+      updatedDeletedItems[name] = (updatedDeletedItems[name] || 0) + amount;
+      console.log("Updated deleted items:", updatedDeletedItems);
+      return updatedDeletedItems; // Return the updated dictionary
+    });
+
     // Filter out the item with the specified id from the inventory array
     const updatedInventory = inventory.filter(item => item.id !== id);
     setInventory(updatedInventory);
+  } else {
+    console.log("Item with id", id, "not found in inventory.");
+  }
+};
+
+
+
+useEffect(() => {
+  console.log("Deleted:", deletedItems);
+}, [deletedItems]);
+
+
+useEffect(() => {
+  // Calculate wasted amount for each item in the inventory
+  const calculateWastedAmount = () => {
+    const wastedAmounts = {};
+    inventory.forEach(item => {
+      const deletedAmount = deletedItems[item.name] || 0;
+      const wasted = deletedAmount * parseFloat(item.spent);
+      wastedAmounts[item.name] = wasted;
+    });
+    return wastedAmounts;
   };
+
+  // Get the top 5 most wasted foods
+  const getTop5WastedFoods = () => {
+    const wastedAmounts = calculateWastedAmount();
+
+    // Convert object to array of objects for easier sorting
+    const wastedItems = Object.keys(wastedAmounts).map(name => ({
+      name,
+      wastedAmount: wastedAmounts[name]
+    }));
+
+    // Sort items based on wasted amount in descending order
+    wastedItems.sort((a, b) => b.wastedAmount - a.wastedAmount);
+
+    // Return top 5 items
+    return wastedItems.slice(0, 5);
+  };
+
+  // Update the state variable with the top 5 most wasted foods
+  setTop5WastedFoods(getTop5WastedFoods());
+}, [inventory, deletedItems]);
 
   // Determine if any popup is active
   const isPopupActive = showAddPopup || showScanReceiptPopup || showScanProducePopup || showScanPackagePopup;
@@ -239,6 +298,8 @@ useEffect(() => {
     setShowScanProducePopup(false);
     setShowScanPackagePopup(false);
   };
+
+
 
 const scrollToDashboard = () => {
   const dashboardSection = document.getElementById("dashboard-section");
@@ -842,7 +903,7 @@ if (extractedText2 !== '' || msg2 !== '') {
       )}
 
 <div id="dashboard-section">
-<Dashboard  />
+<Dashboard top5WastedFoods={top5WastedFoods} />
     </div></div>
 
 

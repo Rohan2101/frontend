@@ -33,13 +33,11 @@ const toggleSortingOrder = () => {
 
 
 const sortedInventory = useMemo(() => {
-  console.log("Sorting inventory...");
   const sorted = [...inventory].sort((a, b) => {
     const dateA = new Date(a.expiryDate);
     const dateB = new Date(b.expiryDate);
     return sortingOrder === 'asc' ? dateA - dateB : dateB - dateA;
   });
-  console.log("Sorted inventory:", sorted);
   return sorted;
 }, [inventory, sortingOrder]);
 
