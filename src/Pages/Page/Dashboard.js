@@ -54,9 +54,6 @@ const Dashboard = ({ top5WastedFoods }) => {
           </div>
         </div>
         <div className="justline"></div>
-        <div className="dashboard-chart-container">
-          <Doughnut data={data} options={options} />
-        </div>
       </div>
       <div className="dashboard-table-container">
         <h3>Most Wasted Foods</h3>
