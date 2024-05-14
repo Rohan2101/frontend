@@ -183,6 +183,13 @@ useEffect(() => {
     setShowScanPackagePopup(false);
   };
 
+const scrollToDashboard = () => {
+  const dashboardSection = document.getElementById("dashboard-section");
+  if (dashboardSection) {
+    dashboardSection.scrollIntoView({ behavior: "smooth" });
+  }
+};
+
 
   useEffect(() => {
     const storedInventory = localStorage.getItem('inventory');
@@ -266,6 +273,7 @@ useEffect(() => {
 const handleAddItem = () => {
   // Regular expression to check for special characters
   const specialCharsRegex = /[!@#$%^&*(),.?":{}|<>]/;
+  const specialCharsRegexExceptDot = /[!@#$%^&*(),?":{}|<>]/; // Add or remove characters as needed
 
   // Check if any of the required fields are empty
   if (!newItem.name || !newItem.amount || !newItem.spent) {
@@ -275,22 +283,27 @@ const handleAddItem = () => {
   }
 
   // Check if any field contains special characters
-  if (specialCharsRegex.test(newItem.name)) {
-    alert('Please do not use special characters in the name or status field');
+  if (specialCharsRegex.test(newItem.name) || specialCharsRegex.test(newItem.amount)) {
+    alert('Special characters are not allowed.');
     return;
   }
+
+  if (specialCharsRegexExceptDot.test(newItem.spent)) {
+        alert('Special Characters except decimal are not allowed.');
+        return;
+    }
 
   // Check if the amount is a valid number
   const amount = parseFloat(newItem.amount);
   if (isNaN(amount) || amount <= 0) {
-    alert('Please enter a valid amount');
+    alert('Please enter a valid quantity');
     return;
   }
 
   // Check if the spent is a valid number
   const spent = parseFloat(newItem.spent);
   if (isNaN(spent) || spent <= 0) {
-    alert('Please enter a valid spent amount');
+    alert('Please enter a valid price');
     return;
   }
 
@@ -577,7 +590,8 @@ if (extractedText2 !== '' || msg2 !== '') {
   <div className="inv-header-container">
   <p className="inv-header-text">Begin Your Flavorful Journey Here!
 </p>
-<div className="personalized-button"><button> See my personalized analysis</button>
+<div className="personalized-button">  <button onClick={scrollToDashboard}>My spending</button>
+
 </div></div>
         <header></header>
         <div className="table-and-buttons">
@@ -769,8 +783,9 @@ if (extractedText2 !== '' || msg2 !== '') {
         </div>
       )}
 
-<Dashboard />
-    </div>
+<div id="dashboard-section">
+<Dashboard  />
+    </div></div>
 
 
   );

@@ -169,41 +169,51 @@ const handleScanExpiry = (id, item) => {
     }));
   };
 
-  const handleSave = (id) => {
+const handleSave = (id) => {
     // Validation code
     const specialCharsRegex = /[!@#$%^&*(),.?":{}|<>]/;
+    const specialCharsRegexExceptDot = /[!@#$%^&*(),?":{}|<>]/; // Add or remove characters as needed
 
-    if (!updatedValues.name || !updatedValues.amount || !updatedValues.spent) {
-      alert('Please fill in all the fields');
-      return;
+    if (!updatedValues.name || !updatedValues.amount || !updatedValues.spent || !updatedValues.expiryDate) {
+        alert('Please fill in all the fields');
+        return;
     }
 
-    if (specialCharsRegex.test(updatedValues.name)) {
-      alert('Please do not use special characters in the name or status field');
-      return;
+    if (specialCharsRegex.test(updatedValues.name) || specialCharsRegex.test(updatedValues.amount)) {
+        alert('Special Characters are not allowed.');
+        return;
+    }
+
+    if (specialCharsRegexExceptDot.test(updatedValues.spent)) {
+        alert('Special Characters except decimal are not allowed.');
+        return;
     }
 
     const amount = parseFloat(updatedValues.amount);
     if (isNaN(amount) || amount <= 0) {
-      alert('Please enter a valid amount');
-      return;
+        alert('Please enter a valid amount');
+        return;
     }
 
-    const spent = parseFloat(updatedValues.spent);
+    let spent = parseFloat(updatedValues.spent);
     if (isNaN(spent) || spent <= 0) {
-      alert('Please enter a valid spent amount');
-      return;
+        alert('Please enter a valid spent amount');
+        return;
     }
+const formattedSpent = parseFloat(updatedValues.spent).toFixed(2);
 
-    // Date validation can be added if required
 
+console.log(spent);
     const formattedExpiryDate = `${updatedValues.expiryDate.getDate()} ${getMonthName(updatedValues.expiryDate.getMonth())} ${updatedValues.expiryDate.getFullYear()}`;
 
-    onEdit(id, { ...updatedValues, expiryDate: formattedExpiryDate });
+    onEdit(id, { ...updatedValues, amount: amount, spent: formattedSpent, expiryDate: formattedExpiryDate });
     setEditingItem(null);
     onEditingItemChange(null); // pass edit status changes to Inventory.js
     setUpdatedValues({});
-  };
+};
+
+
+
 
 
   const getMonthName = (month) => {
