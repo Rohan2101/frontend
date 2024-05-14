@@ -10,7 +10,7 @@ import grainsLogo from '../images/grains-logo.png';
 import meatLogo from '../images/meat-logo.png';
 import vegeLogo from '../images/vegie-logo.png';
 import footer from '../images/tips-footer.png';
-
+import Fuse from 'fuse.js';
 
 
 const ErrorModal = ({ isOpen, onClose }) => {
@@ -97,31 +97,33 @@ export const Tips = () => {
   const [selectedResult, setSelectedResult] = useState(null);
 
   const handleSearch = (name) => {
+    // Clear previous search results and selected result
+    setSearchResults([]);
+    setSelectedResult(null);
+  
     // Preprocessing user input
     let processedName = name.trim();
-
+  
     // Check if the input is a number
     if (/^\d+$/.test(processedName)) {
-      setSearchResults([]);
-      setSelectedResult(null);
       setShowInitialContent(false);
       setShowErrorModal(true);
       setSearchValue(name);
       return;
     }
-
+  
     // Convert to lowercase
     processedName = processedName.toLowerCase();
-
+  
     // Segment user input keywords
     const inputKeywords = processedName.split(' ');
-
+  
     // Generate all combinations of keywords
     const keywordCombinations = generateCombinations(inputKeywords);
-
+  
     // Sort keyword combinations in descending order of length
     keywordCombinations.sort((a, b) => b.length - a.length);
-
+  
     // Try to match keyword combinations one by one
     for (const combination of keywordCombinations) {
       const combinationString = combination.join(' ');
@@ -129,26 +131,53 @@ export const Tips = () => {
         const itemKeywords = item.Keywords.toLowerCase().split(', ');
         return itemKeywords.includes(combinationString);
       });
-
+  
       if (results.length > 0) {
         setSearchResults(results);
-        setSelectedResult(null);
         setShowInitialContent(false);
         setShowErrorModal(false);
         setSearchValue(name);
         // If there is only one search result, automatically select and display it
         if (results.length === 1) {
           setSelectedResult(results[0]);
-        } else {
-          setSelectedResult(null);
         }
         return;
       }
     }
-
-    // If there are no matches, show the error modal directly
-    setSearchResults([]);
-    setSelectedResult(null);
+  
+    // If there are no exact matches, try fuzzy matching
+    const threshold = 0.3; // Set the matching threshold, e.g., 0.3
+    const fuse = new Fuse(tipsdata, {
+      keys: ['Keywords'],
+      threshold: threshold,
+      includeScore: true,
+    });
+  
+    const fuzzyResults = fuse.search(processedName);
+  
+    if (fuzzyResults.length > 0) {
+      // Extract the matched items and their scores
+      const matchedItems = fuzzyResults.map(result => ({
+        item: result.item,
+        score: result.score,
+      }));
+  
+      // Sort the matched items by their scores in ascending order
+      matchedItems.sort((a, b) => a.score - b.score);
+  
+      // Choose the best match (the item with the lowest score)
+      const bestMatch = matchedItems[0].item;
+  
+      setSearchResults([bestMatch]);
+      setShowInitialContent(false);
+      setShowErrorModal(false);
+      setSearchValue(name);
+      setSelectedResult(bestMatch);
+  
+      return;
+    }
+  
+    // If there are no matches, show the error modal
     setShowInitialContent(false);
     setShowErrorModal(true);
     setSearchValue(name);
