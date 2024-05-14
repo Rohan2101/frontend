@@ -169,7 +169,7 @@ const msg1Int = parseInt(msg1);
         top: '10px',
         right: '10px', // Adjusted position to the top right corner
         zIndex: '9999',
-        padding: '10px 20px',
+        padding: '5px 20px',
         backgroundColor: 'black',
         color: 'red',
         border: 'black',
