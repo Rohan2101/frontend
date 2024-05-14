@@ -164,24 +164,22 @@ const msg1Int = parseInt(msg1);
             <li>
             <button 
     onClick={() => togglePopup('produce')}  
-    className="add-button"
-style={{
-    position: 'fixed',
-    bottom: '10px', // Adjusted position to the bottom
-    right: '10px', // Adjusted position to the right
-    zIndex: '9999',
-    padding: '5px 20px',
-    backgroundColor: 'blue',
-    color: 'white',
-    border: 'black',
-    borderRadius: '15px',
-    cursor: 'pointer',
-    boxShadow: '0px 5px 5px rgba(0, 0, 0, 0.2)',
-    transition: 'background-color 0.3s, color 0.3s, box-shadow 0.3s',
-    overflow: 'hidden',
-    lineHeight: '1.2',
-}}
-
+    className="add-button"         
+    style={{
+        top: '10px',
+        right: '10px', // Adjusted position to the top right corner
+        zIndex: '9999',
+        padding: '10px 20px',
+        backgroundColor: 'black',
+        color: 'red',
+        border: 'black',
+        borderRadius: '15px',
+        cursor: 'pointer',
+        boxShadow: '0px 5px 5px rgba(0, 0, 0, 0.2)',
+        transition: 'background-color 0.3s, color 0.3s, box-shadow 0.3s',
+        overflow: 'hidden',
+        lineHeight: '1.2',
+    }}
     onMouseOver={(e) => { e.currentTarget.style.boxShadow = '0px 0px 20px rgba(0.2, 0.2, 0.3, 0.8)' }}
     onMouseOut={(e) => { e.currentTarget.style.boxShadow = '0px 5px 5px rgba(0, 0, 0, 0.2)' }}
     title="Shelf Life Predictor is an innovative deep learning model designed to accurately estimate the shelf life of various fruits and vegetables by analyzing photographs of the produce. Leveraging state-of-the-art computer vision algorithms and deep neural networks, the system processes visual information captured in the images to assess factors influencing freshness and quality, providing users with timely and reliable shelf life predictions."
