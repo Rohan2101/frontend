@@ -810,7 +810,6 @@ if (extractedText2 !== '' || msg2 !== '') {
       {imgSrc1 && <img src={imgSrc1} alt="Uploaded" />}
       <img src={samimg2} alt="Sample Image" width="25" height="25" />
       <a href={samimg2} download>  Download Sample Image</a>
-      {/* populateItems(extractedText1, '', '', msg1, ''); */}
     </div>
     <button onClick={() => togglePopup('produce')}>Cancel</button>
   </div>

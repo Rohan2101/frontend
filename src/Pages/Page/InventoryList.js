@@ -332,7 +332,7 @@ console.log(spent);
       {/* Scan expiry popup */}
       {showScanExpiryPopup && (
   <div className="popup">
-    <h2>Scan Expiry</h2>
+    <h2>Scan your package to log expiry date</h2>
     {uploadingImage && <div className="loading-overlay">Loading...</div>}
     <div className="scan-options">
       <form onSubmit={handleUpload} encType="multipart/form-data">
