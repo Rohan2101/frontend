@@ -46,15 +46,7 @@ const Dashboard = ({ top5WastedFoods }) => {
 
   return (
     <div className="dashboard-container">
-      <div className="dashboard-left-side">
-        <div className="dashboard-header">
-          <div className="dashboard-image"></div>
-          <div>
-            <h2>Congratulations! You have spent $110 less than last week.</h2>
-          </div>
-        </div>
-        <div className="justline"></div>
-      </div>
+
       <div className="dashboard-table-container">
         <h3>Most Wasted Foods this week:</h3>
         <table className="dashboard-table">
