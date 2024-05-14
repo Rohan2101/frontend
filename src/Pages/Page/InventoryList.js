@@ -373,7 +373,7 @@ console.log(spent);
   <React.Fragment>
     <div className="empty-cart-image"></div>
     <div className="empty-inventory-message">
-      <p>Uh, oh! So empty. Did some shopping? Scan your woolies receipt now -></p>
+      <p>Uh, oh! So empty. Did some shopping? Click on "Scan Receipt" to log your items.</p>
     </div>
   </React.Fragment>
 ) : (
