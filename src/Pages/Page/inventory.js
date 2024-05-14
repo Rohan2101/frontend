@@ -667,11 +667,13 @@ if (extractedText2 !== '' || msg2 !== '') {
 
         <div className="actions">
                     <button
-              onClick={() => togglePopup('receipt')}
-                          className="add-button"
-              disabled={editingItem !== null}>
-              Scan Receipt
-            </button>
+  onClick={() => togglePopup('receipt')}
+  className={`add-button ${inventory.length === 0 ? 'green-button' : ''}`}
+  disabled={editingItem !== null}
+>
+  Scan Receipt
+</button>
+
         <button
             className="add-button"
             onClick={() => togglePopup('add')}

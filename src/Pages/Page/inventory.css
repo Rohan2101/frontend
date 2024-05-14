@@ -317,6 +317,26 @@ margin-top:-35px;
 }
 
 
+.green-button {
+
+  margin: 8px;
+  padding: 0; /* Reset padding */
+  color: #fff;
+  background-color: 006400; /* Blue color */
+  border: 2px solid #2980b9; /* Darker shade of blue */
+  border-radius: 6px; /* Slightly rounded borders */
+  cursor: pointer;
+  transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+  font-weight: bold;
+  font-size: 14px;
+  text-transform: uppercase;
+  text-align: center;
+  outline: none; /* Remove the default focus outline */
+  width: 180px; /* Adjust the width as needed */
+  height: 40px; /* Adjust the height as needed */
+  line-height: 50px; /* Center text vertically */
+}
+
 
 .recipeheader {
   color: #333;
