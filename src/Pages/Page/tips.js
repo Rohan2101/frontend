@@ -1,16 +1,36 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import './tips.css';
 import tipsdata from './tips-data.json';
 import { Link } from 'react-router-dom';
 import { calculateStatus } from './calculateStatus';
-import cannedLogo from '../images/canned-logo.png';
-import dairyLogo from '../images/dairy-logo.png';
-import fruitLogo from '../images/fruit-logo.png';
-import grainsLogo from '../images/grains-logo.png';
-import meatLogo from '../images/meat-logo.png';
-import vegeLogo from '../images/vegie-logo.png';
-import footer from '../images/tips-footer.png';
 import Fuse from 'fuse.js';
+
+
+
+// image resources
+// front images
+import cannedLogo from '../images/tips/canned-logo.png';
+import dairyLogo from '../images/tips/dairy-logo.png';
+import fruitLogo from '../images/tips/fruit-logo.png';
+import grainsLogo from '../images/tips/grains-logo.png';
+import meatLogo from '../images/tips/meat-logo.png';
+import vegeLogo from '../images/tips/vegie-logo.png';
+// back images
+import vegeTip from '../images/tips/vegie-tip.png';
+import meatTip from '../images/tips/meat-tip.png';
+import dairyTip from '../images/tips/dairy-tip.png';
+import grainsTip from '../images/tips/grains-tip.png';
+import cannedTip from '../images/tips/canned-tip.png';
+import fruitTip from '../images/tips/fruit-tip.png';
+// images for tips results 
+import additionalLogo from '../images/tips/additional-logo.png';
+import pantryLogo from '../images/tips/pantry-logo.png';
+import freezerLogo from '../images/tips/freezer-logo.png';
+import refrigeratorLogo from '../images/tips/refrigerator-logo.png';
+// footer image
+import footer from '../images/tips/tips-footer.png';
+
+
 
 
 const ErrorModal = ({ isOpen, onClose }) => {
@@ -30,7 +50,6 @@ const ErrorModal = ({ isOpen, onClose }) => {
 };
 
 
-// The TipsContent component is used to display segmented Tips information.
 const TipsContent = ({ selectedResult }) => {
   if (!selectedResult) return null;
 
@@ -45,9 +64,24 @@ const TipsContent = ({ selectedResult }) => {
         const title = section.substring(0, splitIndex).trim();
         const content = section.substring(splitIndex + 1).trim();
 
+        // Determine the logo based on the title
+        let logo;
+        if (title.toLowerCase().includes('pantry')) {
+          logo = pantryLogo;
+        } else if (title.toLowerCase().includes('freezer')) {
+          logo = freezerLogo;
+        } else if (title.toLowerCase().includes('refrigerat')) {
+          logo = refrigeratorLogo;
+        } else {
+          logo = additionalLogo;
+        }
+
         return (
           <div key={index} className="tips-section">
-            <h4>{title}</h4>
+            <h4>
+              {title}
+              <img src={logo} alt={`${title} logo`} className="title-logo" />
+            </h4>
             <p>{content}</p>
           </div>
         );
@@ -60,6 +94,7 @@ const TipsContent = ({ selectedResult }) => {
 export const Tips = () => {
   const [showInitialContent, setShowInitialContent] = useState(true);
   const [showErrorModal, setShowErrorModal] = useState(false);
+  const searchResultsRef = useRef(null);
 
   // get not-expiry items name 
   const [validInventoryNames, setValidInventoryNames] = useState([]);
@@ -96,14 +131,23 @@ export const Tips = () => {
   const [searchResults, setSearchResults] = useState([]);
   const [selectedResult, setSelectedResult] = useState(null);
 
+
+  const [searchPerformed, setSearchPerformed] = useState(false);
   const handleSearch = (name) => {
     // Clear previous search results and selected result
     setSearchResults([]);
     setSelectedResult(null);
-  
+
     // Preprocessing user input
     let processedName = name.trim();
-  
+
+    // If the search bar is empty, reset the search value and return
+    if (processedName === '') {
+      setSearchValue('');
+      setShowInitialContent(true);
+      return;
+    }
+
     // Check if the input is a number
     if (/^\d+$/.test(processedName)) {
       setShowInitialContent(false);
@@ -111,19 +155,19 @@ export const Tips = () => {
       setSearchValue(name);
       return;
     }
-  
+
     // Convert to lowercase
     processedName = processedName.toLowerCase();
-  
+
     // Segment user input keywords
     const inputKeywords = processedName.split(' ');
-  
+
     // Generate all combinations of keywords
     const keywordCombinations = generateCombinations(inputKeywords);
-  
+
     // Sort keyword combinations in descending order of length
     keywordCombinations.sort((a, b) => b.length - a.length);
-  
+
     // Try to match keyword combinations one by one
     for (const combination of keywordCombinations) {
       const combinationString = combination.join(' ');
@@ -131,20 +175,27 @@ export const Tips = () => {
         const itemKeywords = item.Keywords.toLowerCase().split(', ');
         return itemKeywords.includes(combinationString);
       });
-  
+
       if (results.length > 0) {
         setSearchResults(results);
         setShowInitialContent(false);
         setShowErrorModal(false);
         setSearchValue(name);
+        setSearchPerformed(true);
+
+
+
         // If there is only one search result, automatically select and display it
         if (results.length === 1) {
           setSelectedResult(results[0]);
         }
+        // if (searchResultsRef.current) {
+        //   searchResultsRef.current.scrollIntoView({ behavior: 'smooth' });
+        // }
         return;
       }
     }
-  
+
     // If there are no exact matches, try fuzzy matching
     const threshold = 0.3; // Set the matching threshold, e.g., 0.3
     const fuse = new Fuse(tipsdata, {
@@ -152,36 +203,44 @@ export const Tips = () => {
       threshold: threshold,
       includeScore: true,
     });
-  
+
     const fuzzyResults = fuse.search(processedName);
-  
+
     if (fuzzyResults.length > 0) {
       // Extract the matched items and their scores
       const matchedItems = fuzzyResults.map(result => ({
         item: result.item,
         score: result.score,
       }));
-  
+
       // Sort the matched items by their scores in ascending order
       matchedItems.sort((a, b) => a.score - b.score);
-  
+
       // Choose the best match (the item with the lowest score)
       const bestMatch = matchedItems[0].item;
-  
+
       setSearchResults([bestMatch]);
       setShowInitialContent(false);
       setShowErrorModal(false);
       setSearchValue(name);
       setSelectedResult(bestMatch);
-  
+      setSearchPerformed(true);
+
       return;
     }
-  
+
     // If there are no matches, show the error modal
     setShowInitialContent(false);
     setShowErrorModal(true);
     setSearchValue(name);
   };
+  useEffect(() => {
+    if (searchPerformed && searchResultsRef.current) {
+      searchResultsRef.current.scrollIntoView({ behavior: 'smooth' });
+      setSearchPerformed(false);
+    }
+  }, [searchPerformed, searchResultsRef]);
+
 
   // Generate all combinations of keywords
   function generateCombinations(keywords) {
@@ -243,42 +302,9 @@ export const Tips = () => {
         </button>
       );
     }
-
     return pageNumbers;
   };
 
-
-  // quick tips
-  const categoryTips = [
-    { category: 'Meat', tip: 'Freezer / Over 3 months', logo: meatLogo },
-    { category: 'Fruits', tip: 'Refrigerate / 1 week', logo: fruitLogo },
-    { category: 'Vegetables', tip: 'Refrigerate / 2 weeks', logo: vegeLogo },
-    { category: 'Dairy', tip: 'Refrigerate / 2 weeks', logo: dairyLogo },
-    { category: 'Grains', tip: 'Pantry / 6 months', logo: grainsLogo },
-    { category: 'Canned Foods', tip: 'Pantry / 1 year', logo: cannedLogo },
-  ];
-
-
-  const CategoryTipItem = ({ category, tip, logo }) => {
-    const [showTip, setShowTip] = useState(false);
-
-    const toggleTip = () => {
-      setShowTip(!showTip);
-    };
-
-    return (
-      <div className="category-tip-item">
-        <div className="category-name">{category}</div>
-        <div className="category-logo-tip" onClick={toggleTip}>
-          {showTip ? (
-            <div className="tip-content">{tip}</div>
-          ) : (
-            <img src={logo} alt={`${category} logo`} />
-          )}
-        </div>
-      </div>
-    );
-  };
 
   // Selected results processing logic
   const handleResultSelection = (result) => {
@@ -286,25 +312,50 @@ export const Tips = () => {
   };
 
 
+  // quick tips
+  const categoryTips = [
+    { category: 'Meat', frontLogo: meatLogo, backLogo: meatTip },
+    { category: 'Fruits', frontLogo: fruitLogo, backLogo: fruitTip },
+    { category: 'Vegetables', frontLogo: vegeLogo, backLogo: vegeTip },
+    { category: 'Dairy', frontLogo: dairyLogo, backLogo: dairyTip },
+    { category: 'Grains', frontLogo: grainsLogo, backLogo: grainsTip },
+    { category: 'Canned Foods', frontLogo: cannedLogo, backLogo: cannedTip },
+  ];
+
+  const CategoryTipItem = ({ frontLogo, backLogo }) => {
+    const [showBackLogo, setShowBackLogo] = useState(false);
+
+    const toggleLogo = () => {
+      setShowBackLogo(!showBackLogo);
+    };
+
+    return (
+      <div className="category-tip-item" onClick={toggleLogo}>
+        <div className="category-logo-tip">
+          <img src={frontLogo} alt="Category Front" className="logo-front" />
+          <img src={backLogo} alt="Category Back" className="logo-back" />
+        </div>
+      </div>
+    );
+  };
+
   return (
     <div className="tips-whole-page">
-
       <div className="quick-category-tips">
-        <h2 className="section-title">Quick Category Tips</h2>
-        <p className="guidance-paragraph">What is the best way to store your food? Try clicking and flipping the image below!</p>
+        <h2 className="tips-section-title">Quick Category Tips</h2>
+        <p className="guidance-paragraph">What is the best way to store your food by categories? Hover over the images below to find out!</p>
         <div className="category-tips-container">
           {categoryTips.map((item, index) => (
-            <CategoryTipItem key={index} category={item.category} tip={item.tip} logo={item.logo} />
+            <CategoryTipItem key={index} frontLogo={item.frontLogo} backLogo={item.backLogo} />
           ))}
         </div>
       </div>
 
       <div className="detailed-storage-tips">
-        <h2 className="section-title">Detailed Storage Tips</h2>
-        <p className="guidance-paragraph">Not enough? Try More Below</p>
-        {/* Detailed Storage Tips content */}
+        <h2 className="tips-section-title">Not enough? Try More Below</h2>
+        {/* <p className="guidance-paragraph">Not enough? Try More Below</p> */}
       </div>
-
+      {/* Detailed Storage Tips content */}
       <h2 className="centered-title">Your Inventory</h2>
       <p className="explanatory-text">Try clicking on the item below and scroll down, you may get ways to extend their shelf life.</p>
       <div className="inventory-tips-container">
@@ -325,7 +376,6 @@ export const Tips = () => {
             Sorry, There are NO items in your inventory or all items have EXPIRED. Click here to {' '}
             <Link to="/inventory" className="link-style">ADD FRESH ONES</Link> to inventory or use the Search Bar below to manually search for storage tips.
           </p>
-
         )}
       </div>
       <div className="tips-pagination-controls">
@@ -352,13 +402,12 @@ export const Tips = () => {
 
       {searchResults.length === 0 && showInitialContent && (
         <div className="initial-content-footer">
-
           <img src={footer} alt="Footer Image" />
         </div>
       )}
 
       {searchResults.length > 0 && (
-        <div className="result-tips-container">
+        <div className="result-tips-container" ref={searchResultsRef}>
           <div className="tips-results-area">
             {searchResults.map((result, index) => (
               <div
