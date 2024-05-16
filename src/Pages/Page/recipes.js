@@ -129,7 +129,7 @@ const fetchRecipes = async (ingredientsString = '') => {
   }
 
   const baseUrl = "https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/recipes/findByIngredients";
-  const apiKey = "590374f09cmshedcb45928ac60bap18e369jsn8f0c8e3fe0a0";
+  const apiKey = "7e5c79a960msh553841ae25171a7p1a4b75jsn19d44f51b44e";
   const number = 15;
   const ranking = 1;
   const ignorePantry = true;
